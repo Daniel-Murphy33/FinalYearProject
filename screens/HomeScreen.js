@@ -15,14 +15,21 @@ const HomeScreen = () => {
     .catch(error => alert(error.message))
   }
 
+  const WorkoutScreenPage= () => {
+    navigation.replace("Workout")
+  }
+
   return (
     <View style={styles.container}>
       <Text style={{textAlign: "center",}}>Email: {auth.currentUser?.email}</Text>
       <TouchableOpacity 
       onPress={handleSignOut}
-      style={styles.button}
-      >
+      style={styles.button}>
         <Text style={styles.buttonText}>Sign Out</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={WorkoutScreenPage} style={styles.button}>
+          <Text style={styles.buttonText}>Workouts</Text>
       </TouchableOpacity>
     </View>
   )
@@ -36,17 +43,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignitems: 'center',
   },
+  
   button: {
     backgroundColor: '#0792F9',
     width: '100%',
     padding: 15,
     borderRadius: 10, 
     alignItems: 'center',
+    marginTop: 20,
   },
 
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
-      // fontSize: 16,
   },
 })
