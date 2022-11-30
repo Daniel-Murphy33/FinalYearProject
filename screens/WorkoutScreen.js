@@ -1,4 +1,4 @@
-import { Pressable, Text, TextInput, View, StyleSheet, SafeAreaView, } from 'react-native'
+import { Pressable, Text, TextInput, View, StyleSheet, SafeAreaView, KeyboardAvoidingView, } from 'react-native'
 import React, { useState } from 'react'
 import Exercise from '../components/Exercise'
 import { MaterialIcons } from '@expo/vector-icons'; 
@@ -10,11 +10,12 @@ const WorkoutScreen = () => {
   const addExercise = async() => {
     try {
       const docRef = await addDoc(collection(db, "Exercise"), {
-        exerciseTitle: "",
+        exerciseTitle: exerciseTitle,
         isChecked: false,
 
       });
       console.log("Document written with ID: ", docRef.id);
+      setTitle("");
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -37,10 +38,8 @@ const WorkoutScreen = () => {
         <Exercise/>
         <Exercise/>
         <Exercise/>
-
         <TextInput
-        placeholder='Enter Excercise'style={styles.input} value={exerciseTitle} onChangeText={(text) => setTitle} onSubmitEditing={addExercise} /> 
-
+        placeholder='Enter Excercise'style={styles.input} value={exerciseTitle} onChangeText={(text) => setTitle(text)} onSubmitEditing={addExercise} /> 
       </SafeAreaView>
   )
 }

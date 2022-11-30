@@ -2,6 +2,17 @@ import { Pressable, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { AntDesign, MaterialIcons } from '@expo/vector-icons'; 
 
+// exercise object
+
+/*
+  1.id
+  2. title 
+  3. ischecked 
+
+
+*/
+
+
 const Exercise = () => {
   return (
     <View style={styles.container}>
