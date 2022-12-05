@@ -1,11 +1,13 @@
-import { Pressable, Text, TextInput, View, StyleSheet, SafeAreaView, KeyboardAvoidingView, } from 'react-native'
-import React, { useState } from 'react'
-import Exercise from '../components/Exercise'
+import { Pressable, Text, TextInput, View, StyleSheet,
+SafeAreaView, FlatList, ActivityIndicator } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import Exercise from '../../components/Exercise'
 import { MaterialIcons } from '@expo/vector-icons'; 
-import { auth, app, db, getFirestore, collection, addDoc } from '../firebase'
+import { auth, app, db, getFirestore, collection, addDoc, getDocs } from '../../firebase'
 const WorkoutScreen = () => {
   
   const [exerciseTitle, setTitle] = useState('');
+  const [exerciseList, setExerciseList] = useState([]);
 
   const addExercise = async() => {
     try {
@@ -19,7 +21,22 @@ const WorkoutScreen = () => {
     } catch (e) {
       console.error("Error adding document: ", e);
     }
-  }
+  };
+
+  const getExercise = async() => {
+    const querySnapshot = await getDocs(collection(db, "Exercise"));
+    querySnapshot.forEach((doc) => {
+      console.log(doc.id, doc.data());
+      setExerciseList({
+        ...doc.data(),
+        id: doc.id,
+      });
+    });
+  };
+
+  useEffect ( () => {
+    getExercise();
+  }, []);
   
   return (
     <SafeAreaView style={styles.container}>
@@ -33,13 +50,22 @@ const WorkoutScreen = () => {
         <MaterialIcons name="delete" size={32} color="black" />
         </Pressable>  
       </View>
-        <Exercise/>
-        <Exercise/>
-        <Exercise/>
-        <Exercise/>
-        <Exercise/>
+        {exerciseList.length > 0 ? (
+        <FlatList
+          data={exerciseList}
+          renderItem ={({item}) => <ExerciseItem title={item.title}/>}
+          keyExtractor={(item) => item.id}
+        />
+      ) : (
+        <ActivityIndicator />
+      )}
         <TextInput
-        placeholder='Enter Excercise'style={styles.input} value={exerciseTitle} onChangeText={(text) => setTitle(text)} onSubmitEditing={addExercise} /> 
+        placeholder='Enter Excercise' 
+        style={styles.input} 
+        value={exerciseTitle} 
+        onChangeText={(text) => setTitle(text)} 
+        onSubmitEditing={addExercise} 
+        /> 
       </SafeAreaView>
   )
 }

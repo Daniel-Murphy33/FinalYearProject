@@ -12,15 +12,6 @@ const LoginScreen = () => {
 
   const navigation = useNavigation()
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(user => {
-      if (user) {
-        navigation.replace("Home")
-      }
-    })
-    return unsubscribe
-  }, [])
-
   //function for signing up
   const handleSignUp = () => {
     auth

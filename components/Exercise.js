@@ -4,16 +4,7 @@ import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 
 // exercise object
 
-/*
-  1.id
-  2. title 
-  3. ischecked 
-
-
-*/
-
-
-const Exercise = () => {
+const Exercise = (props) => {
   return (
     <View style={styles.container}>
       {/*checked item */}
@@ -21,7 +12,7 @@ const Exercise = () => {
       <AntDesign name="checkcircleo" size={24} color="black" />
       </Pressable>
       {/*workout text */}
-      <Text style={styles.title}>Bench Press</Text>
+      <Text style={styles.title}>{props.title}</Text>
       {/*delete button */}
       <Pressable>
       <MaterialIcons name="delete" size={24} color="black" />
