@@ -9,14 +9,12 @@ const HomeScreen = () => {
   const handleSignOut = () => {
     auth
     .signOut()
-    .then(() => {
-      navigation.replace("Login")
-    })
     .catch(error => alert(error.message))
   }
 
   const WorkoutScreenPage= () => {
-    navigation.replace("Workout")
+    //works for screens in same stack
+    navigation.navigate("Workouts")
   }
 
   return (

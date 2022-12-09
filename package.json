@@ -36,6 +36,7 @@
     "react-native-tab-view": "^3.3.2",
     "react-native-web": "~0.18.9",
     "styled-components": "^5.3.6",
+    "uid": "^2.0.1",
     "upgrade": "^1.1.0"
   },
   "devDependencies": {

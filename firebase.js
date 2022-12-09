@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
-import { getFirestore, collection, addDoc, getDocs  } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs, onSnapshot  } from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -29,7 +29,11 @@ else {
     app = firebase.app()
 }
 
+//init services
 const db = getFirestore(app);
+//get authentication
 const auth = firebase.auth()
+//collection reference
+const colRef = collection(db, 'Exercise')
 
-export { auth, app, db, getFirestore, collection, addDoc, getDocs };
+export { auth, app, db, getFirestore, collection, addDoc, getDocs, colRef, onSnapshot };

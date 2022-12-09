@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from './screens/LoginScreen';
@@ -11,7 +11,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useEffect, useState } from 'react'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { auth } from './firebase';
-
 
 
 const App: () => Node = () => {
@@ -51,7 +50,6 @@ const App: () => Node = () => {
                 else if (route.name === 'Profile') {
                   iconName =focused ? 'ios-person' : 'ios-person-outline';
                 }
-                // You can return any component that you like here!
                 return <Ionicons name={iconName} size={30} color={color} />;
               },
               tabBarActiveTintColor: '#0792F9',
@@ -71,11 +69,10 @@ const App: () => Node = () => {
       return (
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen options={{headerShown: true}}
+            <Stack.Screen options={{headerShown: false}}
             name="Login" 
             component={LoginScreen} 
             />
-            
         </Stack.Navigator>
       </NavigationContainer>
       )
@@ -93,3 +90,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+
