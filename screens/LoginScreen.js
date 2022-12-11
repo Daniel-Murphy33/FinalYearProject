@@ -1,8 +1,21 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { StyleSheet,
+  Text,
+  TextInput, 
+  TouchableOpacity, 
+  View, 
+  TouchableWithoutFeedback,
+  Keyboard } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView } from 'react-native'
 import { auth } from '../firebase';
 import { useNavigation } from '@react-navigation/core';
+
+//for dismissing the keyboard by touching anywwhere
+const DismissKeyboard = ({children}) => {
+  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    {children}
+  </TouchableWithoutFeedback>
+};
 
 
 const LoginScreen = () => {
@@ -10,7 +23,7 @@ const LoginScreen = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const navigation = useNavigation()
+  // const navigation = useNavigation()
 
   //function for signing up
   const handleSignUp = () => {
@@ -35,21 +48,32 @@ const LoginScreen = () => {
   }
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding" >
-      <View style={styles.inputContainer}>
-        <TextInput placeholder='Email' value={email} onChangeText={text => setEmail(text)} style={styles.input} />
-        <TextInput placeholder='Password' value={password} onChangeText={text => setPassword(text)} style={styles.input} secureTextEntry />
-      </View>
+    //allows for dismissing keyboard
+    <TouchableWithoutFeedback onPress={() => {
+      Keyboard.dismiss();
+    }}>
+      <View style={styles.container}>
+        <View style={styles.inputContainer}>
+          <TextInput placeholder='Email'
+          placeholderTextColor="black"
+          value={email}
+          onChangeText={text => setEmail(text)} style={styles.input} />
+          <TextInput placeholder='Password'
+          placeholderTextColor="black" 
+          value={password} 
+          onChangeText={text => setPassword(text)} style={styles.input} secureTextEntry />
+        </View>
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity onPress={handleSignIn} style={styles.button} >
-          <Text style={styles.buttonText}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleSignUp} style={[styles.button, styles.buttonOutline]} >
-          <Text style={styles.buttonOutlineText}>Register</Text>
-        </TouchableOpacity>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={handleSignIn} style={styles.button} >
+            <Text style={styles.buttonText}>Login</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleSignUp} style={[styles.button, styles.buttonOutline]} >
+            <Text style={styles.buttonOutlineText}>Register</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   )
 }
 

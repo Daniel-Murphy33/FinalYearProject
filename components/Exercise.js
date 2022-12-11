@@ -1,10 +1,12 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { AntDesign, MaterialIcons } from '@expo/vector-icons'; 
+import { Pressable, Text, TextInput, View, StyleSheet,
+  SafeAreaView, FlatList, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native'
+  import React, { useState, useEffect } from 'react'
+  import { MaterialIcons } from '@expo/vector-icons'; 
+  import { addDoc, colRef, onSnapshot } from '../firebase'
 
 // exercise object
 
-const Exercise = (props) => {
+const Exercise = () => {
 
     //fields for Exercise in firestore
   const [exerciseTitle, setTitle] = useState('');
@@ -49,46 +51,53 @@ const Exercise = (props) => {
   }, []);
   
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}> 
-        {/* heading */}
-        <Text style={styles.heading}>Exercise List</Text>
-        {/* delete all  */}
-        <Pressable>
-          <MaterialIcons name="delete" size={32} color="black" />
-        </Pressable>  
-      </View>
-
-      {/* List for rendering items  */}
-      <FlatList
-      data={exercises}
-      renderItem={({ item }) => (
-        <View style={styles.container}>
-          <Text>Exercise ID: {item.key}</Text>
-          <Text>Exercise Title: {item.title}</Text>
-          <Text>Exercise Description: {}item.description</Text>
+    // Allows for dissmissing keyboard 
+    <TouchableWithoutFeedback onPress={() => {
+      Keyboard.dismiss();
+    }}>
+      <SafeAreaView style={styles.heading}>
+        <View style={styles.header}> 
+          {/* heading */}
+          <Text style={styles.heading}>Exercise List</Text>
+          {/* delete all  */}
+          <Pressable>
+            <MaterialIcons name="delete" size={32} color="black" />
+          </Pressable>  
         </View>
-        )}
-      />
 
-      {/* For adding an exercise  */}
-      <KeyboardAvoidingView>
-        <TextInput
-          placeholder='Enter Excercise' 
-          style={styles.input} 
-          value={exerciseTitle} 
-          onChangeText={(text) => setTitle(text)} 
-          onSubmitEditing={addExercise} 
-        /> 
-        <TextInput
-          placeholder='Enter description' 
-          style={styles.input} 
-          value={exerciseDescription} 
-          onChangeText={(text) => setExerciseDescription(text)} 
-          onSubmitEditing={addExercise} 
-        /> 
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+        {/* For adding an exercise  */}
+        <KeyboardAvoidingView>
+          <TextInput
+            placeholder='Enter Excercise'
+            placeholderTextColor="white"
+            style={styles.input} 
+            value={exerciseTitle} 
+            onChangeText={(text) => setTitle(text)} 
+            onSubmitEditing={addExercise} 
+          /> 
+          <TextInput
+            placeholder="Enter description"
+            placeholderTextColor="white"
+            style={styles.input} 
+            value={exerciseDescription} 
+            onChangeText={(text) => setExerciseDescription(text)} 
+            onSubmitEditing={addExercise} 
+          /> 
+        </KeyboardAvoidingView>
+
+        {/* List for rendering items  */}
+        <FlatList
+        data={exercises}
+        renderItem={({item}) => (
+          <View style={styles.container}>
+            <Text>Exercise ID: {item.key}</Text>
+            <Text>Exercise Title: {item.title}</Text>
+            <Text>Exercise Description: {item.description}</Text>
+          </View>
+          )}
+        />
+      </SafeAreaView>
+    </TouchableWithoutFeedback>
   )
 }
 
@@ -96,10 +105,8 @@ export default Exercise
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    backgroundColor: 'lightgray',
-    justifyContent: 'space-between',
-    padding: 15,
+    backgroundColor: 'red',
+    padding: 10,
     alignItems: 'center',
     width: '90%',
     alignSelf: 'center',
