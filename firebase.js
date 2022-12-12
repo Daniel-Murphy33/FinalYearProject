@@ -34,6 +34,8 @@ const db = getFirestore(app);
 //get authentication
 const auth = firebase.auth()
 //collection reference
-const colRef = collection(db, 'Exercise')
+const exerciseRef = collection(db, 'Exercise')
+//users collection reference
+const usersRef = collection(db, 'users')
 
-export { auth, app, db, getFirestore, collection, addDoc, getDocs, colRef, onSnapshot };
+export { auth, app, db, getFirestore, collection, addDoc, getDocs, exerciseRef, usersRef, onSnapshot };

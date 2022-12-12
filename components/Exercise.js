@@ -1,8 +1,8 @@
 import { Pressable, Text, TextInput, View, StyleSheet,
-  SafeAreaView, FlatList, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native'
+  SafeAreaView, FlatList, KeyboardAvoidingView } from 'react-native'
   import React, { useState, useEffect } from 'react'
   import { MaterialIcons } from '@expo/vector-icons'; 
-  import { addDoc, colRef, onSnapshot } from '../firebase'
+  import { addDoc, exerciseRef, onSnapshot } from '../firebase'
 
 // exercise object
 
@@ -34,7 +34,7 @@ const Exercise = () => {
   //getting from firestore
   const getExercise = async() => {
 
-    const subscriber = onSnapshot(colRef, (snapshot) => {
+    const subscriber = onSnapshot(exerciseRef, (snapshot) => {
       let exercises = []
         snapshot.docs.forEach((doc) => {
           exercises.push({...doc.data(), key: doc.id })

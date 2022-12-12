@@ -11,6 +11,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useEffect, useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { auth } from './firebase';
+import RegisterScreen from './screens/RegisterScreen';
+import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 
 export default function App() {
 
@@ -120,8 +122,11 @@ export default function App() {
             component={LoginScreen} 
             options={{headerShown: false}}
             />
-            <Stack.Screen name="Profile"
-            component={ProfileScreen}
+            <Stack.Screen name="Register"
+            component={RegisterScreen}
+            />
+            <Stack.Screen name="ForgotPassword"
+            component={ForgotPasswordScreen}
             />
         </Stack.Navigator>
       </NavigationContainer>

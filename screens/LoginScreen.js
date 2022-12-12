@@ -4,38 +4,28 @@ import { StyleSheet,
   TouchableOpacity, 
   View, 
   TouchableWithoutFeedback,
-  Keyboard } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { KeyboardAvoidingView } from 'react-native'
+  Keyboard, 
+  Button} from 'react-native'
+import React, { useState } from 'react'
 import { auth } from '../firebase';
 import { useNavigation } from '@react-navigation/core';
-
-//for dismissing the keyboard by touching anywwhere
-const DismissKeyboard = ({children}) => {
-  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    {children}
-  </TouchableWithoutFeedback>
-};
 
 
 const LoginScreen = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
-  // const navigation = useNavigation()
-
-  //function for signing up
-  const handleSignUp = () => {
-    auth
-    .createUserWithEmailAndPassword(email, password)
-    .then(UserCredentials => {
-      const user = UserCredentials.user;
-      console.log("Registered with: ", user.email);
-    })
-    .catch(error => alert(error.message))
+  
+  const navigation = useNavigation()
+  
+  //navigating through screens
+  const RegisterScreenPage = () => {
+    navigation.navigate("Register")
   }
-
+  const ForgotPasswordScreen = () => {
+    navigation.navigate("ForgotPassword")
+  }
+  
   //function for signing in 
   const handleSignIn = () => {
     auth. 
@@ -46,6 +36,7 @@ const LoginScreen = () => {
     })
     .catch(error => alert(error.message))
   }
+
 
   return (
     //allows for dismissing keyboard
@@ -68,9 +59,10 @@ const LoginScreen = () => {
           <TouchableOpacity onPress={handleSignIn} style={styles.button} >
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={handleSignUp} style={[styles.button, styles.buttonOutline]} >
+          <TouchableOpacity onPress={RegisterScreenPage} style={[styles.button, styles.buttonOutline]} >
             <Text style={styles.buttonOutlineText}>Register</Text>
           </TouchableOpacity>
+          <Button title={"Forgot Password?"} onPress={ForgotPasswordScreen} style={styles.button} />
         </View>
       </View>
     </TouchableWithoutFeedback>
