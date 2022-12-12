@@ -8,16 +8,22 @@ import AnalyticsScreen from './screens/loggedIn/AnalyticsScreen';
 import ProfileScreen from './screens/loggedIn/ProfileScreen';
 import WorkoutScreen from './screens/loggedIn/WorkoutScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { auth } from './firebase';
 
-
-const App: () => Node = () => {
+export default function App() {
 
   const Stack = createNativeStackNavigator();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const Tab = createBottomTabNavigator();
+
+  //for signout button
+  const handleSignOut = () => {
+    auth
+    .signOut()
+    .catch(error => alert(error.message))
+  }
 
   useEffect(() => {
     auth.onAuthStateChanged(user => {
@@ -57,10 +63,50 @@ const App: () => Node = () => {
             })}
           
           >
-            <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="Workouts" component={WorkoutScreen} />
-            <Tab.Screen name="Analytics" component={AnalyticsScreen} />
-            <Tab.Screen name="Profile" component={ProfileScreen} />
+            {/* Home Screen */}
+            <Tab.Screen name="Home"
+             component={HomeScreen}
+             options={{headerRight: () => (
+              <Button
+                onPress={handleSignOut}
+                title="Sign Out"
+                color="#0792F9"
+              />
+            ),}}
+             />
+            {/* Workout Screen  */}
+            <Tab.Screen name="Workouts"
+            component={WorkoutScreen}
+            options={{headerRight: () => (
+              <Button
+                onPress={handleSignOut}
+                title="Sign Out"
+                color="#0792F9"
+              />
+            ),}}
+            />
+            {/* Analytics Screen  */}
+            <Tab.Screen name="Analytics" 
+            component={AnalyticsScreen}
+            options={{headerRight: () => (
+              <Button
+                onPress={handleSignOut}
+                title="Sign Out"
+                color="#0792F9"
+              />
+            ),}}
+            />
+            {/* Profile Screen  */}
+            <Tab.Screen name="Profile" 
+            component={ProfileScreen} 
+            options={{headerRight: () => (
+              <Button
+                onPress={handleSignOut}
+                title="Sign Out"
+                color="#0792F9"
+              />
+            ),}}
+            />
           </Tab.Navigator>
         </NavigationContainer>
       )
@@ -69,9 +115,13 @@ const App: () => Node = () => {
       return (
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen options={{headerShown: false}}
-            name="Login" 
+            {/* Login Screen  */}
+            <Stack.Screen name="Login" 
             component={LoginScreen} 
+            options={{headerShown: false}}
+            />
+            <Stack.Screen name="Profile"
+            component={ProfileScreen}
             />
         </Stack.Navigator>
       </NavigationContainer>
@@ -79,8 +129,6 @@ const App: () => Node = () => {
 
     }
 }
-
-export default App
 
 const styles = StyleSheet.create({
   container: {

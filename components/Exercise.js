@@ -51,10 +51,6 @@ const Exercise = () => {
   }, []);
   
   return (
-    // Allows for dissmissing keyboard 
-    <TouchableWithoutFeedback onPress={() => {
-      Keyboard.dismiss();
-    }}>
       <SafeAreaView style={styles.heading}>
         <View style={styles.header}> 
           {/* heading */}
@@ -69,7 +65,7 @@ const Exercise = () => {
         <KeyboardAvoidingView>
           <TextInput
             placeholder='Enter Excercise'
-            placeholderTextColor="white"
+            placeholderTextColor="black"
             style={styles.input} 
             value={exerciseTitle} 
             onChangeText={(text) => setTitle(text)} 
@@ -77,11 +73,11 @@ const Exercise = () => {
           /> 
           <TextInput
             placeholder="Enter description"
-            placeholderTextColor="white"
-            style={styles.input} 
-            value={exerciseDescription} 
-            onChangeText={(text) => setExerciseDescription(text)} 
-            onSubmitEditing={addExercise} 
+            placeholderTextColor="black"
+            style={styles.input}
+            value={exerciseDescription}
+            onChangeText={(text) => setExerciseDescription(text)}
+            onSubmitEditing={addExercise}
           /> 
         </KeyboardAvoidingView>
 
@@ -90,14 +86,12 @@ const Exercise = () => {
         data={exercises}
         renderItem={({item}) => (
           <View style={styles.container}>
-            <Text>Exercise ID: {item.key}</Text>
             <Text>Exercise Title: {item.title}</Text>
             <Text>Exercise Description: {item.description}</Text>
           </View>
           )}
         />
       </SafeAreaView>
-    </TouchableWithoutFeedback>
   )
 }
 
@@ -105,7 +99,7 @@ export default Exercise
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'red',
+    backgroundColor: 'lightgrey',
     padding: 10,
     alignItems: 'center',
     width: '90%',
