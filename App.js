@@ -16,9 +16,10 @@ import AddUserScreen from './screens/AddUserScreen';
 
 export default function App() {
 
+  const Tab = createBottomTabNavigator();
   const Stack = createNativeStackNavigator();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const Tab = createBottomTabNavigator();
+  const [isDetailsfilled, setIsDetailsFilled] = useState(true);
 
   //for signout button
   const handleSignOut = () => {
@@ -38,12 +39,12 @@ export default function App() {
     })
   }, [])
 
-    if(isLoggedIn==true) {
+    if(isLoggedIn==true && isDetailsfilled==true) {
       return (
         <NavigationContainer>
           <Tab.Navigator
             screenOptions={({ route }) => ({
-              tabBarIcon: ({ focused, color, size }) => {
+              tabBarIcon: ({ focused, color }) => {
                 let iconName;
     
                 if (route.name === 'Home') {
@@ -124,10 +125,28 @@ export default function App() {
             ),}}
             />
           </Tab.Navigator>
+          <Stack.Screen name ="AddUser"
+            component={AddUserScreen}
+            options={{headerShown: false}}
+            />
         </NavigationContainer>
       )
     }
-    else{
+    else if (isLoggedIn==true && isDetailsfilled==false) {
+      return (
+        <NavigationContainer>
+          <Stack.Navigator>
+            {/* Login Screen  */}
+            <Stack.Screen name="AddUser" 
+            component={AddUserScreen} 
+            options={{headerShown: false}}
+            />
+        </Stack.Navigator>
+      </NavigationContainer>
+      )
+
+    }
+    else {
       return (
         <NavigationContainer>
           <Stack.Navigator>
@@ -138,10 +157,6 @@ export default function App() {
             />
             <Stack.Screen name="ForgotPassword"
             component={ForgotPasswordScreen}
-            />
-            <Stack.Screen name ="AddUser"
-            component={AddUserScreen}
-            options={{headerShown: false}}
             />
         </Stack.Navigator>
       </NavigationContainer>

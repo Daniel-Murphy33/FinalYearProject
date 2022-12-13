@@ -1,4 +1,4 @@
-import { View, TextInput, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native'
+import { View, TextInput, StyleSheet, TouchableWithoutFeedback, Keyboard, TouchableOpacity, Text } from 'react-native'
 import React, { useState } from 'react'
 import { usersRef, addDoc } from '../firebase';
 
@@ -12,10 +12,10 @@ const AddUserScreen = () => {
     const [currentWeight, setCurrentWeight] = useState('');
     const [goal, setGoal] = useState('');
 
-    const addUser = async() => {
+    const AddUser = async() => {
         try {
           const docRef = await addDoc(usersRef, {
-            displayName: displayNamem,
+            displayName: displayName,
             firstName: firstName,
             surname: surname,
             age: age,
@@ -39,36 +39,36 @@ const AddUserScreen = () => {
         Keyboard.dismiss();
       }}>
         <View style={styles.container}>
-            <View style={styles.inputContainer}>
+          <View style={styles.inputContainer}>
             <TextInput placeholder='First Name'
             placeholderTextColor="black"
             value={firstName}
-            onSubmitEditing={addUser} 
             onChangeText={text => setFirstName(text)} style={styles.input} />
             <TextInput placeholder='Last Name'
             placeholderTextColor="black" 
             value={surname} 
-            onSubmitEditing={addUser} 
             onChangeText={text => setSurname(text)} style={styles.input} />
             <TextInput placeholder='Age'
             placeholderTextColor="black"
             keyboardType='numeric'
             value={age} 
-            onSubmitEditing={addUser} 
             onChangeText={text => setAge(text)} style={styles.input} />
             <TextInput placeholder='Current Weight'
             placeholderTextColor="black"
             keyboardType='numeric'
             value={currentWeight} 
-            onSubmitEditing={addUser} 
             onChangeText={text => setCurrentWeight(text)} style={styles.input} />
             <TextInput placeholder='Goal Weight'
             placeholderTextColor="black"
             keyboardType='numeric'
             value={goal} 
-            onSubmitEditing={addUser} 
             onChangeText={text => setGoal(text)} style={styles.input} />
-            </View>
+          </View>
+          <View style={styles.buttonContainer}>
+          <TouchableOpacity style={[styles.button, styles.buttonOutline]} >
+            <Text onPress={AddUser} style={styles.buttonOutlineText}>Register</Text>
+          </TouchableOpacity>
+          </View>
         </View>
     </TouchableWithoutFeedback>
   )

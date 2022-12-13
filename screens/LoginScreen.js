@@ -11,13 +11,17 @@ import React, { useState } from 'react'
 import { auth } from '../firebase';
 import { useNavigation } from '@react-navigation/core';
 
-
 const LoginScreen = () => {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   
   const navigation = useNavigation()
+
+  //navigating to screens
+  const AddUserScreen = () => {
+    navigation.navigate('AddUser');
+  }
   
   //navigating through screens
   const ForgotPasswordScreen = () => {
@@ -31,7 +35,6 @@ const LoginScreen = () => {
     .then(UserCredentials => {
       const user = UserCredentials.user;
       console.log("Registered with: ", user.email);
-      navigation.navigate('AddUser');
     })
     .catch(error => alert(error.message))
   }
@@ -45,6 +48,12 @@ const LoginScreen = () => {
       console.log("Logged in with: ", user.email);
     })
     .catch(error => alert(error.message))
+  }
+
+  //redirecting user to detail screen after first signup
+  const redirectUser = () => {
+    handleSignUp();
+    AddUserScreen();
   }
 
   return (
@@ -70,7 +79,7 @@ const LoginScreen = () => {
           <TouchableOpacity onPress={handleSignIn} style={styles.button} >
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={handleSignUp} style={[styles.button, styles.buttonOutline]} >
+          <TouchableOpacity onPress={redirectUser} style={[styles.button, styles.buttonOutline]} >
             <Text style={styles.buttonOutlineText}>Register</Text>
           </TouchableOpacity>
           <Button title={"Forgot Password ?"} onPress={ForgotPasswordScreen} style={styles.button} />
