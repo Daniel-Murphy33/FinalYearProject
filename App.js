@@ -12,6 +12,7 @@ import ProfileScreen from './screens/loggedIn/ProfileScreen';
 import WorkoutScreen from './screens/loggedIn/WorkoutScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import NutritionScreen from './screens/loggedIn/NutritionScreen';
+import AddUserScreen from './screens/AddUserScreen';
 
 export default function App() {
 
@@ -137,6 +138,10 @@ export default function App() {
             />
             <Stack.Screen name="ForgotPassword"
             component={ForgotPasswordScreen}
+            />
+            <Stack.Screen name ="AddUser"
+            component={AddUserScreen}
+            options={{headerShown: false}}
             />
         </Stack.Navigator>
       </NavigationContainer>

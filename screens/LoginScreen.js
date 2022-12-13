@@ -5,7 +5,8 @@ import { StyleSheet,
   View, 
   TouchableWithoutFeedback,
   Keyboard, 
-  Button} from 'react-native'
+  Button,
+  Image } from 'react-native'
 import React, { useState } from 'react'
 import { auth } from '../firebase';
 import { useNavigation } from '@react-navigation/core';
@@ -30,6 +31,7 @@ const LoginScreen = () => {
     .then(UserCredentials => {
       const user = UserCredentials.user;
       console.log("Registered with: ", user.email);
+      navigation.navigate('AddUser');
     })
     .catch(error => alert(error.message))
   }
@@ -51,6 +53,7 @@ const LoginScreen = () => {
       Keyboard.dismiss();
     }}>
       <View style={styles.container}>
+      <Image source={require('../assets/logo-no-bg.png')} style={styles.logo} />
         <View style={styles.inputContainer}>
           <TextInput placeholder='Email'
           placeholderTextColor="black"
@@ -137,7 +140,12 @@ const styles = StyleSheet.create({
       fontStyle: 'bold',
       fontSize: 23  ,
       textAlign: 'center',
-      marginTop: 120
+    },
+
+    logo: {
+      resizeMode: "contain",
+      height: 160,
+      marginBottom: 60
     },
 
 })

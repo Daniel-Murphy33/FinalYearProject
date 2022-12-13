@@ -1,6 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react'
-import { View, TextInput, StyleSheet, Text, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from 'react-native'
+import { View, TextInput, StyleSheet, Text, TouchableWithoutFeedback, 
+  Keyboard, TouchableOpacity, Image
+ } from 'react-native'
 import { auth } from '../firebase';
 
 const ForgotPasswordScreen = () => {
@@ -37,6 +39,7 @@ const ForgotPasswordScreen = () => {
         Keyboard.dismiss();
       }}>
         <View style={styles.container}>
+        <Image source={require('../assets/logo-no-bg.png')} style={styles.logo} />
           <Text style={styles.heading}>Forgot your password?</Text>
           <Text style={styles.heading}>Enter your email address and we will send you a link to reset your password!</Text>
             <View style={styles.inputContainer}>
@@ -115,7 +118,13 @@ const styles = StyleSheet.create({
       fontStyle: 'bold',
       fontSize: 23  ,
       textAlign: 'center',
-      marginTop: 60
+      marginTop: 10
+    },
+
+    logo: {
+      resizeMode: "contain",
+      height: 160,
+      marginBottom: 50
     },
 
 })

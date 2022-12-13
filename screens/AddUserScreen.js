@@ -5,6 +5,7 @@ import { usersRef, addDoc } from '../firebase';
 
 const AddUserScreen = () => {
 
+    const [displayName, setDisplayName] = useState('');
     const [firstName, setFirstName] = useState('');
     const [surname, setSurname] = useState('');
     const [age, setAge] = useState('');
@@ -14,6 +15,7 @@ const AddUserScreen = () => {
     const addUser = async() => {
         try {
           const docRef = await addDoc(usersRef, {
+            displayName: displayNamem,
             firstName: firstName,
             surname: surname,
             age: age,
