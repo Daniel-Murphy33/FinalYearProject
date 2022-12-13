@@ -19,24 +19,13 @@ const LoginScreen = () => {
   const navigation = useNavigation()
 
   //navigating to screens
-  const AddUserScreen = () => {
-    navigation.navigate('AddUser');
+  const RegisterUserScreen = () => {
+    navigation.navigate('Register');
   }
   
   //navigating through screens
   const ForgotPasswordScreen = () => {
     navigation.navigate("ForgotPassword")
-  }
-
-  //function for signing up
-  const handleSignUp = () => {
-    auth
-    .createUserWithEmailAndPassword(email, password)
-    .then(UserCredentials => {
-      const user = UserCredentials.user;
-      console.log("Registered with: ", user.email);
-    })
-    .catch(error => alert(error.message))
   }
 
   //function for signing in 
@@ -48,12 +37,6 @@ const LoginScreen = () => {
       console.log("Logged in with: ", user.email);
     })
     .catch(error => alert(error.message))
-  }
-
-  //redirecting user to detail screen after first signup
-  const redirectUser = () => {
-    handleSignUp();
-    AddUserScreen();
   }
 
   return (
@@ -79,7 +62,7 @@ const LoginScreen = () => {
           <TouchableOpacity onPress={handleSignIn} style={styles.button} >
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={redirectUser} style={[styles.button, styles.buttonOutline]} >
+          <TouchableOpacity onPress={RegisterUserScreen} style={[styles.button, styles.buttonOutline]} >
             <Text style={styles.buttonOutlineText}>Register</Text>
           </TouchableOpacity>
           <Button title={"Forgot Password ?"} onPress={ForgotPasswordScreen} style={styles.button} />

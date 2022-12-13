@@ -12,8 +12,7 @@ import ProfileScreen from './screens/loggedIn/ProfileScreen';
 import WorkoutScreen from './screens/loggedIn/WorkoutScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import NutritionScreen from './screens/loggedIn/NutritionScreen';
-import AddUserScreen from './screens/AddUserScreen';
-
+import RegisterScreen from './screens/RegisterScreen';
 export default function App() {
 
   const Tab = createBottomTabNavigator();
@@ -39,7 +38,7 @@ export default function App() {
     })
   }, [])
 
-    if(isLoggedIn==true && isDetailsfilled==true) {
+    if(isLoggedIn==true) {
       return (
         <NavigationContainer>
           <Tab.Navigator
@@ -125,27 +124,14 @@ export default function App() {
             ),}}
             />
           </Tab.Navigator>
-          <Stack.Screen name ="AddUser"
+          {/* <Stack.Screen name ="AddUser"
             component={AddUserScreen}
             options={{headerShown: false}}
-            />
+            /> */}
         </NavigationContainer>
       )
     }
-    else if (isLoggedIn==true && isDetailsfilled==false) {
-      return (
-        <NavigationContainer>
-          <Stack.Navigator>
-            {/* Login Screen  */}
-            <Stack.Screen name="AddUser" 
-            component={AddUserScreen} 
-            options={{headerShown: false}}
-            />
-        </Stack.Navigator>
-      </NavigationContainer>
-      )
-
-    }
+    
     else {
       return (
         <NavigationContainer>
@@ -157,6 +143,10 @@ export default function App() {
             />
             <Stack.Screen name="ForgotPassword"
             component={ForgotPasswordScreen}
+            />
+            <Stack.Screen name="Register"
+            component={RegisterScreen}
+            options={{headerShown: false}}
             />
         </Stack.Navigator>
       </NavigationContainer>
