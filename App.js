@@ -1,18 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React, { useEffect, useState } from 'react';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { auth } from './firebase';
 import LoginScreen from './screens/LoginScreen';
 import HomeScreen from './screens/loggedIn/HomeScreen';
 import AnalyticsScreen from './screens/loggedIn/AnalyticsScreen';
 import ProfileScreen from './screens/loggedIn/ProfileScreen';
 import WorkoutScreen from './screens/loggedIn/WorkoutScreen';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React, { useEffect, useState } from 'react';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { auth } from './firebase';
-import RegisterScreen from './screens/RegisterScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
+import NutritionScreen from './screens/loggedIn/NutritionScreen';
 
 export default function App() {
 
@@ -48,10 +47,13 @@ export default function App() {
     
                 if (route.name === 'Home') {
                   iconName = focused? 'home' : 'home-outline';
-                } 
+                }
+                else if (route.name === 'Nutrition') {
+                  iconName = focused ? 'nutrition-sharp' : 'nutrition-outline';
+                }  
                 else if (route.name === 'Workouts') {
                   iconName = focused ? 'ios-list' : 'ios-list-outline';
-                } 
+                }
                 else if (route.name === 'Analytics') {
                   iconName = focused ? 'analytics' : 'analytics-outline';
                 }
@@ -76,6 +78,17 @@ export default function App() {
               />
             ),}}
              />
+             {/* Nutrition Screen  */}
+            <Tab.Screen name="Nutrition"
+            component={NutritionScreen}
+            options={{headerRight: () => (
+              <Button
+                onPress={handleSignOut}
+                title="Sign Out"
+                color="#0792F9"
+              />
+            ),}}
+            />
             {/* Workout Screen  */}
             <Tab.Screen name="Workouts"
             component={WorkoutScreen}
@@ -121,9 +134,6 @@ export default function App() {
             <Stack.Screen name="Login" 
             component={LoginScreen} 
             options={{headerShown: false}}
-            />
-            <Stack.Screen name="Register"
-            component={RegisterScreen}
             />
             <Stack.Screen name="ForgotPassword"
             component={ForgotPasswordScreen}

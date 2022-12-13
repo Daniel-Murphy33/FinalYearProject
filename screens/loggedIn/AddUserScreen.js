@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { usersRef, addDoc } from '../firebase';
 
 
-const ForgotPasswordScreen = () => {
+const AddUserScreen = () => {
 
     const [firstName, setFirstName] = useState('');
     const [surname, setSurname] = useState('');
@@ -72,7 +72,7 @@ const ForgotPasswordScreen = () => {
   )
 }
 
-export default ForgotPasswordScreen
+export default AddUserScreen
 
 const styles = StyleSheet.create({
     container: {

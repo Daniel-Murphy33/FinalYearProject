@@ -13,8 +13,8 @@ import { useNavigation } from '@react-navigation/core';
 
 const LoginScreen = () => {
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   
   const navigation = useNavigation()
   
@@ -130,6 +130,14 @@ const styles = StyleSheet.create({
       marginTop: 5,
       borderColor: '#0792F9',
       borderWidth: 2,
+    },
+
+    heading: {
+      fontWeight: '500',
+      fontStyle: 'bold',
+      fontSize: 23  ,
+      textAlign: 'center',
+      marginTop: 120
     },
 
 })

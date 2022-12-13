@@ -1,10 +1,10 @@
 import React from 'react'
 import { Text } from 'react-native'
 
-const Analytics = () => {
+const AnalyticsScreen = () => {
   return (
       <Text>Analytics</Text>
   )
 }
 
-export default Analytics
+export default AnalyticsScreen

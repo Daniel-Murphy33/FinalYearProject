@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Text } from 'react-native'
 import { usersRef, onSnapshot } from '../../firebase';
 
-const Profile = () => {
+const ProfileScreen = () => {
 
   const [user, setUser] = useState();
 
@@ -29,4 +29,4 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default ProfileScreen

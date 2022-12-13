@@ -37,5 +37,11 @@ const auth = firebase.auth()
 const exerciseRef = collection(db, 'Exercise')
 //users collection reference
 const usersRef = collection(db, 'users')
+//password reset
+const resetPassword = () => {
+  passwordReset: email => {
+  return firebase.auth().sendPasswordResetEmail(email)
+}}
 
-export { auth, app, db, getFirestore, collection, addDoc, getDocs, exerciseRef, usersRef, onSnapshot };
+
+export { auth, app, db, getFirestore, collection, addDoc, getDocs, exerciseRef, usersRef, onSnapshot, resetPassword };

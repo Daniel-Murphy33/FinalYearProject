@@ -1,18 +1,36 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react'
 import { View, TextInput, StyleSheet, Text, TouchableWithoutFeedback, Keyboard, TouchableOpacity } from 'react-native'
+import { auth } from '../firebase';
 
 const ForgotPasswordScreen = () => {
 
-    const [email, setEmail] = useState('')
+    const [email, setEmail] = useState('');
+    const navigation = useNavigation();
 
-    const resetPassword = () => {
-      if(email !== null) {
-        alert("hello")
-      }
-      else {
-        alert("Please enter a valid email.")
-      }
-    }
+    // for resetting password when user forgets
+    const ForgotPassword = () => {
+
+      console.log("reset email sent to " + email);
+      auth.sendPasswordResetEmail(email)
+          .then(() => {
+              alert("Reset password sent to : " + email);
+          })
+          .catch(function (error) {
+              console.log(error);
+          });
+  };
+
+  //navigates user to login page
+  const LoginScreenPage = () => {
+    navigation.navigate('Login')
+  }
+
+  //call both functions
+  const redirectUser = () => {
+    ForgotPassword();
+    LoginScreenPage();
+  }
 
   return (
     <TouchableWithoutFeedback onPress={() => {
@@ -22,7 +40,7 @@ const ForgotPasswordScreen = () => {
           <Text style={styles.heading}>Forgot your password?</Text>
           <Text style={styles.heading}>Enter your email address and we will send you a link to reset your password!</Text>
             <View style={styles.inputContainer}>
-              <TextInput placeholder='Email'
+            <TextInput placeholder='Email'
               placeholderTextColor="black"
               keyboardType='email-address'
               value={email}
@@ -30,7 +48,7 @@ const ForgotPasswordScreen = () => {
             </View>
 
             <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={resetPassword} style={styles.button} >
+              <TouchableOpacity onPress={redirectUser} style={styles.button} >
                 <Text style={styles.buttonText}>Send Reset Link To Email</Text>
               </TouchableOpacity>
             </View>
