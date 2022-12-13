@@ -19,13 +19,21 @@ const LoginScreen = () => {
   const navigation = useNavigation()
   
   //navigating through screens
-  const RegisterScreenPage = () => {
-    navigation.navigate("Register")
-  }
   const ForgotPasswordScreen = () => {
     navigation.navigate("ForgotPassword")
   }
-  
+
+  //function for signing up
+  const handleSignUp = () => {
+    auth
+    .createUserWithEmailAndPassword(email, password)
+    .then(UserCredentials => {
+      const user = UserCredentials.user;
+      console.log("Registered with: ", user.email);
+    })
+    .catch(error => alert(error.message))
+  }
+
   //function for signing in 
   const handleSignIn = () => {
     auth. 
@@ -37,7 +45,6 @@ const LoginScreen = () => {
     .catch(error => alert(error.message))
   }
 
-
   return (
     //allows for dismissing keyboard
     <TouchableWithoutFeedback onPress={() => {
@@ -47,6 +54,7 @@ const LoginScreen = () => {
         <View style={styles.inputContainer}>
           <TextInput placeholder='Email'
           placeholderTextColor="black"
+          keyboardType='email-address'
           value={email}
           onChangeText={text => setEmail(text)} style={styles.input} />
           <TextInput placeholder='Password'
@@ -59,10 +67,10 @@ const LoginScreen = () => {
           <TouchableOpacity onPress={handleSignIn} style={styles.button} >
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={RegisterScreenPage} style={[styles.button, styles.buttonOutline]} >
+          <TouchableOpacity onPress={handleSignUp} style={[styles.button, styles.buttonOutline]} >
             <Text style={styles.buttonOutlineText}>Register</Text>
           </TouchableOpacity>
-          <Button title={"Forgot Password?"} onPress={ForgotPasswordScreen} style={styles.button} />
+          <Button title={"Forgot Password ?"} onPress={ForgotPasswordScreen} style={styles.button} />
         </View>
       </View>
     </TouchableWithoutFeedback>
