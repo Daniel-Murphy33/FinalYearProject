@@ -13,6 +13,7 @@ import WorkoutScreen from './screens/loggedIn/WorkoutScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import NutritionScreen from './screens/loggedIn/NutritionScreen';
 import RegisterScreen from './screens/RegisterScreen';
+
 export default function App() {
 
   const Tab = createBottomTabNavigator();
@@ -38,10 +39,9 @@ export default function App() {
     })
   }, [])
 
-    if(isLoggedIn==true) {
-      return (
-        <NavigationContainer>
-          <Tab.Navigator
+  function HomeTabs () {
+    return (
+    <Tab.Navigator
             screenOptions={({ route }) => ({
               tabBarIcon: ({ focused, color }) => {
                 let iconName;
@@ -124,10 +124,15 @@ export default function App() {
             ),}}
             />
           </Tab.Navigator>
-          {/* <Stack.Screen name ="AddUser"
-            component={AddUserScreen}
-            options={{headerShown: false}}
-            /> */}
+  )}
+
+    if(isLoggedIn==true) {
+      return (
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="HomeTabs"
+              component={HomeTabs}/>
+          </Stack.Navigator>
         </NavigationContainer>
       )
     }

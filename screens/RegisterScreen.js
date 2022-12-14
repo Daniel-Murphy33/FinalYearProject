@@ -24,8 +24,8 @@ import { StyleSheet,
     const navigation = useNavigation()
   
     //navigating to screens
-    const AddUserScreen = () => {
-      navigation.navigate('AddUser');
+    const LoginScreenPage = () => {
+      navigation.navigate('Login');
     }
     
     //navigating through screens
@@ -60,13 +60,10 @@ import { StyleSheet,
         } catch (e) {
           console.error("Error adding document: ", e);
         }
+        //has to be called or else details dont get added untill signout ??
+        handleSignUp();
       };
   
-    //redirecting user to detail screen after first signup
-    const redirectUser = () => {
-      handleSignUp();
-      AddDetails();
-    }
   
     return (
       //allows for dismissing keyboard
@@ -105,10 +102,14 @@ import { StyleSheet,
           </View>
   
           <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={redirectUser} style={[styles.button, styles.buttonOutline]} >
-              <Text style={styles.buttonOutlineText}>Register</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity onPress={AddDetails} style={styles.button} >
+            <Text style={styles.buttonText}>Register</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={LoginScreenPage} style={[styles.button, styles.buttonOutline]} >
+            <Text style={styles.buttonOutlineText}>Back To Login</Text>
+          </TouchableOpacity>
+          <Button title={"Forgot Password ?"} onPress={ForgotPasswordScreen} style={styles.button} />
+        </View>
         </View>
       </ScrollView>
     )
