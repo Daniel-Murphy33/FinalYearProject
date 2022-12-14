@@ -131,7 +131,8 @@ export default function App() {
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen name="HomeTabs"
-              component={HomeTabs}/>
+              component={HomeTabs}
+              options={{headerShown:false}}/>
           </Stack.Navigator>
         </NavigationContainer>
       )

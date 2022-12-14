@@ -9,7 +9,7 @@ import { StyleSheet,
     Image, 
     ScrollView} from 'react-native'
   import React, { useState } from 'react'
-  import { auth, usersRef, addDoc } from '../firebase';
+  import { auth, usersRef, addDoc, setDoc, doc, db } from '../firebase';
   import { useNavigation } from '@react-navigation/core';
   
   const LoginScreen = () => {
@@ -34,35 +34,52 @@ import { StyleSheet,
     }
   
     //function for signing up
-    const handleSignUp = () => {
+    const handleSignUp = async () => {
       auth
       .createUserWithEmailAndPassword(email, password)
-      .then(UserCredentials => {
+      .then(async (UserCredentials) => {
         const user = UserCredentials.user;
         console.log("Registered with: ", user.email);
-      })
-      .catch(error => alert(error.message))
-    }
 
-    const AddDetails = async() => {
         try {
-          const docRef = await addDoc(usersRef, {
+          const uidRef = doc(db, 'users', user.uid);
+
+          const docRef = await setDoc(uidRef, {
             name: name,
             age: age,
             currentWeight: currentWeight,
             goalWeight: goalWeight,
           });
-          console.log("Document written with ID: ", docRef.id);
-          setName("");
-          setAge("");
-          setCurrentWeight(""),
-          setGoalWeight ("");
         } catch (e) {
           console.error("Error adding document: ", e);
         }
-        //has to be called or else details dont get added untill signout ??
-        handleSignUp();
-      };
+
+        // AddDetails();
+      })
+      .catch(error => alert(error.message))
+    }
+    
+
+    const AddDetails = async() => {      
+
+      try {
+        const docRef = await addDoc(usersRef, {
+          name: name,
+          age: age,
+          currentWeight: currentWeight,
+          goalWeight: goalWeight,
+        });
+        console.log("Document written with ID: ", docRef.id);
+        setName("");
+        setAge("");
+        setCurrentWeight(""),
+        setGoalWeight ("");
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+      //has to be called or else details dont get added untill signout ??
+      // handleSignUp();
+    };
   
   
     return (
@@ -102,7 +119,7 @@ import { StyleSheet,
           </View>
   
           <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={AddDetails} style={styles.button} >
+          <TouchableOpacity onPress={handleSignUp} style={styles.button} >
             <Text style={styles.buttonText}>Register</Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={LoginScreenPage} style={[styles.button, styles.buttonOutline]} >
