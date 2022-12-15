@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react'
-import { Text, TouchableOpacity, StyleSheet } from 'react-native'
-import { doc, db, onSnapshot } from '../../firebase';
+import { Text, TouchableOpacity, StyleSheet, View, FlatList } from 'react-native'
+import { doc, collection, db, onSnapshot } from '../../firebase';
 import {getAuth} from 'firebase/auth';
 
 const ProfileScreen = () => {
@@ -18,10 +18,11 @@ const ProfileScreen = () => {
     if(getAuth().currentUser) {
       const uidRef = doc(db, 'users', getAuth().currentUser.uid);
 
-      const subscriber = onSnapshot(uidRef, (doc) => {
+      const subscriber = onSnapshot(uidRef, async (doc) => {
+        let user =[]
           setUser({...doc.data(), key: doc.id})
-          console.log(user);
       })
+      console.log(user);
     }
     else {
       //not logged in
@@ -33,9 +34,20 @@ const ProfileScreen = () => {
   }, []);
 
   return (
-    <TouchableOpacity onPress={AdduserScreenPage} style={[styles.button, styles.buttonOutline]} >
-      <Text style={styles.buttonOutlineText}>Register</Text>
-    </TouchableOpacity>
+    <View style={styles.container}>
+      <FlatList
+        data={user}
+        renderItem={({item}) => (
+          <View style={styles.container}>
+            <Text>Exercise Title: {item.name}</Text>
+            <Text>Exercise Description: {item.age}</Text>
+          </View>
+          )}
+        />
+      <TouchableOpacity onPress={getUser} style={[styles.button, styles.buttonOutline]} >
+        <Text style={styles.buttonOutlineText}>Register</Text>
+      </TouchableOpacity>
+    </View>
   )
 }
 

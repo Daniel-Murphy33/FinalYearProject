@@ -1,8 +1,8 @@
 import { Pressable, Text, TextInput, View, StyleSheet,
-  SafeAreaView, FlatList, KeyboardAvoidingView } from 'react-native'
+  SafeAreaView, FlatList, KeyboardAvoidingView, TouchableOpacity } from 'react-native'
   import React, { useState, useEffect } from 'react'
   import { MaterialIcons } from '@expo/vector-icons'; 
-  import { addDoc, exerciseRef, onSnapshot, doc, db, setDoc } from '../firebase'
+  import { addDoc, collection, onSnapshot, doc, db, setDoc } from '../firebase'
   import {getAuth} from 'firebase/auth';
 
 // exercise object
@@ -11,20 +11,20 @@ const Exercise = () => {
 
     //fields for Exercise in firestore
   const [exerciseTitle, setTitle] = useState('');
-  const [exerciseDescription, setExerciseDescription] = useState('');
+  const [exerciseDescription, setDescription] = useState('');
   
   //setting the state
   const [exercises, setExercises] = useState([]);
   const [loading, setLoading] = useState(true);
 
   //Create in Firesotre
-  const addExercise = async() => {
+  const AddExercise = async() => {
 
     const uidRef = doc(db, 'users', getAuth().currentUser.uid);
 
     if(getAuth().currentUser) {
       try {
-        const uidRef = doc(db, 'Exercise', getAuth().currentUser.uid);
+        const uidRef = doc(db, 'workout', getAuth().currentUser.uid);
         const docRef = await setDoc(uidRef, {
           title: exerciseTitle,
           description: exerciseDescription,
@@ -33,37 +33,28 @@ const Exercise = () => {
       catch (e) {
         console.error("Error adding document: ", e);
       }
+      setTitle("");
+      setDescription("");
     }
 };
 
-  //getting from firestore
-  // const getExercise = async() => {
+  // getting from firestore
+  const getExercise = async() => {
 
-  //   const subscriber = onSnapshot(exerciseRef, (snapshot) => {
-  //     let exercises = []
-  //       snapshot.docs.forEach((doc) => {
-  //         exercises.push({...doc.data(), key: doc.id })
-  //       })
-  //       setExerciseList(exercises);
-  //       setLoading(false);
-  //       console.log(exercises);
-  //   })
-  //   return () => subscriber();
-  // };
+    // get user
+    if(getAuth().currentUser) {
 
-  const getExercise = async => {
-
-      if(getAuth().currentUser) {
-        const uidRef = doc(db, 'Exercise', getAuth().currentUser.uid);
-  
-        const subscriber = onSnapshot(uidRef, (doc) => {
-            setExercises({...doc.data(), key: doc.id})
+    const uidRef = collection(db, 'workout');
+    const subscriber = onSnapshot(uidRef, (snapshot) => {
+      let exercises = []
+        snapshot.docs.forEach((doc) => {
+          exercises.push({...doc.data(), key: doc.id })
         })
+        setExercises(exercises);
         console.log(exercises);
-      }
-      else {
-        //not logged in
-      }
+    })
+    return () => subscriber();
+  }
   };
 
   useEffect ( () => {
@@ -89,17 +80,19 @@ const Exercise = () => {
             style={styles.input} 
             value={exerciseTitle} 
             onChangeText={(text) => setTitle(text)} 
-            onSubmitEditing={addExercise} 
           /> 
           <TextInput
             placeholder="Enter description"
             placeholderTextColor="black"
             style={styles.input}
             value={exerciseDescription}
-            onChangeText={(text) => setExerciseDescription(text)}
-            onSubmitEditing={addExercise}
+            onChangeText={(text) => setDescription(text)}
           /> 
         </KeyboardAvoidingView>
+
+        <TouchableOpacity onPress={AddExercise} style={styles.button} >
+          <Text style={styles.buttonText}>Add Excercise</Text>
+        </TouchableOpacity>
 
         {/* List for rendering items  */}
         <FlatList
@@ -149,6 +142,20 @@ const styles = StyleSheet.create({
     fontSize: 30,
     flex: 1,
     marginTop: 20,
+  },
+
+  button: {
+    backgroundColor: '#0792F9',
+    width: '100%',
+    padding: 15,
+    borderRadius: 10, 
+    alignItems: 'center',
+  },
+
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    // fontSize: 16,
   },
 
   noOfExercises: {
