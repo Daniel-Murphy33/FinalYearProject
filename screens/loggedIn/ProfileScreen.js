@@ -1,7 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react'
 import { Text, TouchableOpacity, StyleSheet } from 'react-native'
-import { usersRef, onSnapshot } from '../../firebase';
+import { doc, db, onSnapshot } from '../../firebase';
+import {getAuth} from 'firebase/auth';
 
 const ProfileScreen = () => {
 
@@ -14,16 +15,17 @@ const ProfileScreen = () => {
 
   const getUser = async() => {
 
-    const subscriber = onSnapshot(usersRef, (snapshot) => {
-      let user = []
-        snapshot.docs.forEach((doc) => {
-          user.push({...doc.data(), key: doc.id })
-        })
-        setUser(user);
-        // setLoading(false);
-        console.log(user);
-    })
-    return () => subscriber();
+    if(getAuth().currentUser) {
+      const uidRef = doc(db, 'users', getAuth().currentUser.uid);
+
+      const subscriber = onSnapshot(uidRef, (doc) => {
+          setUser({...doc.data(), key: doc.id})
+          console.log(user);
+      })
+    }
+    else {
+      //not logged in
+    }
   };
 
   useEffect ( () => {

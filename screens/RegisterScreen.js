@@ -12,7 +12,7 @@ import { StyleSheet,
   import { auth, usersRef, addDoc, setDoc, doc, db } from '../firebase';
   import { useNavigation } from '@react-navigation/core';
   
-  const LoginScreen = () => {
+  const RegisterScreen = () => {
   
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -36,51 +36,27 @@ import { StyleSheet,
     //function for signing up
     const handleSignUp = async () => {
       auth
+      //creates with email and password and uid
       .createUserWithEmailAndPassword(email, password)
       .then(async (UserCredentials) => {
         const user = UserCredentials.user;
         console.log("Registered with: ", user.email);
-
+        //Adding extra user details to users and linking with uid
         try {
           const uidRef = doc(db, 'users', user.uid);
-
           const docRef = await setDoc(uidRef, {
             name: name,
             age: age,
             currentWeight: currentWeight,
             goalWeight: goalWeight,
           });
-        } catch (e) {
+        } 
+        catch (e) {
           console.error("Error adding document: ", e);
         }
-
-        // AddDetails();
       })
       .catch(error => alert(error.message))
     }
-    
-
-    const AddDetails = async() => {      
-
-      try {
-        const docRef = await addDoc(usersRef, {
-          name: name,
-          age: age,
-          currentWeight: currentWeight,
-          goalWeight: goalWeight,
-        });
-        console.log("Document written with ID: ", docRef.id);
-        setName("");
-        setAge("");
-        setCurrentWeight(""),
-        setGoalWeight ("");
-      } catch (e) {
-        console.error("Error adding document: ", e);
-      }
-      //has to be called or else details dont get added untill signout ??
-      // handleSignUp();
-    };
-  
   
     return (
       //allows for dismissing keyboard
@@ -132,7 +108,7 @@ import { StyleSheet,
     )
   }
   
-  export default LoginScreen
+  export default RegisterScreen
   
   const styles = StyleSheet.create({
       container: {

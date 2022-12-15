@@ -2,7 +2,8 @@ import { Pressable, Text, TextInput, View, StyleSheet,
   SafeAreaView, FlatList, KeyboardAvoidingView } from 'react-native'
   import React, { useState, useEffect } from 'react'
   import { MaterialIcons } from '@expo/vector-icons'; 
-  import { addDoc, exerciseRef, onSnapshot } from '../firebase'
+  import { addDoc, exerciseRef, onSnapshot, doc, db, setDoc } from '../firebase'
+  import {getAuth} from 'firebase/auth';
 
 // exercise object
 
@@ -13,37 +14,56 @@ const Exercise = () => {
   const [exerciseDescription, setExerciseDescription] = useState('');
   
   //setting the state
-  const [exercises, setExerciseList] = useState([]);
+  const [exercises, setExercises] = useState([]);
   const [loading, setLoading] = useState(true);
 
   //Create in Firesotre
   const addExercise = async() => {
-    try {
-      const docRef = await addDoc(colRef, {
-        title: exerciseTitle,
-        description: exerciseDescription,
-      });
-      console.log("Document written with ID: ", docRef.id);
-      setTitle("");
-      setExerciseDescription("");
-    } catch (e) {
-      console.error("Error adding document: ", e);
+
+    const uidRef = doc(db, 'users', getAuth().currentUser.uid);
+
+    if(getAuth().currentUser) {
+      try {
+        const uidRef = doc(db, 'Exercise', getAuth().currentUser.uid);
+        const docRef = await setDoc(uidRef, {
+          title: exerciseTitle,
+          description: exerciseDescription,
+        });
+      } 
+      catch (e) {
+        console.error("Error adding document: ", e);
+      }
     }
-  };
+};
 
   //getting from firestore
-  const getExercise = async() => {
+  // const getExercise = async() => {
 
-    const subscriber = onSnapshot(exerciseRef, (snapshot) => {
-      let exercises = []
-        snapshot.docs.forEach((doc) => {
-          exercises.push({...doc.data(), key: doc.id })
+  //   const subscriber = onSnapshot(exerciseRef, (snapshot) => {
+  //     let exercises = []
+  //       snapshot.docs.forEach((doc) => {
+  //         exercises.push({...doc.data(), key: doc.id })
+  //       })
+  //       setExerciseList(exercises);
+  //       setLoading(false);
+  //       console.log(exercises);
+  //   })
+  //   return () => subscriber();
+  // };
+
+  const getExercise = async => {
+
+      if(getAuth().currentUser) {
+        const uidRef = doc(db, 'Exercise', getAuth().currentUser.uid);
+  
+        const subscriber = onSnapshot(uidRef, (doc) => {
+            setExercises({...doc.data(), key: doc.id})
         })
-        setExerciseList(exercises);
-        setLoading(false);
         console.log(exercises);
-    })
-    return () => subscriber();
+      }
+      else {
+        //not logged in
+      }
   };
 
   useEffect ( () => {
