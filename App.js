@@ -13,6 +13,10 @@ import WorkoutScreen from './screens/loggedIn/WorkoutScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import NutritionScreen from './screens/loggedIn/NutritionScreen';
 import RegisterScreen from './screens/RegisterScreen';
+import EditUserScreen from './screens/loggedIn/EditUserScreen';
+import HomeWorkoutScreen from './screens/loggedIn/HomeWorkoutScreen';
+
+
 
 export default function App() {
 
@@ -71,7 +75,9 @@ export default function App() {
             {/* Home Screen */}
             <Tab.Screen name="Home"
              component={HomeScreen}
-             options={{headerRight: () => (
+             options={{
+              headerShown:false,
+              headerRight: () => (
               <Button
                 onPress={handleSignOut}
                 title="Sign Out"
@@ -115,13 +121,6 @@ export default function App() {
             {/* Profile Screen  */}
             <Tab.Screen name="Profile" 
             component={ProfileScreen} 
-            options={{headerRight: () => (
-              <Button
-                onPress={handleSignOut}
-                title="Sign Out"
-                color="#0792F9"
-              />
-            ),}}
             />
           </Tab.Navigator>
   )}
@@ -132,7 +131,16 @@ export default function App() {
           <Stack.Navigator>
             <Stack.Screen name="HomeTabs"
               component={HomeTabs}
-              options={{headerShown:false}}/>
+              options={{headerShown:false}}
+            />
+            <Stack.Screen name="EditUser"
+            component={EditUserScreen}
+            options={{headerShown:false}}
+            />
+            <Stack.Screen name="Recommended Workout"
+            component={HomeWorkoutScreen}
+            options={{headerShown:true}}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       )

@@ -24,9 +24,10 @@
     "@react-navigation/native-stack": "^6.9.4",
     "@react-navigation/stack": "^6.3.7",
     "expo": "~47.0.8",
-    "expo-linking": "^3.2.3",
+    "expo-linking": "~3.3.0",
     "expo-status-bar": "~1.4.2",
     "firebase": "^9.14.0",
+    "native-base": "^3.4.25",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
@@ -39,7 +40,8 @@
     "react-native-web": "~0.18.9",
     "styled-components": "^5.3.6",
     "uid": "^2.0.1",
-    "upgrade": "^1.1.0"
+    "upgrade": "^1.1.0",
+    "react-native-svg": "13.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

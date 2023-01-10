@@ -20,12 +20,10 @@ const Exercise = () => {
   //Create in Firesotre
   const AddExercise = async() => {
 
-    const uidRef = doc(db, 'users', getAuth().currentUser.uid);
-
     if(getAuth().currentUser) {
       try {
-        const uidRef = doc(db, 'workout', getAuth().currentUser.uid);
-        const docRef = await setDoc(uidRef, {
+        const uidRef = collection(db, 'workout');
+        const docRef = await addDoc(uidRef, {
           title: exerciseTitle,
           description: exerciseDescription,
         });

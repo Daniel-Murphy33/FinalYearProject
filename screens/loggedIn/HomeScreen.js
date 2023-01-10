@@ -1,83 +1,63 @@
-import { StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { auth } from '../../firebase'
-import { useNavigation } from '@react-navigation/core'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import {View, Text, Image, StyleSheet, ScrollView} from 'react-native'
+import FitnessCards from '../../components/FitnessCards';
 
 const HomeScreen = () => {
-  const navigation = useNavigation()
-
-  const handleSignOut = () => {
-    auth
-    .signOut()
-    .catch(error => alert(error.message))
-  }
-
-  const WorkoutScreenPage= () => {
-    //works for screens in same stack
-    navigation.navigate("Workouts")
-  }
-  const AnalyticsScreenPage= () => {
-    //works for screens in same stack
-    navigation.navigate("Analytics")
-  }
-  const ProfileScreenPage= () => {
-    //works for screens in same stack
-    navigation.navigate("Profile")
-  }
-
-  return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.heading}>Welcome {auth.currentUser?.email} !</Text>
-        <View style={styles.container}>
-        <TouchableOpacity onPress={WorkoutScreenPage} style={styles.button}>
-            <Text style={styles.buttonText}>Workouts</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={AnalyticsScreenPage} style={styles.button}>
-            <Text style={styles.buttonText}>Analytics</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={ProfileScreenPage} style={styles.button}>
-            <Text style={styles.buttonText}>Profile</Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-        onPress={handleSignOut}
-        style={styles.button}>
-          <Text style={styles.buttonText}>Sign Out</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
-  )
+    return(
+        <ScrollView style={styles.container}>
+           <View style={styles.headerBlockWrapper}>
+               <View style={styles.headerBlock}>
+                   <View style={{width:"50%"}}>
+                        <Text style={styles.headerText}>Welcome Daniel</Text>
+                   </View>
+                   <View style={{width:"50%",alignItems:"flex-end"}}>
+                      <Image
+                          source={require('../../assets/logo-no-bg.png')}
+                          style={{height:60,width:90}}
+                      />
+                   </View>
+               </View>
+               <Image style={{
+                  width: 320,
+                  height: 130,
+                  marginTop: 25,
+                  borderRadius: 15,
+                  marginLeft: 7.5
+                  
+                }}
+                source={require('../../assets/Home1.jpg')}
+                />
+            <FitnessCards style={{marginTop:20}}/>
+           </View>
+        </ScrollView>
+    )
 }
-
-export default HomeScreen
+export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#FFF',
     flex: 1,
-    justifyContent: 'center',
-    alignitems: 'center',
+    marginTop:45
+  }, 
+  headerBlockWrapper: {
+    backgroundColor:"#4682B4",
+    height:"28%",
+    borderBottomLeftRadius:20,
+    borderBottomRightRadius:20,
+    paddingHorizontal:20
   },
-  
-  button: {
-    backgroundColor: '#0792F9',
-    width: '95%',
-    padding: 15,
-    borderRadius: 10, 
-    alignItems: 'center',
-    marginTop: 20,
-    alignSelf: 'center'
+  headerBlock: {
+    flexDirection:"row",
+    alignItems:"center",
+    marginTop:25,
+    width:"100%"
+  },
+  headerText: {
+    fontSize:28,
+    color:"#FFF",
+    fontWeight:"bold"
   },
 
-  buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
 
-  heading: {
-    fontWeight: '900',
-    fontStyle: 'bold',
-    fontSize: 30,
-    textAlign: 'center',
-    marginTop: 20,
-  },
 })
