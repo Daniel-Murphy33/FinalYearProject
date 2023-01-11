@@ -15,7 +15,7 @@ import NutritionScreen from './screens/loggedIn/NutritionScreen';
 import RegisterScreen from './screens/RegisterScreen';
 import EditUserScreen from './screens/loggedIn/EditUserScreen';
 import HomeWorkoutScreen from './screens/loggedIn/HomeWorkoutScreen';
-
+import HomeExerciseScreen from './screens/loggedIn/HomeExerciseScreen';
 
 
 export default function App() {
@@ -140,6 +140,10 @@ export default function App() {
             <Stack.Screen name="Recommended Workout"
             component={HomeWorkoutScreen}
             options={{headerShown:true}}
+            />
+            <Stack.Screen name="ExerciseScreen"
+            component={HomeExerciseScreen}
+            options={{headerShown:false}}
             />
           </Stack.Navigator>
         </NavigationContainer>
