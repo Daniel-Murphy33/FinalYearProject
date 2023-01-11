@@ -1,23 +1,24 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
-import { useRoute } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const HomeExerciseScreen = () => {
 
+    const navigation = useNavigation();
     const route = useRoute();
     const[index, setIndex] = useState(0);
     const exercise = route.params.excersises;
     const current = exercise[index]
-    console.log(current);
+    // console.log(current);
   return (
     <SafeAreaView>
       <Image source={{url:current.image}} style={styles.image}/>
       <Text style={styles.title}>{current.name}</Text>
       <Text style={styles.sets}>x{current.sets} Sets</Text>
       <Text style={styles.sets}>x{current.reps} Reps</Text>
-      <TouchableOpacity style={styles.doneBtn}>
-        <Text style={styles.btnText}>DONE</Text>
+      <TouchableOpacity style={styles.doneBtn} onPress={() => navigation.goBack()}>
+        <Text style={styles.btnText}>FINISH WORKOUT</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.prevBtn}>
         <Text style={styles.btnText}>PREVIOUS</Text>

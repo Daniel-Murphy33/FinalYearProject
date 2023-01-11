@@ -16,6 +16,7 @@ import RegisterScreen from './screens/RegisterScreen';
 import EditUserScreen from './screens/loggedIn/EditUserScreen';
 import HomeWorkoutScreen from './screens/loggedIn/HomeWorkoutScreen';
 import HomeExerciseScreen from './screens/loggedIn/HomeExerciseScreen';
+import HomeSingleExercise from './screens/loggedIn/HomeSingleExercise';
 
 
 export default function App() {
@@ -23,7 +24,6 @@ export default function App() {
   const Tab = createBottomTabNavigator();
   const Stack = createNativeStackNavigator();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isDetailsfilled, setIsDetailsFilled] = useState(true);
 
   //for signout button
   const handleSignOut = () => {
@@ -143,6 +143,10 @@ export default function App() {
             />
             <Stack.Screen name="ExerciseScreen"
             component={HomeExerciseScreen}
+            options={{headerShown:false}}
+            />
+            <Stack.Screen name="HomeExercise"
+            component={HomeSingleExercise}
             options={{headerShown:false}}
             />
           </Stack.Navigator>

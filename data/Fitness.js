@@ -13,6 +13,7 @@ export default [
           name: "JUMPING JACKS",
           sets:4,
           reps:20,
+          screen: 'HomeExercise',
         },
         {
             id:"12",
@@ -20,6 +21,7 @@ export default [
             name:"INCLINED PUSH-UPS",
             sets:3,
             reps:10,
+            screen: 'HomeExercise',
         },
         {
             id:"13",
@@ -27,6 +29,7 @@ export default [
             name:"WIDE ARM PUSH-UPS",
             sets:3,
             reps:10,
+            screen: 'HomeExercise',
         },
         {
             id:"14",
@@ -34,6 +37,7 @@ export default [
             name:"COBRA STRETCH",
             sets:3,
             reps:20,
+            screen: 'HomeExercise',
         },
         {
             id:"15",
@@ -41,6 +45,7 @@ export default [
             name:"CHEST STRETCH",
             sets:3,
             reps:10,
+            screen: 'HomeExercise',
         },
         {
           id:"16",
@@ -48,6 +53,7 @@ export default [
           name: "OVERHEAD SQUAT",
           sets:3,
           reps:10,
+          screen: 'HomeExercise',
         }
       ],
     },
@@ -64,6 +70,7 @@ export default [
           name:"JUMPING JACKS",
           sets:4,
           reps:20,
+          screen: 'HomeExercise',
         },
         {
           id:"91",
@@ -71,6 +78,7 @@ export default [
           name:"MOUNTAIN CLIMBERS",
           sets:4,
           reps:20,
+          screen: 'HomeExercise',
         },
         {
           id:"92",
@@ -78,6 +86,7 @@ export default [
           name:"HEEL TOUCH",
           sets:3,
           reps:10,
+          screen: 'HomeExercise',
         },
         {
           id:"94",
@@ -85,6 +94,7 @@ export default [
           name:"PLANK",
           sets:3,
           reps:"1 minute",
+          screen: 'HomeExercise',
         },
         {
           id:"95",
@@ -92,6 +102,7 @@ export default [
           name:"LEG RAISES",
           sets:3,
           reps:10,
+          screen: 'HomeExercise',
         }
       ]
     },
@@ -108,6 +119,7 @@ export default [
           name:"ARM RAISES",
           sets:3,
           reps:10,
+          screen: 'HomeExercise',
         },
         {
           id:"71",
@@ -115,6 +127,7 @@ export default [
           name:"TRICEP DIPS",
           sets:3,
           reps:8,
+          screen: 'HomeExercise',
         },
         {
           id:"72",
@@ -122,6 +135,7 @@ export default [
           name:"DIAMOND_PUSHUP",
           sets:3,
           reps:8,
+          screen: 'HomeExercise',
         },
         {
           id:"73",
@@ -129,6 +143,7 @@ export default [
           name:"PUSH-UPS",
           sets:3,
           reps:10,
+          screen: 'HomeExercise',
         },
         {
           id:"74",
@@ -136,6 +151,7 @@ export default [
           name:"DUMBELL CURL",
           sets:3,
           reps:10,
+          screen: 'HomeExercise',
         
         },
         {
@@ -144,6 +160,7 @@ export default [
           name:"INCH WORMS",
           sets:3,
           reps:10,
+          screen: 'HomeExercise',
         },
         {
           id:"76",
@@ -151,6 +168,7 @@ export default [
           name:"TRICEP LIFT",
           sets:3,
           reps:10,
+          screen: 'HomeExercise',
         }
       ]
     },
@@ -167,6 +185,7 @@ export default [
           name:"DECLINE PUSH-UPS",
           sets:3,
           reps:10,
+          screen: 'HomeExercise',
         },
         {
           id:"21",
@@ -174,6 +193,7 @@ export default [
           name:"HINDU PUSH-UPS",
           sets:3,
           reps:8,
+          screen: 'HomeExercise',
         },
         {
           id:"22",
@@ -181,6 +201,7 @@ export default [
           name:"SHOULDER STRETCH",
           sets:3,
           reps:12,
+          screen: 'HomeExercise',
         },
         {
           id:"23",
@@ -188,6 +209,7 @@ export default [
           name:"COBRA STRETCH",
           sets:4,
           reps:10,
+          screen: 'HomeExercise',
         },
         {
           id:"25",
@@ -195,6 +217,7 @@ export default [
           name:"PUSH-UP & ROTATION",
           sets:3,
           reps:10,
+          screen: 'HomeExercise',
         },
         {
           id:"26",
@@ -202,6 +225,7 @@ export default [
           name:"BURPEES",
           sets:3,
           reps:10,
+          screen: 'HomeExercise',
         }
       ]
     },

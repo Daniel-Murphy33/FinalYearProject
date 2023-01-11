@@ -13,16 +13,23 @@ const HomeWorkoutScreen = () => {
         <ScrollView style={styles.container} >
             <Image style={styles.headerImage} source={{ url: route.params.image }} />
             <Ionicons style={styles.icon} name="fitness" size={32} color="white" />
-
+            
             {route.params.excersises.map((item, index) => (
-                <Pressable style={styles.gif} key={index}>
+                <TouchableOpacity style={styles.gif} key={index} onPress={() => navigation.navigate(item.screen, {
+                    image: item.image,
+                    name: item.name,
+                    sets: item.sets,
+                    reps: item.reps,
+                    screen: item.screen,
+                    id: item.id,
+                })}>
                     <Image style={styles.exeImage} source={{url:item.image}} />
                     <View style={{marginLeft: 6}}>
                         <Text style={styles.title}>{item.name}</Text>
                         <Text style={styles.sets}>x{item.sets} Sets</Text>
                         <Text style={styles.sets}>x{item.reps} Reps</Text>
                     </View>
-                </Pressable>
+                </TouchableOpacity>
             ))}
         </ScrollView>
         <TouchableOpacity onPress={() => navigation.navigate("ExerciseScreen", {
