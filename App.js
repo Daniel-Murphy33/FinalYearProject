@@ -17,6 +17,7 @@ import EditUserScreen from './screens/loggedIn/EditUserScreen';
 import HomeWorkoutScreen from './screens/loggedIn/HomeWorkoutScreen';
 import HomeExerciseScreen from './screens/loggedIn/HomeExerciseScreen';
 import HomeSingleExercise from './screens/loggedIn/HomeSingleExercise';
+import AddWorkoutScreen from './screens/loggedIn/AddWorkoutScreen';
 
 
 export default function App() {
@@ -105,7 +106,7 @@ export default function App() {
                 title="Sign Out"
                 color="#0792F9"
               />
-            ),}}
+            ),headerShown:false}}
             />
             {/* Analytics Screen  */}
             <Tab.Screen name="Analytics" 
@@ -148,6 +149,10 @@ export default function App() {
             <Stack.Screen name="HomeExercise"
             component={HomeSingleExercise}
             options={{headerShown:false}}
+            />
+            <Stack.Screen name="AddWorkout"
+            component={AddWorkoutScreen}
+            options={{headerShown: false}}
             />
           </Stack.Navigator>
         </NavigationContainer>

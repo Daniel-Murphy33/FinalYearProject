@@ -11,7 +11,7 @@ const HomeScreen = () => {
                         <Text style={styles.headerText}>Welcome Daniel</Text>
                    </View>
                    <View style={{width:"50%",alignItems:"flex-end"}}>
-                      <Image source={require('../../assets/logo-no-bg.png')} style={{height:60,width:90}} />
+                      <Image source={require('../../assets/logo-no-bg.jpg')} style={{height:60,width:90}} />
                    </View>
                </View>
                <Image style={styles.headerImage} source={require('../../assets/Home1.jpg')} />
@@ -51,8 +51,7 @@ const styles = StyleSheet.create({
     height: 130,
     marginTop: 25,
     borderRadius: 15,
-    marginLeft: 7.5,
+    alignSelf:'center',
+    
   },
-
-
 })

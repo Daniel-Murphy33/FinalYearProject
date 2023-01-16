@@ -1,52 +1,48 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react'
-import { Text, TouchableOpacity, StyleSheet, View, FlatList, ScrollView, Image } from 'react-native'
-import { doc, collection, db, onSnapshot } from '../../firebase';
-import {getAuth} from 'firebase/auth';
+import { Text, TouchableOpacity, StyleSheet, View, ScrollView, Image } from 'react-native'
+import { doc, db, getDoc } from '../../firebase';
+import { getAuth } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { auth } from '../../firebase';
 
+
+
 const ProfileScreen = () => {
 
-  const [user, setUser] = useState();
+  const uid = getAuth().currentUser.uid;
+  const userCred = getAuth().currentUser;
+  const [user, setUser] = useState({});
   const navigation = useNavigation();
 
   const EditUserScreen = () => {
     navigation.navigate('EditUser')
   }
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
     auth
-    .signOut()
-    .catch(error => alert(error.message))
+      .signOut()
+      .catch(error => alert(error.message))
   }
 
-  const getUser = () => {
-
-    if(getAuth().currentUser) {
-      const uidRef = doc(db, 'users', getAuth().currentUser.uid);
-
-      const subscriber = onSnapshot(uidRef, (doc) => {
-        setUser({...doc.data(), key: doc.id})
-      })
-      console.log(user);
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+        const userRef = await doc(db, 'users', uid);
+        const userSnapshot = await getDoc(userRef);
+        await setUser(userSnapshot.data());
     }
-    else {
-    }
-  };
-
-  // useEffect (  () => {
-  //   getUser();
-  // }, []);
+    console.log("Current data: ", user)
+    fetchUserProfile();
+}, []);
 
   return (
-    <SafeAreaView style={{flex:1, backgroundColor:'white'}}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
       <ScrollView
         style={styles.container}
-        contentContainerStyle={{justifyContent:'center', alignItems:'center'}}
+        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
         showsVerticalScrollIndicator={false}
       >
-        <Image style={styles.userImg} source={require('../../assets/TAG.png')}/>
+        <Image style={styles.userImg} source={require('../../assets/TAG.png')} />
         <Text style={styles.userName}>Daniel Murphy</Text>
         <Text style={styles.aboutUser}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent aliquam nisl ut pellentesque sollicitudin. Vivamus vel risus eget dolor faucibus rutrum.
         </Text>
@@ -72,6 +68,11 @@ const ProfileScreen = () => {
             <Text style={styles.userInfoTitle}>25</Text>
             <Text style={styles.userInfoSubTitle}>Client's</Text>
           </View>
+          <View>
+            <Text>Name: {user.name}</Text>
+            <Text>Email: {userCred.email}</Text>
+            <Text>Age: {user.age}</Text>
+        </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#0792F9',
     width: '100%',
     padding: 15,
-    borderRadius: 10, 
+    borderRadius: 10,
     alignItems: 'center',
   },
   userImg: {
