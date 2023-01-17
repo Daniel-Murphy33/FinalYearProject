@@ -4,7 +4,7 @@ import {WorkoutTemplate} from '../../components/WorkoutTemplate'
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-const WorkoutScreen = () => {
+const AllWorkoutScreen = () => {
 
   const navigation = useNavigation();
 
@@ -15,15 +15,12 @@ const WorkoutScreen = () => {
       <Text style={styles.subTitle}>Add Workout Template</Text>
       <TouchableOpacity style={styles.createWorkoutBtn} onPress={() => navigation.navigate("AddWorkout")}>
         <Text style={styles.btnText}>Create Workout Template</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.createWorkoutBtn} onPress={() => navigation.navigate("AllWoorkout")}>
-        <Text style={styles.btnText}>View All Workouts</Text>
       </TouchableOpacity>    
     </SafeAreaView>
   )
 }
 
-export default WorkoutScreen
+export default AllWorkoutScreen
 
 const styles = StyleSheet.create({
   container:{

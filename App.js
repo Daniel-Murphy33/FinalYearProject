@@ -95,7 +95,7 @@ export default function App() {
                 title="Sign Out"
                 color="#0792F9"
               />
-            ),}}
+            ), headerShown:false}}
             />
             {/* Workout Screen  */}
             <Tab.Screen name="Workouts"
@@ -117,7 +117,7 @@ export default function App() {
                 title="Sign Out"
                 color="#0792F9"
               />
-            ),}}
+            ), headerShown:false}}
             />
             {/* Profile Screen  */}
             <Tab.Screen name="Profile" 

@@ -43,9 +43,11 @@ const ProfileScreen = () => {
         showsVerticalScrollIndicator={false}
       >
         <Image style={styles.userImg} source={require('../../assets/TAG.png')} />
-        <Text style={styles.userName}>Daniel Murphy</Text>
-        <Text style={styles.aboutUser}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent aliquam nisl ut pellentesque sollicitudin. Vivamus vel risus eget dolor faucibus rutrum.
-        </Text>
+        <Text style={styles.userName}>{user.name}</Text>
+        <Text style={styles.aboutUser}>Email : {userCred.email}</Text>
+        <Text style={styles.aboutUser}>Age : {user.age}</Text>
+        <Text style={styles.aboutUser}>Current Weight : {user.currentWeight}</Text>
+        <Text style={styles.aboutUser}>Goal Weight : {user.goalWeight}</Text>
         <View style={styles.userBtnWrapper}>
           <TouchableOpacity style={styles.userBtn} onPress={EditUserScreen}>
             <Text style={styles.userBtnTxt}>Edit Profile</Text>
@@ -68,11 +70,6 @@ const ProfileScreen = () => {
             <Text style={styles.userInfoTitle}>25</Text>
             <Text style={styles.userInfoSubTitle}>Client's</Text>
           </View>
-          <View>
-            <Text>Name: {user.name}</Text>
-            <Text>Email: {userCred.email}</Text>
-            <Text>Age: {user.age}</Text>
-        </View>
         </View>
       </ScrollView>
     </SafeAreaView>
