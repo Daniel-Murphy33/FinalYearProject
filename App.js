@@ -19,6 +19,7 @@ import HomeExerciseScreen from './screens/loggedIn/HomeExerciseScreen';
 import HomeSingleExercise from './screens/loggedIn/HomeSingleExercise';
 import AddWorkoutScreen from './screens/loggedIn/AddWorkoutScreen';
 import AllWorkoutScreen from './screens/loggedIn/AllWorkoutScreen';
+import AddExerciseScreen from './screens/loggedIn/AddExerciseScreen';
 
 
 export default function App() {
@@ -157,6 +158,10 @@ export default function App() {
             />
             <Stack.Screen name="AllWorkout"
             component={AllWorkoutScreen}
+            options={{headerShown: false}}
+            />
+            <Stack.Screen name="AddExercise"
+            component={AddExerciseScreen}
             options={{headerShown: false}}
             />
           </Stack.Navigator>

@@ -278,7 +278,7 @@ export default [
         },
         {
             id:"15",
-            image:"hhttps://media.tenor.com/4QuqUJ4HCM4AAAAd/cadeira-extensora-treino-mestre.gif",
+            image:"https://media.tenor.com/4QuqUJ4HCM4AAAAd/cadeira-extensora-treino-mestre.gif",
             name:"Leg Extensions",
             sets:3,
             reps:10,

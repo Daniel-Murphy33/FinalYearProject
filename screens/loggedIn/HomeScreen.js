@@ -1,11 +1,11 @@
 import React from 'react'
-import { View, Text, Image, StyleSheet, ScrollView, SafeAreaView } from 'react-native'
+import { View, Text, Image, StyleSheet, ScrollView } from 'react-native'
 import FitnessCards from '../../components/FitnessCards';
 
 const HomeScreen = () => {
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.headerBlockWrapper}>
         <View style={styles.headerBlock}>
           <View style={{ width: "50%" }}>
@@ -22,7 +22,7 @@ const HomeScreen = () => {
         />
         <FitnessCards style={{ marginTop: 20 }} />
       </View>
-    </SafeAreaView>
+    </ScrollView>
   )
 }
 export default HomeScreen;

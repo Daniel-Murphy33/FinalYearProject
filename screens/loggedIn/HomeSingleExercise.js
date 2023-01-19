@@ -11,7 +11,7 @@ const JumpingJacks = () => {
 
   return (
     <SafeAreaView>
-      <Image source={{url:exercise.image}} style={styles.image}/>
+      <Image source={{uri:exercise.image}} style={styles.image}/>
       <Text style={styles.title}>{exercise.name}</Text>
       <Text style={styles.sets}>x{exercise.sets} Sets</Text>
       <Text style={styles.sets}>x{exercise.reps} Reps</Text>
