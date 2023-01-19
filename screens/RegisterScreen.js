@@ -33,7 +33,7 @@ const RegisterScreen = () => {
 
   //navigating through screens
   const ForgotPasswordScreen = () => {
-    navigation.navigate("ForgotPassword")
+    navigation.navigate("Forgot Password?")
   }
 
   //function for signing up
@@ -104,7 +104,9 @@ const RegisterScreen = () => {
           <TouchableOpacity onPress={LoginScreenPage} style={[styles.button, styles.buttonOutline]} >
             <Text style={styles.buttonOutlineText}>Back To Login</Text>
           </TouchableOpacity>
-          <Button title={"Forgot Password ?"} onPress={ForgotPasswordScreen} style={styles.button} />
+          <TouchableOpacity onPress={ForgotPasswordScreen} style={[styles.button, styles.buttonOutline]} >
+            <Text style={styles.buttonOutlineText}>Forgot Password ?</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>

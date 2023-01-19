@@ -12,6 +12,7 @@ const Exercise = () => {
     //fields for Exercise in firestore
   const [exerciseTitle, setTitle] = useState('');
   const [exerciseDescription, setDescription] = useState('');
+  const uid = getAuth().currentUser.uid;
   
   //setting the state
   const [exercises, setExercises] = useState([]);
@@ -20,7 +21,7 @@ const Exercise = () => {
   //Create in Firesotre
   const AddExercise = async() => {
 
-    if(getAuth().currentUser) {
+    if(uid) {
       try {
         const uidRef = collection(db, 'workout');
         const docRef = await addDoc(uidRef, {
@@ -44,7 +45,7 @@ const Exercise = () => {
 
     const uidRef = collection(db, 'workout');
     const subscriber = onSnapshot(uidRef, (snapshot) => {
-      let exercises = []
+      // let exercises = []
         snapshot.docs.forEach((doc) => {
           exercises.push({...doc.data(), key: doc.id })
         })
@@ -95,6 +96,7 @@ const Exercise = () => {
         {/* List for rendering items  */}
         <FlatList
         data={exercises}
+        // keyExtractor={item => item.id}
         renderItem={({item}) => (
           <View style={styles.container}>
             <Text>Exercise Title: {item.title}</Text>

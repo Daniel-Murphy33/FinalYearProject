@@ -10,12 +10,13 @@ const AllWorkoutScreen = () => {
 
   return(
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Start Workout</Text>
+      {/* <Text style={styles.title}>Start Workout</Text>
       <MaterialIcons style={styles.icon} name="fitness-center" size={35} color="#0792F9" />
       <Text style={styles.subTitle}>Add Workout Template</Text>
       <TouchableOpacity style={styles.createWorkoutBtn} onPress={() => navigation.navigate("AddWorkout")}>
         <Text style={styles.btnText}>Create Workout Template</Text>
-      </TouchableOpacity>    
+      </TouchableOpacity>  */}
+      <Exercise/>  
     </SafeAreaView>
   )
 }

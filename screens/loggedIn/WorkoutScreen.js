@@ -16,7 +16,7 @@ const WorkoutScreen = () => {
       <TouchableOpacity style={styles.createWorkoutBtn} onPress={() => navigation.navigate("AddWorkout")}>
         <Text style={styles.btnText}>Create Workout Template</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.createWorkoutBtn} onPress={() => navigation.navigate("AllWoorkout")}>
+      <TouchableOpacity style={styles.ViewWorkoutBtn} onPress={() => navigation.navigate("AllWorkout")}>
         <Text style={styles.btnText}>View All Workouts</Text>
       </TouchableOpacity>    
     </SafeAreaView>
@@ -56,6 +56,15 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 30,
     borderRadius: 20,
+  },
+  ViewWorkoutBtn: {
+    alignSelf:'center',
+    top:70,
+    backgroundColor: '#0792F9',
+    width: '80%',
+    height: 30,
+    borderRadius: 20,
+    margin: 20,
   },
   btnText: {
     textAlign:'center',

@@ -13,7 +13,7 @@ const HomeExerciseScreen = () => {
     // console.log(current);
   return (
     <SafeAreaView>
-      <Image source={{url:current.image}} style={styles.image}/>
+      <Image source={{uri:current.image}} style={styles.image}/>
       <Text style={styles.title}>{current.name}</Text>
       <Text style={styles.sets}>x{current.sets} Sets</Text>
       <Text style={styles.sets}>x{current.reps} Reps</Text>

@@ -18,6 +18,7 @@ import HomeWorkoutScreen from './screens/loggedIn/HomeWorkoutScreen';
 import HomeExerciseScreen from './screens/loggedIn/HomeExerciseScreen';
 import HomeSingleExercise from './screens/loggedIn/HomeSingleExercise';
 import AddWorkoutScreen from './screens/loggedIn/AddWorkoutScreen';
+import AllWorkoutScreen from './screens/loggedIn/AllWorkoutScreen';
 
 
 export default function App() {
@@ -154,6 +155,10 @@ export default function App() {
             component={AddWorkoutScreen}
             options={{headerShown: false}}
             />
+            <Stack.Screen name="AllWorkout"
+            component={AllWorkoutScreen}
+            options={{headerShown: false}}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       )
@@ -168,7 +173,7 @@ export default function App() {
             component={LoginScreen} 
             options={{headerShown: false}}
             />
-            <Stack.Screen name="ForgotPassword"
+            <Stack.Screen name="Forgot Password?"
             component={ForgotPasswordScreen}
             />
             <Stack.Screen name="Register"

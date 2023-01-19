@@ -25,7 +25,7 @@ const LoginScreen = () => {
   
   //navigating through screens
   const ForgotPasswordScreen = () => {
-    navigation.navigate("ForgotPassword")
+    navigation.navigate("Forgot Password?")
   }
 
   //function for signing in 
@@ -65,7 +65,9 @@ const LoginScreen = () => {
           <TouchableOpacity onPress={RegisterUserScreen} style={[styles.button, styles.buttonOutline]} >
             <Text style={styles.buttonOutlineText}>Register</Text>
           </TouchableOpacity>
-          <Button title={"Forgot Password ?"} onPress={ForgotPasswordScreen} style={styles.button} />
+          <TouchableOpacity onPress={ForgotPasswordScreen} style={[styles.button, styles.buttonOutline]} >
+            <Text style={styles.buttonOutlineText}>Forgot Password ?</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -99,7 +101,6 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       marginTop: 40,
     },
-
     button: {
       backgroundColor: '#0792F9',
       width: '100%',
@@ -107,7 +108,13 @@ const styles = StyleSheet.create({
       borderRadius: 10, 
       alignItems: 'center',
     },
-
+    pressable: {
+      // backgroundColor: 'white',
+      width: '100%',
+      padding: 15,
+      borderRadius: 10, 
+      alignItems: 'center',
+    },
     buttonText: {
       color: 'white',
       fontWeight: 'bold',

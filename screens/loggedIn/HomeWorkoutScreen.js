@@ -11,7 +11,7 @@ const HomeWorkoutScreen = () => {
     return (
         <>
         <ScrollView style={styles.container} >
-            <Image style={styles.headerImage} source={{ url: route.params.image }} />
+            <Image style={styles.headerImage} source={{ uri: route.params.image }} />
             <Ionicons style={styles.icon} name="fitness" size={32} color="white" />
             
             {route.params.excersises.map((item, index) => (
@@ -23,7 +23,7 @@ const HomeWorkoutScreen = () => {
                     screen: item.screen,
                     id: item.id,
                 })}>
-                    <Image style={styles.exeImage} source={{url:item.image}} />
+                    <Image style={styles.exeImage} source={{uri:item.image}} />
                     <View style={{marginLeft: 6}}>
                         <Text style={styles.title}>{item.name}</Text>
                         <Text style={styles.sets}>x{item.sets} Sets</Text>

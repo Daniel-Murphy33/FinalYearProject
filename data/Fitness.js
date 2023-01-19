@@ -229,5 +229,62 @@ export default [
         }
       ]
     },
+    {
+      id: "4",
+      image:
+        "https://img.freepik.com/free-photo/athletic-blonde-woman-sportswear-doing-exercise-legs-press-machine-gym_613910-21244.jpg?w=1380&t=st=1674044066~exp=1674044666~hmac=b9497d848158d60990928787b83b2353efec940601c714a0d4acc7ac35d37104",
+      name: "Legs Beginner",
+      description: "7x4 CHALLENGE",
+      excersises: [
+        {
+          id:"95",
+          image:"https://www.gymguider.com/wp-content/uploads/2017/10/straight-leg-raise.gif",
+          name:"LEG RAISES",
+          sets:3,
+          reps:10,
+          screen: 'HomeExercise',
+        },
+        {
+          id:"16",
+          image: "https://media.giphy.com/media/gZjWOobMpP0qVp6Nli/giphy.gif",
+          name: "OVERHEAD SQUAT",
+          sets:3,
+          reps:10,
+          screen: 'HomeExercise',
+        },
+        {
+          id:"91",
+          image:"https://i.pinimg.com/originals/18/27/be/1827be178c019b1dc6f8a8d8b4a7b0b8.gif",
+          name:"MOUNTAIN CLIMBERS",
+          sets:4,
+          reps:10,
+          screen: 'HomeExercise',
+        },
+        {
+            id:"13",
+            image:"https://media.tenor.com/mJOEY9LTMrAAAAAC/squat.gif",
+            name:"NORMAL SQUATS",
+            sets:3,
+            reps:10,
+            screen: 'HomeExercise',
+        },
+        {
+            id:"14",
+            image:"https://media.tenor.com/fWiC9Ze5eUMAAAAC/lunges-exercise.gif",
+            name:"Lunges",
+            sets:3,
+            reps:10,
+            screen: 'HomeExercise',
+        },
+        {
+            id:"15",
+            image:"hhttps://media.tenor.com/4QuqUJ4HCM4AAAAd/cadeira-extensora-treino-mestre.gif",
+            name:"Leg Extensions",
+            sets:3,
+            reps:10,
+            screen: 'HomeExercise',
+        },
+      ],
+    },
   ];
   
