@@ -142,7 +142,7 @@ const Exercise = () => {
         />
       </KeyboardAvoidingView>
 
-      <TouchableOpacity onPress={AddExercise} style={styles.button} >
+      <TouchableOpacity style={styles.button} >
         <Text style={styles.buttonText}>Add Excercise</Text>
       </TouchableOpacity>
 

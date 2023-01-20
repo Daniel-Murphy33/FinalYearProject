@@ -19,6 +19,7 @@ const WorkoutScreen = () => {
       <TouchableOpacity style={styles.ViewWorkoutBtn} onPress={() => navigation.navigate("AllWorkout")}>
         <Text style={styles.btnText}>View All Workouts</Text>
       </TouchableOpacity>    
+      <Text style={styles.title2}>Recent Workouts</Text>
     </SafeAreaView>
   )
 }
@@ -36,6 +37,13 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: 'bold',
     top:40,
+    left:25
+  },
+  title2: {
+    textAlign: 'left',
+    fontSize: 30,
+    fontWeight: 'bold',
+    top:55,
     left:25
   },
   subTitle: {
@@ -56,15 +64,16 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 30,
     borderRadius: 20,
+    margin: 23,
   },
   ViewWorkoutBtn: {
     alignSelf:'center',
-    top:70,
+    top:55,
     backgroundColor: '#0792F9',
     width: '80%',
     height: 30,
     borderRadius: 20,
-    margin: 20,
+    margin: 40,
   },
   btnText: {
     textAlign:'center',

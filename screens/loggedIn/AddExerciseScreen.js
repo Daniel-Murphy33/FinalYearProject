@@ -1,5 +1,6 @@
-import { StyleSheet, Text, KeyboardAvoidingView, TextInput, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, TextInput, SafeAreaView, View, Pressable } from 'react-native'
 import React, { useState } from 'react'
+import { MaterialIcons } from '@expo/vector-icons';
 
 const AddExerciseScreen = () => {
 
@@ -10,7 +11,7 @@ const AddExerciseScreen = () => {
     const [reps, setReps] = useState('');
     const [sets, setSets] = useState('');
     const [bodyPart, setBodyPart] = useState('');
-    
+
     //setting the state
     const [exercises, setExercises] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -45,7 +46,15 @@ const AddExerciseScreen = () => {
     };
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.container}>
+            <View style={styles.header}>
+                {/* heading */}
+                <Text style={styles.heading}>Add Exercise</Text>
+                {/* delete all  */}
+                <Pressable>
+                    <MaterialIcons name="delete" size={32} color="black" />
+                </Pressable>
+            </View>
             <TextInput
                 placeholder='Enter Excercise'
                 placeholderTextColor="black"
@@ -63,6 +72,7 @@ const AddExerciseScreen = () => {
             <TextInput
                 placeholder="Enter Starting Weight"
                 placeholderTextColor="black"
+                keyboardType=''
                 style={styles.input}
                 value={startWeight}
                 onChangeText={(text) => setStartWeight(text)}
@@ -95,6 +105,9 @@ const AddExerciseScreen = () => {
                 value={bodyPart}
                 onChangeText={(text) => setBodyPart(text)}
             />
+            <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>Submit</Text>
+            </TouchableOpacity>
         </SafeAreaView>
     )
 }
@@ -102,14 +115,31 @@ const AddExerciseScreen = () => {
 export default AddExerciseScreen
 
 const styles = StyleSheet.create({
+    container: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    input: {
+        width: '90%',
+        height: 40,
+        borderColor: 'black',
+        borderWidth: 2,
+        marginVertical: 10,
+        padding: 10,
+    },
     button: {
         backgroundColor: '#0792F9',
-        width: '100%',
         padding: 15,
-        borderRadius: 10,
-        alignItems: 'center',
-      },
-      header: {
+        marginTop: 20,
+        borderRadius: 20,
+        width: '50%'
+    },
+    buttonText: {
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    header: {
         flexDirection: 'row',
         width: '90%',
         alignSelf: 'center',
@@ -117,35 +147,13 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: 10,
-      },
-    
-      heading: {
+    },
+
+    heading: {
         fontWeight: '900',
         fontStyle: 'bold',
         fontSize: 30,
         flex: 1,
         marginTop: 20,
-      },
-
-      buttonText: {
-        color: 'white',
-        fontWeight: 'bold',
-        // fontSize: 16,
-      },
-    
-      noOfExercises: {
-        fontSize: 20,
-        fontWeight: '500',
-        marginRight: 20,
-      },
-    
-      input: {
-        backgroundColor: 'lightgrey',
-        padding: 10,
-        fontSize: 17,
-        width: '90%',
-        alignSelf: 'center',
-        marginTop: 'auto',
-        borderRadius: 10,
-      },
+    },
 })

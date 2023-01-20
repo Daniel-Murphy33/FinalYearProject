@@ -1,169 +1,126 @@
-import {
-  Pressable, Text, TextInput, View, StyleSheet,
-  SafeAreaView, FlatList, KeyboardAvoidingView, TouchableOpacity
-} from 'react-native'
-import React, { useState, useEffect } from 'react'
+import { StyleSheet, Text, TouchableOpacity, TextInput, SafeAreaView, View, Pressable } from 'react-native'
+import React, { useState } from 'react'
 import { MaterialIcons } from '@expo/vector-icons';
-import { addDoc, collection, onSnapshot, doc, db, setDoc } from '../../firebase'
-import { getAuth } from 'firebase/auth';
-import { useNavigation } from '@react-navigation/native';
 
-// exercise object
+const AddExerciseScreen = () => {
 
-const AddWorkoutScreen = () => {
+    const [day, setDay] = useState('');
+    const [description, setDescription] = useState('');
+    const [exercises, setExercises] = useState([]);
+    const [trainingType, settrainingType] = useState('');
 
-  //setting the state
-  const [exercises, setExercises] = useState([]);
-  const navigation = useNavigation();
+    //Create in Firesotre
+    const AddExercise = async () => {
 
-  // getting from firestore
-  const getExercise = async () => {
+        if (getAuth().currentUser) {
+            try {
+                const uidRef = collection(db, 'workout');
+                const docRef = await addDoc(uidRef, {
+                    day: day,
+                    description: description,
+                    exercises: exercises,
+                    trainingType: trainingType,
 
-    // get user
-    if (getAuth().currentUser) {
+                });
+            }
+            catch (e) {
+                console.error("Error adding document: ", e);
+            }
+            setDay("");
+            setDescription("");
+            setExercises("");
+            settrainingType("");
+        }
+    };
 
-      const uidRef = collection(db, 'workout');
-      const subscriber = onSnapshot(uidRef, (snapshot) => {
-        let exercises = []
-        snapshot.docs.forEach((doc) => {
-          exercises.push({ ...doc.data(), key: doc.id })
-        })
-        setExercises(exercises);
-        console.log(exercises);
-      })
-      return () => subscriber();
-    }
-  };
-
-  useEffect(() => {
-    getExercise();
-  }, []);
-
-  return (
-    <SafeAreaView style={styles.heading}>
-      <View style={styles.header}>
-        {/* heading */}
-        <Text style={styles.heading}>Exercise List</Text>
-        {/* delete all  */}
-        <Pressable>
-          <MaterialIcons name="delete" size={32} color="black" />
-        </Pressable>
-      </View>
-      <TouchableOpacity onPress={() => navigation.navigate("AddExercise")} style={styles.button} >
-        <Text style={styles.buttonText}>Add Excercise</Text>
-      </TouchableOpacity>
-
-      {/* List for rendering items  */}
-      <FlatList
-        data={exercises}
-        renderItem={({ item }) => (
-          <View style={styles.exerciseContainer}>
-            <Text style={styles.exerciseName}>{item.title}</Text>
-            <Text style={styles.exerciseSetsReps}>
-              Sets: x{item.sets} Reps: x{item.reps} Weight: {item.weight}
-            </Text>
-          </View>
-        )}
-      />
-    </SafeAreaView>
-  )
+    return (
+        <SafeAreaView style={styles.container}>
+            <View style={styles.header}>
+                {/* heading */}
+                <Text style={styles.heading}>Add Workout</Text>
+                {/* delete all  */}
+                <Pressable>
+                    <MaterialIcons name="delete" size={32} color="black" />
+                </Pressable>
+            </View>
+            <TextInput
+                placeholder='Enter Day'
+                placeholderTextColor="black"
+                style={styles.input}
+                value={day}
+                onChangeText={(text) => setDay(text)}
+            />
+            <TextInput
+                placeholder="Enter Description"
+                placeholderTextColor="black"
+                style={styles.input}
+                value={description}
+                onChangeText={(text) => setDescription(text)}
+            />
+            <TextInput
+                placeholder="Enter Exercise"
+                placeholderTextColor="black"
+                keyboardType=''
+                style={styles.input}
+                value={exercises}
+                onChangeText={(text) => setExercises(text)}
+            />
+            <TextInput
+                placeholder="Enter Training Type"
+                placeholderTextColor="black"
+                style={styles.input}
+                value={trainingType}
+                onChangeText={(text) => settrainingType(text)}
+            />
+            <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>Submit</Text>
+            </TouchableOpacity>
+        </SafeAreaView>
+    )
 }
 
-export default AddWorkoutScreen
+export default AddExerciseScreen
 
 const styles = StyleSheet.create({
-
-  container2: {
-    flex: 1,
-    backgroundColor: '#fafafa',
-    padding: 10,
-  },
-  exerciseContainer: {
-    backgroundColor: '#fff',
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
+    container: {
+        alignItems: 'center',
+        justifyContent: 'center',
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  exerciseName: {
-    fontSize: 25,
-    fontWeight: 'bold',
-  },
-  exerciseSetsReps: {
-    fontSize: 16.5,
-    color: 'gray',
-    marginTop: 5,
-    fontWeight: 'bold',
-  },
+    input: {
+        width: '90%',
+        height: 40,
+        borderColor: 'black',
+        borderWidth: 2,
+        marginVertical: 10,
+        padding: 10,
+    },
+    button: {
+        backgroundColor: '#0792F9',
+        padding: 15,
+        marginTop: 20,
+        borderRadius: 20,
+        width: '50%'
+    },
+    buttonText: {
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    header: {
+        flexDirection: 'row',
+        width: '90%',
+        alignSelf: 'center',
+        padding: 10,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
 
-  container: {
-    backgroundColor: 'lightgrey',
-    padding: 10,
-    alignItems: 'center',
-    width: '90%',
-    alignSelf: 'center',
-    borderRadius: 15,
-    marginTop: 20,
-  },
-
-  innerContainer: {
-    alignItems: 'center',
-    flexDirection: 'column'
-  },
-
-  header: {
-    flexDirection: 'row',
-    width: '90%',
-    alignSelf: 'center',
-    padding: 10,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-
-  heading: {
-    fontWeight: '900',
-    fontStyle: 'bold',
-    fontSize: 30,
-    flex: 1,
-    marginTop: 20,
-  },
-
-  button: {
-    backgroundColor: '#0792F9',
-    width: '100%',
-    padding: 15,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-
-  buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
-    // fontSize: 16,
-  },
-
-  noOfExercises: {
-    fontSize: 20,
-    fontWeight: '500',
-    marginRight: 20,
-  },
-
-  input: {
-    backgroundColor: 'lightgrey',
-    padding: 10,
-    fontSize: 17,
-    width: '90%',
-    alignSelf: 'center',
-    marginTop: 'auto',
-    borderRadius: 10,
-  },
+    heading: {
+        fontWeight: '900',
+        fontStyle: 'bold',
+        fontSize: 30,
+        flex: 1,
+        marginTop: 20,
+    },
 })
