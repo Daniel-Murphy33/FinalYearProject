@@ -63,7 +63,6 @@ const Exercise = () => {
 
       const uidRef = collection(db, 'workout');
       const subscriber = onSnapshot(uidRef, (snapshot) => {
-        // let exercises = []
         snapshot.docs.forEach((doc) => {
           exercises.push({ ...doc.data(), key: doc.id })
         })

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, TextInput, SafeAreaView, View, Pressable } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, TextInput, SafeAreaView, View, Pressable, Button } from 'react-native'
 import React, { useState } from 'react'
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -12,16 +12,24 @@ const AddExerciseScreen = () => {
     const [sets, setSets] = useState('');
     const [bodyPart, setBodyPart] = useState('');
 
+
+    //letting user add exercise fields
+    const [fields, setFields] = useState([{ value: '' }]);
+
     //setting the state
     const [exercises, setExercises] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const handleAddField = () => {
+        setExercises([...fields, { value: '' }]);
+      };
 
     //Create in Firesotre
     const AddExercise = async () => {
 
         if (getAuth().currentUser) {
             try {
-                const uidRef = collection(db, 'workout');
+                const uidRef = collection(db, 'exercise');
                 const docRef = await addDoc(uidRef, {
                     title: exerciseTitle,
                     description: exerciseDescription,
@@ -108,6 +116,7 @@ const AddExerciseScreen = () => {
             <TouchableOpacity style={styles.button}>
                 <Text style={styles.buttonText}>Submit</Text>
             </TouchableOpacity>
+            <Button title="Add Field" onPress={handleAddField} />
         </SafeAreaView>
     )
 }

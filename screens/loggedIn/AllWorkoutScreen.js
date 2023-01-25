@@ -3,7 +3,7 @@ import {
   SafeAreaView, FlatList, KeyboardAvoidingView, TouchableOpacity
 } from 'react-native'
 import React, { useState, useEffect } from 'react'
-import { MaterialIcons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 import { addDoc, collection, onSnapshot, doc, db, setDoc } from '../../firebase'
 import { getAuth } from 'firebase/auth';
 import { useNavigation } from '@react-navigation/native';
@@ -46,7 +46,7 @@ const AllWorkoutScreen = () => {
         <Text style={styles.heading}>Workout List</Text>
         {/* delete all  */}
         <Pressable>
-          <MaterialIcons name="delete" size={32} color="black" />
+          <Entypo name="menu" size={30} color="black" />
         </Pressable>
       </View>
 
@@ -56,12 +56,12 @@ const AllWorkoutScreen = () => {
         data={exercises}
         key={(item) => item.id}
         renderItem={({ item }) => (
-          <View style={styles.exerciseContainer}>
-            <Text style={styles.exerciseName}>{item.title}</Text>
+          <TouchableOpacity style={styles.exerciseContainer}>
+            <Text style={styles.title}>{item.day}</Text>
             <Text style={styles.exerciseSetsReps}>
-              Sets: x{item.sets} Reps: x{item.reps} Weight: {item.weight}
+              {item.description} - {item.trainingType}
             </Text>
-          </View>
+          </TouchableOpacity>
         )}
       />
     </SafeAreaView>
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  exerciseName: {
+  title: {
     fontSize: 25,
     fontWeight: 'bold',
   },
