@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native'
-import FitnessCards from '../../components/FitnessCards';
+import FitnessCards from '../../../components/FitnessCards';
 
 const HomeScreen = () => {
 
@@ -12,7 +12,7 @@ const HomeScreen = () => {
             <Text style={styles.headerText}>Welcome Daniel</Text>
           </View>
           <View style={{ width: "50%", alignItems: "flex-end" }}>
-            <Image source={require('../../assets/logo-no-bg.jpg')} style={{ height: 60, width: 90 }} />
+            <Image source={require('../../../assets/logo-no-bg.jpg')} style={{ height: 60, width: 90 }} />
           </View>
         </View>
         <Image style={styles.headerImage} source={{

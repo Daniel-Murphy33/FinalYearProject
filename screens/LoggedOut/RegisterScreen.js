@@ -4,16 +4,12 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  TouchableWithoutFeedback,
-  Keyboard,
-  Button,
   Image,
   ScrollView,
 } from "react-native";
 import React, { useState } from "react";
-import { auth, usersRef, addDoc, setDoc, doc, db } from "../firebase";
+import { auth, setDoc, doc, db } from "../../firebase";
 import { useNavigation } from "@react-navigation/core";
-import { getAuth, updateProfile } from "firebase/auth";
 
 const RegisterScreen = () => {
   const [email, setEmail] = useState("");
@@ -64,7 +60,7 @@ const RegisterScreen = () => {
     <ScrollView>
       <View style={styles.container}>
         <Image
-          source={require("../assets/logo-no-bg.png")}
+          source={require("../../assets/logo-no-bg.png")}
           style={styles.logo}
         />
         <View style={styles.inputContainer}>

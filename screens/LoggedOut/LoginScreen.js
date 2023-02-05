@@ -8,7 +8,7 @@ import { StyleSheet,
   Button,
   Image } from 'react-native'
 import React, { useState } from 'react'
-import { auth } from '../firebase';
+import { auth } from '../../firebase';
 import { useNavigation } from '@react-navigation/core';
 
 const LoginScreen = () => {
@@ -45,7 +45,7 @@ const LoginScreen = () => {
       Keyboard.dismiss();
     }}>
       <View style={styles.container}>
-      <Image source={require('../assets/logo-no-bg.png')} style={styles.logo} />
+      <Image source={require('../../assets/logo-no-bg.png')} style={styles.logo} />
         <View style={styles.inputContainer}>
           <TextInput placeholder='Email'
           placeholderTextColor="black"

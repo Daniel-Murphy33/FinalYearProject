@@ -1,6 +1,6 @@
 import { View, StyleSheet, Text } from 'react-native'
 import React, { useState } from 'react'
-import { usersRef, addDoc } from '../../firebase';
+import { usersRef, addDoc } from '../../../firebase';
 
 
 const EditUserScreen = () => {    

@@ -4,7 +4,7 @@ import {
   View, TextInput, StyleSheet, Text, TouchableWithoutFeedback,
   Keyboard, TouchableOpacity, Image
 } from 'react-native'
-import { auth } from '../firebase';
+import { auth } from '../../firebase';
 
 const ForgotPasswordScreen = () => {
 
@@ -34,7 +34,7 @@ const ForgotPasswordScreen = () => {
       Keyboard.dismiss();
     }}>
       <View style={styles.container}>
-        <Image source={require('../assets/logo-no-bg.png')} style={styles.logo} />
+        <Image source={require('../../assets/logo-no-bg.png')} style={styles.logo} />
         <Text style={styles.heading}>Forgot your password?</Text>
         <Text style={styles.heading}>Enter your email address and we will send you a link to reset your password!</Text>
         <View style={styles.inputContainer}>

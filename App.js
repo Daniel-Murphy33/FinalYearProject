@@ -5,21 +5,22 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useEffect, useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { auth } from './firebase';
-import LoginScreen from './screens/LoginScreen';
-import HomeScreen from './screens/loggedIn/HomeScreen';
+import LoginScreen from './screens/LoggedOut/LoginScreen';
+import HomeScreen from './screens/loggedIn/HomeTab/HomeScreen';
 import AnalyticsScreen from './screens/loggedIn/AnalyticsScreen';
-import ProfileScreen from './screens/loggedIn/ProfileScreen';
-import WorkoutScreen from './screens/loggedIn/WorkoutScreen';
-import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
+import ProfileScreen from './screens/loggedIn/ProfileTab/ProfileScreen';
+import WorkoutScreen from './screens/loggedIn/WorkoutTab/WorkoutScreen';
+import ForgotPasswordScreen from './screens/LoggedOut/ForgotPasswordScreen';
 import NutritionScreen from './screens/loggedIn/NutritionScreen';
-import RegisterScreen from './screens/RegisterScreen';
-import EditUserScreen from './screens/loggedIn/EditUserScreen';
-import HomeWorkoutScreen from './screens/loggedIn/HomeWorkoutScreen';
-import HomeExerciseScreen from './screens/loggedIn/HomeExerciseScreen';
-import HomeSingleExercise from './screens/loggedIn/HomeSingleExercise';
-import AddWorkoutScreen from './screens/loggedIn/AddWorkoutScreen';
-import AllWorkoutScreen from './screens/loggedIn/AllWorkoutScreen';
+import RegisterScreen from './screens/LoggedOut/RegisterScreen';
+import EditUserScreen from './screens/loggedIn/ProfileTab/EditUserScreen';
+import HomeWorkoutScreen from './screens/loggedIn/HomeTab/HomeWorkoutScreen';
+import HomeExerciseScreen from './screens/loggedIn/HomeTab/HomeExerciseScreen';
+import HomeSingleExercise from './screens/loggedIn/HomeTab/HomeSingleExercise';
+import AddWorkoutScreen from './screens/loggedIn/WorkoutTab/AddWorkoutScreen';
+import AllWorkoutScreen from './screens/loggedIn/WorkoutTab/AllWorkoutScreen';
 import AddExerciseScreen from './screens/loggedIn/AddExerciseScreen';
+import CreatedWorkoutScreen from './screens/loggedIn/WorkoutTab/CreatedWorkoutScreen';
 
 
 export default function App() {
@@ -158,6 +159,10 @@ export default function App() {
             />
             <Stack.Screen name="AllWorkout"
             component={AllWorkoutScreen}
+            options={{headerShown: false}}
+            />
+            <Stack.Screen name="CreatedWorkout"
+            component={CreatedWorkoutScreen}
             options={{headerShown: false}}
             />
             <Stack.Screen name="AddExercise"

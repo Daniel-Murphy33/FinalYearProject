@@ -11,8 +11,8 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { getAuth } from "firebase/auth";
-import { doc, addDoc, collection } from "firebase/firestore";
-import { db } from "../../firebase";
+import { doc, addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db } from "../../../firebase";
 import { useNavigation } from "@react-navigation/native";
 
 const AddWorkoutScreen = () => {
@@ -25,7 +25,7 @@ const AddWorkoutScreen = () => {
   const [trainingType, setTrainingType] = useState("");
   //contains name sets and reps for each exercise
   const [exercises, setExercises] = useState([
-    { value: "", sets: "", reps: "" },
+    { name: "", sets: "", reps: "" },
   ]);
 
   const handleAddField = () => {
@@ -34,7 +34,7 @@ const AddWorkoutScreen = () => {
 
   const handleChangeExercise = (index, text) => {
     const newExercises = [...exercises];
-    newExercises[index].value = text;
+    newExercises[index].name = text;
     setExercises(newExercises);
   };
 
@@ -62,6 +62,7 @@ const AddWorkoutScreen = () => {
           description: description,
           exercises: exercises,
           trainingType: trainingType,
+          createdAt: serverTimestamp(),
         });
       } catch (e) {
         console.log(e);
@@ -69,7 +70,7 @@ const AddWorkoutScreen = () => {
 
       setDay("");
       setDescription("");
-      setExercises([{ value: "" }]);
+      setExercises([{ name: "" }]);
       setTrainingType("");
       console.log(exercises);
     }
@@ -109,29 +110,34 @@ const AddWorkoutScreen = () => {
           onChangeText={(text) => setTrainingType(text)}
         />
         {exercises.map((field, index) => (
-          <View key={index} style={styles.container}>
+          <View
+          key={index}
+          style={{ ...styles.container, flexDirection: "row", alignItems: 'center', justifyContent: 'space-between' }}
+        >
+          <TextInput
+            style={{ ...styles.input2, width: "30%", }}
+            placeholder="Enter Exercise"
+            placeholderTextColor={"black"}
+            onChangeText={(text) => handleChangeExercise(index, text)}
+            value={field.name}
+          />
+          <View style={styles.setsRepsContainer}>
             <TextInput
-              style={styles.input}
-              placeholder="Enter Exercise"
-              placeholderTextColor={"black"}
-              onChangeText={(text) => handleChangeExercise(index, text)}
-              value={field.value}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Enter Sets"
+              style={styles.input2}
+              placeholder="Sets"
               placeholderTextColor={"black"}
               onChangeText={(text) => handleChangeSets(index, text)}
               value={field.sets}
             />
             <TextInput
-              style={styles.input}
-              placeholder="Enter Reps"
+              style={styles.input2}
+              placeholder="Reps"
               placeholderTextColor={"black"}
               onChangeText={(text) => handleChangeReps(index, text)}
               value={field.reps}
             />
           </View>
+        </View>
         ))}
 
         <TouchableOpacity style={styles.button} onPress={handleAddField}>
@@ -158,6 +164,42 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  header: {
+    flexDirection: "row",
+    width: "90%",
+    alignSelf: "center",
+    padding: 10,
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 10,
+    borderBottomWidth: 2,
+    borderBottomColor: "#ddd",
+    marginVertical: 20,
+  },
+  setsRepsContainer: {
+    flexDirection: "row",
+    marginTop: 10,
+    justifyContent:'space-between',
+    alignItems: 'center',
+  },
+  input2: {
+    height: 40,
+    borderColor: "black",
+    borderWidth: 2,
+    marginVertical: 10,
+    padding: 10,
+    borderRadius: 5,
+    fontSize: 18,
+    marginHorizontal: 5,
+  }, 
+  heading: {
+    fontWeight: "900",
+    fontStyle: "bold",
+    fontSize: 30,
+    flex: 1,
+    marginTop: 20,
+    textAlign: "center",
+  },
   input: {
     width: "90%",
     height: 40,
@@ -165,6 +207,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     marginVertical: 10,
     padding: 10,
+    fontSize: 18,
   },
   button: {
     backgroundColor: "#0792F9",
@@ -184,22 +227,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
-  },
-  header: {
-    flexDirection: "row",
-    width: "90%",
-    alignSelf: "center",
-    padding: 10,
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-
-  heading: {
-    fontWeight: "900",
-    fontStyle: "bold",
-    fontSize: 30,
-    flex: 1,
-    marginTop: 20,
+    fontSize: 18,
   },
 });

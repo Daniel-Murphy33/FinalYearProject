@@ -18,9 +18,10 @@ import {
   doc,
   db,
   setDoc,
-} from "../../firebase";
+} from "../../../firebase";
 import { getAuth } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
+import WorkoutCards from "../../../components/WorkoutCards";
 
 // exercise object
 
@@ -31,28 +32,6 @@ const AllWorkoutScreen = () => {
   //setting the state
   const [exercises, setExercises] = useState([]);
   const navigation = useNavigation();
-
-  // getting from firestore
-  const getExercise = async () => {
-    // get user
-    if (user) {
-      const docRef = doc(db, "users", user.uid);
-      const colRef = collection(docRef, "workouts");
-      const subscriber = onSnapshot(colRef, (snapshot) => {
-        let exercises = [];
-        snapshot.docs.forEach((doc) => {
-          exercises.push({ ...doc.data(), key: doc.id });
-        });
-        setExercises(exercises);
-        console.log(exercises);
-      });
-      return () => subscriber();
-    }
-  };
-
-  useEffect(() => {
-    getExercise();
-  }, []);
 
   return (
     <SafeAreaView style={styles.heading}>
@@ -65,24 +44,8 @@ const AllWorkoutScreen = () => {
         </Pressable>
       </View>
 
-      {/* List for rendering items  */}
-      <FlatList
-        data={exercises}
-        key={(item) => item.id}
-        renderItem={({ item }) => (
-          <TouchableOpacity style={styles.exerciseContainer}>
-            <Text style={styles.title}>{item.day}</Text>
-            <Text style={styles.exerciseSetsReps}>
-              {item.description} - {item.trainingType}
-            </Text>
-            {item.exercises.map((exercise, index) => (
-              <Text key={index} style={styles.exerciseSetsReps}>
-                {exercise.value} - Sets x{exercise.sets} - Reps x{exercise.reps}
-              </Text>
-            ))}
-          </TouchableOpacity>
-        )}
-      />
+      <WorkoutCards/>
+
     </SafeAreaView>
   );
 };

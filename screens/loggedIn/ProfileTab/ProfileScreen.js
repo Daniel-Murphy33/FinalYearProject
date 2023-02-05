@@ -1,10 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react'
 import { Text, TouchableOpacity, StyleSheet, View, ScrollView, Image } from 'react-native'
-import { doc, db, getDoc } from '../../firebase';
+import { doc, db, getDoc } from '../../../firebase';
 import { getAuth } from 'firebase/auth';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { auth } from '../../firebase';
+import { auth } from '../../../firebase';
 
 
 
@@ -24,14 +24,13 @@ const ProfileScreen = () => {
       .signOut()
       .catch(error => alert(error.message))
   }
+  const fetchUserProfile = async () => {
+    const userRef = doc(db, 'users', uid);
+    const userSnapshot = await getDoc(userRef);
+    await setUser(userSnapshot.data());
+}
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
-        const userRef = await doc(db, 'users', uid);
-        const userSnapshot = await getDoc(userRef);
-        await setUser(userSnapshot.data());
-    }
-    console.log("Current data: ", user)
     fetchUserProfile();
 }, []);
 
@@ -42,7 +41,7 @@ const ProfileScreen = () => {
         contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
         showsVerticalScrollIndicator={false}
       >
-        <Image style={styles.userImg} source={require('../../assets/TAG.png')} />
+        <Image style={styles.userImg} source={require('../../../assets/TAG.png')} />
         <Text style={styles.userName}>{user.name}</Text>
         <Text style={styles.aboutUser}>Email : {userCred.email}</Text>
         <Text style={styles.aboutUser}>Age : {user.age}</Text>
