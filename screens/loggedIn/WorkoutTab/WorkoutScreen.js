@@ -39,6 +39,7 @@ const WorkoutScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View>
       <Text style={styles.title}>Start Workout</Text>
       <MaterialIcons
         style={styles.icon}
@@ -61,7 +62,10 @@ const WorkoutScreen = () => {
       </TouchableOpacity>
       
       <Text style={styles.title2}>Recent Workouts</Text>
+      </View>
+      <View>
       <RecentWorkoutCard style={styles.card}/>
+      </View>
     </SafeAreaView>
   );
 };
@@ -73,6 +77,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
     flex: 1,
     marginTop: 45,
+  },
+  card: {
+    
   },
   title: {
     textAlign: "left",

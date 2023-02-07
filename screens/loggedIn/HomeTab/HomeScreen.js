@@ -1,15 +1,33 @@
-import React from 'react'
+import { getAuth } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react'
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native'
 import FitnessCards from '../../../components/FitnessCards';
+import { db } from '../../../firebase';
+import ProfileScreen from '../ProfileTab/ProfileScreen';
 
 const HomeScreen = () => {
+
+  const [user, setUser] = useState({});
+  const uid = getAuth().currentUser.uid;
+
+  const fetchUserProfile = async () => {
+    const userRef = doc(db, 'users', uid);
+    const userSnapshot = await getDoc(userRef);
+    await setUser(userSnapshot.data());
+}
+
+  useEffect(() => {
+    fetchUserProfile();
+}, []);
+
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.headerBlockWrapper}>
         <View style={styles.headerBlock}>
           <View style={{ width: "50%" }}>
-            <Text style={styles.headerText}>Welcome Daniel</Text>
+            <Text style={styles.headerText}>Welcome {user.firstName}</Text>
           </View>
           <View style={{ width: "50%", alignItems: "flex-end" }}>
             <Image source={require('../../../assets/logo-no-bg.jpg')} style={{ height: 60, width: 90 }} />

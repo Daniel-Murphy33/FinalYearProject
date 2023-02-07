@@ -4,7 +4,7 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
-  SafeAreaView,
+  Modal,
   View,
   Pressable,
   ScrollView,
@@ -27,6 +27,8 @@ const AddWorkoutScreen = () => {
   const [exercises, setExercises] = useState([
     { name: "", sets: "", reps: "" },
   ]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const tchoices = ['Strength', 'Cardio', 'Hybrid'];
 
   const handleAddField = () => {
     setExercises([...exercises, { name: "" }]);
@@ -153,6 +155,32 @@ const AddWorkoutScreen = () => {
           <Text style={styles.buttonText}>Cancel</Text>
         </TouchableOpacity>
       </View>
+      <View style={styles.container2}>
+      <TouchableOpacity style={styles.button2} onPress={() => setModalVisible(true)}>
+        <Text style={styles.buttonText}> Show Exercises </Text>
+      </TouchableOpacity>
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <Text style={styles.header}>Exercise List:</Text>
+          {tchoices.map((exercise, index) => (
+            <Text key={index} style={styles.exercise}>
+              {exercise}
+            </Text>
+          ))}
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={() => setModalVisible(false)}
+          >
+            <Text style={styles.closeButtonText}>Close</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
+    </View>
     </ScrollView>
   );
 };
@@ -160,6 +188,36 @@ const AddWorkoutScreen = () => {
 export default AddWorkoutScreen;
 
 const styles = StyleSheet.create({
+  container2: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  button2: {
+    fontSize: 20,
+    padding: 10,
+    backgroundColor: 'lightblue',
+    borderRadius: 5,
+  },
+  modalContainer: {
+    padding: 20,
+  },
+  exercise: {
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  closeButton: {
+    marginTop: 20,
+    backgroundColor: 'lightblue',
+    padding: 10,
+    borderRadius: 5,
+  },
+  closeButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+
+
   container: {
     alignItems: "center",
     justifyContent: "center",

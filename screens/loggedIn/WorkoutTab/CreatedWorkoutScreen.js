@@ -26,7 +26,7 @@ export default CreatedWorkout;
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
+      // flex: 1,
       padding: 20,
       backgroundColor: '#fff',
     },

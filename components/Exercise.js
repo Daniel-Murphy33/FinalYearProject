@@ -26,32 +26,28 @@ const Exercise = () => {
   const [loading, setLoading] = useState(true);
 
   //Create in Firesotre
-  const AddExercise = async () => {
-
-    if (uid) {
+  const addExercise = async () => {
+    const user = getAuth().currentUser;
+    if (user) {
       try {
-        const uidRef = collection(db, 'workout');
-        const docRef = await addDoc(uidRef, {
-          title: exerciseTitle,
-          description: exerciseDescription,
-          startWeight: startWeight,
-          weight: weight,
-          reps: reps,
-          sets: sets,
-          bodyPart: bodyPart,
+        const docRef = doc(db, "users", user.uid);
+        const colRef = collection(docRef, "workouts");
+        addDoc(colRef, {
+          day: day,
+          description: description,
+          exercises: exercises,
+          trainingType: trainingType,
+          createdAt: serverTimestamp(),
         });
+      } catch (e) {
+        console.log(e);
       }
-      catch (e) {
-        console.error("Error adding document: ", e);
-      }
-      //sets field empty
-      setTitle("");
+
+      setDay("");
       setDescription("");
-      setStartWeight("");
-      setWeight("");
-      setReps("");
-      setSets('');
-      setBodyPart('');
+      setExercises([{ name: "" }]);
+      setTrainingType("");
+      console.log(exercises);
     }
   };
 

@@ -14,7 +14,8 @@ import { useNavigation } from "@react-navigation/core";
 const RegisterScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [age, setAge] = useState("");
   const [currentWeight, setCurrentWeight] = useState("");
   const [goalWeight, setGoalWeight] = useState("");
@@ -43,7 +44,8 @@ const RegisterScreen = () => {
         try {
           const uidRef = doc(db, "users", user.uid);
           await setDoc(uidRef, {
-            name: name,
+            firstName: firstName,
+            lastName: lastName,
             age: age,
             currentWeight: currentWeight,
             goalWeight: goalWeight,
@@ -81,10 +83,17 @@ const RegisterScreen = () => {
             secureTextEntry
           />
           <TextInput
-            placeholder="Full Name"
+            placeholder="First Name"
             placeholderTextColor="black"
-            value={name}
-            onChangeText={(text) => setName(text)}
+            value={firstName}
+            onChangeText={(text) => setFirstName(text)}
+            style={styles.input}
+          />
+          <TextInput
+            placeholder="Last Name"
+            placeholderTextColor="black"
+            value={lastName}
+            onChangeText={(text) => setLastName(text)}
             style={styles.input}
           />
           <TextInput
