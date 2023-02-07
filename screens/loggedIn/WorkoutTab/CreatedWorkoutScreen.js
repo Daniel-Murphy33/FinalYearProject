@@ -1,21 +1,25 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 
 const CreatedWorkout = ({ route, navigation }) => {
   const { day, exercises, description, trainingType } = route.params;
 
+  const handleExercisePress = (exercise) => {
+    navigation.navigate('CreatedExerciseScreen', { exercise });
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>{day} Workout</Text>
+      <TextInput style={styles.header} value={day}/>
       <View style={styles.workoutContainer}>
         <Text style={styles.workoutTitle}>{description} - {trainingType}</Text>
         {exercises.map((exercise, index) => (
-          <View key={index} style={styles.exerciseContainer}>
+          <TouchableOpacity key={index} style={styles.exerciseContainer} onPress={() => handleExercisePress(exercise)}>
             <Text style={styles.exerciseTitle}>Exercise {index + 1}  -  {exercise.name}</Text>
             <Text style={styles.exerciseInfo}>
               Sets x{exercise.sets} - Reps x{exercise.reps}
             </Text>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
     </View>
@@ -26,32 +30,30 @@ export default CreatedWorkout;
 
 const styles = StyleSheet.create({
     container: {
-      // flex: 1,
-      padding: 20,
+      flex: 1,
+      padding: 25,
       backgroundColor: '#fff',
     },
     header: {
-      fontSize: 20,
+      fontSize: 35,
       fontWeight: 'bold',
-      marginVertical: 20,
+      marginVertical: 35,
+      alignSelf: 'center',
     },
     workoutContainer: {
       backgroundColor: '#f2f2f2',
       padding: 20,
       borderRadius: 10,
-      marginVertical: 10,
+      marginVertical: 5,
+      alignItems: 'center',
     },
     workoutTitle: {
-      fontSize: 18,
+      fontSize: 26,
       fontWeight: 'bold',
       marginBottom: 10,
     },
-    workoutInfo: {
-      fontSize: 14,
-      marginBottom: 10,
-    },
     exerciseContainer: {
-      marginVertical: 10,
+      marginVertical: 20,
     },
     exerciseTitle: {
       fontSize: 16,
