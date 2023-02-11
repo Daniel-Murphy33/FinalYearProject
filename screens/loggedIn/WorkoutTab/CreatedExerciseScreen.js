@@ -5,20 +5,48 @@ import {
   View,
   TouchableOpacity,
   Button,
+  TextInput,
+  KeyboardAvoidingView,
+  ScrollView,
 } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
+import YoutubePlayer from "react-native-youtube-iframe";
+import { useEffect } from "react";
 
 const CreatedExerciseScreen = ({ route }) => {
   //gets params from last page
   const { exercise } = route.params;
   const navigation = useNavigation();
+  const [videoId, setVideoId] = useState("");
+  console.log(exercise.videoLink);
+
+  const extractId = () => {
+    if (exercise.videoLink) {
+      const extractedId = exercise.videoLink.slice(-11);
+      setVideoId(extractedId);
+    }
+  };
+
+  useEffect(() => {
+    extractId();
+  }, []);
 
   return (
     <SafeAreaView>
+      {videoId ? (
+        <YoutubePlayer height={300} play={false} videoId={videoId} />
+      ) : (
+        <Text style={styles.title}></Text>
+      )}
+
       <Text style={styles.title}>{exercise.name}</Text>
       <Text style={styles.sets}>x{exercise.sets} Sets</Text>
       <Text style={styles.sets}>x{exercise.reps} Reps</Text>
+      <KeyboardAvoidingView></KeyboardAvoidingView>
+      <TouchableOpacity style={styles.doneBtn} onPress={extractId}>
+        <Text style={styles.btnText}>Save</Text>
+      </TouchableOpacity>
 
       <TouchableOpacity
         style={styles.doneBtn}
@@ -36,7 +64,7 @@ const styles = StyleSheet.create({
   image: {
     width: "100%",
     height: 370,
-    backgroundColor:'black'
+    backgroundColor: "black",
   },
   title: {
     marginLeft: "auto",
@@ -49,6 +77,9 @@ const styles = StyleSheet.create({
     marginRight: "auto",
     fontSize: 36,
     top: 25,
+  },
+  video: {
+    top: 20,
   },
   doneBtn: {
     backgroundColor: "#0792F9",
@@ -85,5 +116,9 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  input: {
+    bottom: 70,
+    backgroundColor: "lightgrey",
   },
 });

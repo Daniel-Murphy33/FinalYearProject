@@ -41,7 +41,7 @@ const GetWorkout = async () => {
   }, []);
 
   return (
-    <View>
+    <View style={{ height: '90%' }}>
         {/* List for rendering items  */}
       <FlatList
         data={workouts}

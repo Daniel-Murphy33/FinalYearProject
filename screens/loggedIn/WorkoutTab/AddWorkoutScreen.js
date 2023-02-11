@@ -25,7 +25,7 @@ const AddWorkoutScreen = () => {
   const [trainingType, setTrainingType] = useState("");
   //contains name sets and reps for each exercise
   const [exercises, setExercises] = useState([
-    { name: "", sets: "", reps: "" },
+    { name: "", sets: "", reps: "", videoLink: "", },
   ]);
   const [modalVisible, setModalVisible] = useState(false);
   const tchoices = ['Strength', 'Cardio', 'Hybrid'];
@@ -49,6 +49,12 @@ const AddWorkoutScreen = () => {
   const handleChangeReps = (index, text) => {
     const newExercises = [...exercises];
     newExercises[index].reps = text;
+    setExercises(newExercises);
+  };
+
+  const handleChangeVideoLink = (index, text) => {
+    const newExercises = [...exercises];
+    newExercises[index].videoLink = text;
     setExercises(newExercises);
   };
 
@@ -137,6 +143,13 @@ const AddWorkoutScreen = () => {
               placeholderTextColor={"black"}
               onChangeText={(text) => handleChangeReps(index, text)}
               value={field.reps}
+            />
+            <TextInput
+              style={styles.input2}
+              placeholder="Youtube Video Link"
+              placeholderTextColor={"black"}
+              onChangeText={(text) => handleChangeVideoLink(index, text)}
+              value={field.videoLink}
             />
           </View>
         </View>

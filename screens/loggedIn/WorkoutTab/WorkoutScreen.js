@@ -63,9 +63,7 @@ const WorkoutScreen = () => {
       
       <Text style={styles.title2}>Recent Workouts</Text>
       </View>
-      <View>
       <RecentWorkoutCard style={styles.card}/>
-      </View>
     </SafeAreaView>
   );
 };
@@ -77,6 +75,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
     flex: 1,
     marginTop: 45,
+    height:'90%'
   },
   card: {
     
