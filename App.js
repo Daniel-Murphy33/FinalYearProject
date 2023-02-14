@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useEffect, useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { auth } from './firebase';
+import { auth, db, doc, getDoc } from './firebase';
 import LoginScreen from './screens/LoggedOut/LoginScreen';
 import HomeScreen from './screens/loggedIn/HomeTab/HomeScreen';
 import AnalyticsScreen from './screens/loggedIn/AnalyticsScreen';
@@ -22,6 +22,9 @@ import AllWorkoutScreen from './screens/loggedIn/WorkoutTab/AllWorkoutScreen';
 import AddExerciseScreen from './screens/loggedIn/AddExerciseScreen';
 import CreatedWorkoutScreen from './screens/loggedIn/WorkoutTab/CreatedWorkoutScreen';
 import CreatedExerciseScreen from './screens/loggedIn/WorkoutTab/CreatedExerciseScreen';
+import { getAuth } from 'firebase/auth';
+import ManageClientsScreen from './screens/loggedIn/ProfileTab/ManageClientsScreen';
+import AddClientsScreen from './screens/loggedIn/ProfileTab/AddClientsScreen';
 
 
 export default function App() {
@@ -29,6 +32,7 @@ export default function App() {
   const Tab = createBottomTabNavigator();
   const Stack = createNativeStackNavigator();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userData, setUserData] = useState("");
 
   //for signout button
   const handleSignOut = () => {
@@ -40,7 +44,16 @@ export default function App() {
   useEffect(() => {
     auth.onAuthStateChanged(user => {
       if (user) {
+        const uid = getAuth().currentUser.uid;
         setIsLoggedIn(true);
+
+        const fetchUserProfile = async () => {
+          const userRef = doc(db, 'users',uid); 
+          const userSnapshot = await getDoc(userRef);
+          await setUserData(userSnapshot.data());
+          console.log(userData);
+      }
+      fetchUserProfile();
       }
       else {
         setIsLoggedIn(false);
@@ -129,10 +142,69 @@ export default function App() {
             />
           </Tab.Navigator>
   )}
+  
 
     if(isLoggedIn==true) {
-      return (
-        <NavigationContainer>
+      if(userData.role == "trainer")
+      {
+        return (
+          <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="HomeTabs"
+              component={HomeTabs}
+              options={{headerShown:false}}
+            />
+            <Stack.Screen name="EditUser"
+            component={EditUserScreen}
+            options={{headerShown:false}}
+            />
+            <Stack.Screen name="ManageClients"
+            component={ManageClientsScreen}
+            options={{headerShown:false}}
+            />
+            <Stack.Screen name="AddClients"
+            component={AddClientsScreen}
+            options={{headerShown:false}}
+            />
+            <Stack.Screen name="Recommended Workout"
+            component={HomeWorkoutScreen}
+            options={{headerShown:true}}
+            />
+            <Stack.Screen name="ExerciseScreen"
+            component={HomeExerciseScreen}
+            options={{headerShown:false}}
+            />
+            <Stack.Screen name="HomeExercise"
+            component={HomeSingleExercise}
+            options={{headerShown:false}}
+            />
+            <Stack.Screen name="AddWorkout"
+            component={AddWorkoutScreen}
+            options={{headerShown: false}}
+            />
+            <Stack.Screen name="AllWorkout"
+            component={AllWorkoutScreen}
+            options={{headerShown: false}}
+            />
+            <Stack.Screen name="CreatedWorkout"
+            component={CreatedWorkoutScreen}
+            options={{headerShown: false}}
+            />
+            <Stack.Screen name="AddExercise"
+            component={AddExerciseScreen}
+            options={{headerShown: false}}
+            />
+            <Stack.Screen name="CreatedExerciseScreen"
+            component={CreatedExerciseScreen}
+            options={{headerShown: false}}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      )
+      }
+      else {
+        return (
+          <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen name="HomeTabs"
               component={HomeTabs}
@@ -177,6 +249,9 @@ export default function App() {
           </Stack.Navigator>
         </NavigationContainer>
       )
+
+      }
+      
     }
     
     else {

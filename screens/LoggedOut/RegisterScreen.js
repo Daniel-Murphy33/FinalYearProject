@@ -5,13 +5,25 @@ import {
   TouchableOpacity,
   View,
   Image,
-  ScrollView,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import React, { useState } from "react";
 import { auth, setDoc, doc, db } from "../../firebase";
 import { useNavigation } from "@react-navigation/core";
+import DropDownPicker from "react-native-dropdown-picker";
 
 const RegisterScreen = () => {
+  // for dropdown
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    { label: "Personal Trainer", value: "trainer" },
+    { label: "General User", value: "client" },
+  ]);
+
+  // user info
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -19,6 +31,7 @@ const RegisterScreen = () => {
   const [age, setAge] = useState("");
   const [currentWeight, setCurrentWeight] = useState("");
   const [goalWeight, setGoalWeight] = useState("");
+  const [role, setRole] = useState(null);
 
   const navigation = useNavigation();
 
@@ -43,7 +56,9 @@ const RegisterScreen = () => {
         //Adding extra user details to users and linking with uid
         try {
           const uidRef = doc(db, "users", user.uid);
+          setRole(value)
           await setDoc(uidRef, {
+            role: value,
             firstName: firstName,
             lastName: lastName,
             age: age,
@@ -59,88 +74,104 @@ const RegisterScreen = () => {
 
   return (
     //allows for dismissing keyboard
-    <ScrollView>
-      <View style={styles.container}>
-        <Image
-          source={require("../../assets/logo-no-bg.png")}
-          style={styles.logo}
-        />
-        <View style={styles.inputContainer}>
-          <TextInput
-            placeholder="Email"
-            placeholderTextColor="black"
-            keyboardType="email-address"
-            value={email}
-            onChangeText={(text) => setEmail(text)}
-            style={styles.input}
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.container}
+      >
+        <View style={styles.container}>
+          <Image
+            source={require("../../assets/logo-no-bg.png")}
+            style={styles.logo}
           />
-          <TextInput
-            placeholder="Password"
-            placeholderTextColor="black"
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-            style={styles.input}
-            secureTextEntry
-          />
-          <TextInput
-            placeholder="First Name"
-            placeholderTextColor="black"
-            value={firstName}
-            onChangeText={(text) => setFirstName(text)}
-            style={styles.input}
-          />
-          <TextInput
-            placeholder="Last Name"
-            placeholderTextColor="black"
-            value={lastName}
-            onChangeText={(text) => setLastName(text)}
-            style={styles.input}
-          />
-          <TextInput
-            placeholder="Age"
-            placeholderTextColor="black"
-            keyboardType="numeric"
-            value={age}
-            onChangeText={(text) => setAge(text)}
-            style={styles.input}
-          />
-          <TextInput
-            placeholder="Current Weight"
-            placeholderTextColor="black"
-            keyboardType="numeric"
-            value={currentWeight}
-            onChangeText={(text) => setCurrentWeight(text)}
-            style={styles.input}
-          />
-          <TextInput
-            placeholder="Goal Weight"
-            placeholderTextColor="black"
-            keyboardType="numeric"
-            value={goalWeight}
-            onChangeText={(text) => setGoalWeight(text)}
-            style={styles.input}
-          />
-        </View>
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="Email"
+              placeholderTextColor="black"
+              keyboardType="email-address"
+              value={email}
+              onChangeText={(text) => setEmail(text)}
+              style={styles.input}
+            />
+            <TextInput
+              placeholder="Password"
+              placeholderTextColor="black"
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+              style={styles.input}
+              secureTextEntry
+            />
+            <DropDownPicker
+              style={styles.dropdown}
+              placeholder={"Select an Account Type"}
+              open={open}
+              value={value}
+              items={items}
+              setOpen={setOpen}
+              setValue={setValue}
+              setItems={setItems}
+            />
 
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={handleSignUp} style={styles.button}>
-            <Text style={styles.buttonText}>Register</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={LoginScreenPage}
-            style={[styles.button, styles.buttonOutline]}
-          >
-            <Text style={styles.buttonOutlineText}>Back To Login</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={ForgotPasswordScreen}
-            style={[styles.button, styles.buttonOutline]}
-          >
-            <Text style={styles.buttonOutlineText}>Forgot Password ?</Text>
-          </TouchableOpacity>
+            <TextInput
+              placeholder="First Name"
+              placeholderTextColor="black"
+              value={firstName}
+              onChangeText={(text) => setFirstName(text)}
+              style={styles.input}
+            />
+            <TextInput
+              placeholder="Last Name"
+              placeholderTextColor="black"
+              value={lastName}
+              onChangeText={(text) => setLastName(text)}
+              style={styles.input}
+            />
+            <TextInput
+              placeholder="Age"
+              placeholderTextColor="black"
+              keyboardType="numeric"
+              value={age}
+              onChangeText={(text) => setAge(text)}
+              style={styles.input}
+            />
+            <TextInput
+              placeholder="Current Weight"
+              placeholderTextColor="black"
+              keyboardType="numeric"
+              value={currentWeight}
+              onChangeText={(text) => setCurrentWeight(text)}
+              style={styles.input}
+            />
+            <TextInput
+              placeholder="Goal Weight"
+              placeholderTextColor="black"
+              keyboardType="numeric"
+              value={goalWeight}
+              onChangeText={(text) => setGoalWeight(text)}
+              style={styles.input}
+            />
+          </View>
+
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={handleSignUp} style={styles.button}>
+              <Text style={styles.buttonText}>Register</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={LoginScreenPage}
+              style={[styles.button, styles.buttonOutline]}
+            >
+              <Text style={styles.buttonOutlineText}>Back To Login</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={ForgotPasswordScreen}
+              style={[styles.button, styles.buttonOutline]}
+            >
+              <Text style={styles.buttonOutlineText}>Forgot Password ?</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    </ScrollView>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -148,7 +179,6 @@ export default RegisterScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -163,12 +193,20 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 12,
   },
+  dropdown: {
+    backgroundColor: "white",
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 10,
+    marginTop: 12,
+    borderColor: "white",
+  },
 
   buttonContainer: {
     width: "60%",
-    justifyContent: "center",
+    // justifyContent: "center",
     alignItems: "center",
-    marginTop: 40,
+    marginTop: 10,
   },
 
   button: {

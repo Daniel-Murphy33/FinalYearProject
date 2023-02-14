@@ -27,8 +27,9 @@ const AddWorkoutScreen = () => {
   const [exercises, setExercises] = useState([
     { name: "", sets: "", reps: "", videoLink: "", },
   ]);
+  const [selectedOption, setSelectedOption] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const tchoices = ['Strength', 'Cardio', 'Hybrid'];
+  const options = ['Option 1', 'Option 2', 'Option 3'];
 
   const handleAddField = () => {
     setExercises([...exercises, { name: "" }]);
@@ -128,7 +129,7 @@ const AddWorkoutScreen = () => {
             placeholderTextColor={"black"}
             onChangeText={(text) => handleChangeExercise(index, text)}
             value={field.name}
-          />
+          />  
           <View style={styles.setsRepsContainer}>
             <TextInput
               style={styles.input2}
@@ -168,32 +169,6 @@ const AddWorkoutScreen = () => {
           <Text style={styles.buttonText}>Cancel</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.container2}>
-      <TouchableOpacity style={styles.button2} onPress={() => setModalVisible(true)}>
-        <Text style={styles.buttonText}> Show Exercises </Text>
-      </TouchableOpacity>
-      <Modal
-        animationType="slide"
-        transparent={false}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalContainer}>
-          <Text style={styles.header}>Exercise List:</Text>
-          {tchoices.map((exercise, index) => (
-            <Text key={index} style={styles.exercise}>
-              {exercise}
-            </Text>
-          ))}
-          <TouchableOpacity
-            style={styles.closeButton}
-            onPress={() => setModalVisible(false)}
-          >
-            <Text style={styles.closeButtonText}>Close</Text>
-          </TouchableOpacity>
-        </View>
-      </Modal>
-    </View>
     </ScrollView>
   );
 };

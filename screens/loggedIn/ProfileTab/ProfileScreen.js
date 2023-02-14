@@ -1,56 +1,75 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useState, useEffect } from 'react'
-import { Text, TouchableOpacity, StyleSheet, View, ScrollView, Image } from 'react-native'
-import { doc, db, getDoc } from '../../../firebase';
-import { getAuth } from 'firebase/auth';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { auth } from '../../../firebase';
-
-
+import { useNavigation } from "@react-navigation/native";
+import React, { useState, useEffect } from "react";
+import {
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  View,
+  ScrollView,
+  Image,
+} from "react-native";
+import { doc, db, getDoc } from "../../../firebase";
+import { getAuth } from "firebase/auth";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { auth } from "../../../firebase";
 
 const ProfileScreen = () => {
-
   const uid = getAuth().currentUser.uid;
   const userCred = getAuth().currentUser;
   const [user, setUser] = useState({});
   const navigation = useNavigation();
 
   const EditUserScreen = () => {
-    navigation.navigate('EditUser')
+    navigation.navigate("EditUser");
+  };
+
+  const ManageClientsScreen = () => {
+    navigation.navigate("ManageClients")
   }
 
   const handleSignOut = async () => {
-    auth
-      .signOut()
-      .catch(error => alert(error.message))
-  }
+    auth.signOut().catch((error) => alert(error.message));
+  };
   const fetchUserProfile = async () => {
-    const userRef = doc(db, 'users', uid);
+    const userRef = doc(db, "users", uid);
     const userSnapshot = await getDoc(userRef);
     await setUser(userSnapshot.data());
-}
+  };
 
   useEffect(() => {
     fetchUserProfile();
-}, []);
+  }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <ScrollView
         style={styles.container}
-        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
+        contentContainerStyle={{
+          justifyContent: "center",
+          alignItems: "center",
+        }}
         showsVerticalScrollIndicator={false}
       >
-        <Image style={styles.userImg} source={require('../../../assets/TAG.png')} />
+        <Image
+          style={styles.userImg}
+          source={require("../../../assets/TAG.png")}
+        />
         <Text style={styles.userName}>{user.name}</Text>
         <Text style={styles.aboutUser}>Email : {userCred.email}</Text>
         <Text style={styles.aboutUser}>Age : {user.age}</Text>
-        <Text style={styles.aboutUser}>Current Weight : {user.currentWeight}</Text>
+        <Text style={styles.aboutUser}>
+          Current Weight : {user.currentWeight}
+        </Text>
         <Text style={styles.aboutUser}>Goal Weight : {user.goalWeight}</Text>
         <View style={styles.userBtnWrapper}>
           <TouchableOpacity style={styles.userBtn} onPress={EditUserScreen}>
             <Text style={styles.userBtnTxt}>Edit Profile</Text>
           </TouchableOpacity>
+          {user.role === "trainer" && (
+            <TouchableOpacity style={styles.userBtn} onPress={ManageClientsScreen}>
+              <Text style={styles.userBtnTxt}>Manage Clients</Text>
+            </TouchableOpacity>
+          )}
           <TouchableOpacity style={styles.userBtn} onPress={handleSignOut}>
             <Text style={styles.userBtnTxt}>Sign Out</Text>
           </TouchableOpacity>
@@ -72,23 +91,23 @@ const ProfileScreen = () => {
         </View>
       </ScrollView>
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default ProfileScreen
+export default ProfileScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
     padding: 20,
   },
   button: {
-    backgroundColor: '#0792F9',
-    width: '100%',
+    backgroundColor: "#0792F9",
+    width: "100%",
     padding: 15,
     borderRadius: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   userImg: {
     height: 150,
@@ -97,25 +116,25 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginTop: 10,
     marginBottom: 10,
   },
   aboutUser: {
     fontSize: 12,
-    fontWeight: '600',
-    color: '#666',
-    textAlign: 'center',
+    fontWeight: "600",
+    color: "#666",
+    textAlign: "center",
     marginBottom: 10,
   },
   userBtnWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    width: '100%',
+    flexDirection: "row",
+    justifyContent: "center",
+    width: "100%",
     marginBottom: 10,
   },
   userBtn: {
-    borderColor: '#0792F9',
+    borderColor: "#0792F9",
     borderWidth: 2,
     borderRadius: 3,
     paddingVertical: 8,
@@ -123,28 +142,26 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   userBtnTxt: {
-    color: '#0792F9',
+    color: "#0792F9",
   },
   userInfoWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
     marginVertical: 20,
   },
   userInfoItem: {
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   userInfoTitle: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
-    textAlign: 'center',
+    textAlign: "center",
   },
   userInfoSubTitle: {
     fontSize: 12,
-    color: '#666',
-    textAlign: 'center',
+    color: "#666",
+    textAlign: "center",
   },
-
-})
-
+});
