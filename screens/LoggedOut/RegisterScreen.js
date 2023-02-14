@@ -31,7 +31,6 @@ const RegisterScreen = () => {
   const [age, setAge] = useState("");
   const [currentWeight, setCurrentWeight] = useState("");
   const [goalWeight, setGoalWeight] = useState("");
-  const [role, setRole] = useState(null);
 
   const navigation = useNavigation();
 
@@ -56,7 +55,6 @@ const RegisterScreen = () => {
         //Adding extra user details to users and linking with uid
         try {
           const uidRef = doc(db, "users", user.uid);
-          setRole(value)
           await setDoc(uidRef, {
             role: value,
             firstName: firstName,

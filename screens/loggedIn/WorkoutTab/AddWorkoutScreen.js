@@ -6,18 +6,30 @@ import {
   TextInput,
   Modal,
   View,
-  Pressable,
-  ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  KeyboardAvoidingView,
 } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+import DropDownPicker from "react-native-dropdown-picker";
 import { getAuth } from "firebase/auth";
 import { doc, addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { useNavigation } from "@react-navigation/native";
+import { SafeAreaView } from "react-native";
+import { ScrollView } from "react-native";
 
 const AddWorkoutScreen = () => {
   //navigation through screens
   const navigation = useNavigation();
+
+  // for dropdown
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
+  const [items, setItems] = useState([
+    { label: "Strength", value: "Strength" },
+    { label: "Fitness", value: "Fitness" },
+    { label: "Hybrid", value: "Hybrid" },
+  ]);
 
   //use states used to store user data
   const [day, setDay] = useState("");
@@ -25,11 +37,8 @@ const AddWorkoutScreen = () => {
   const [trainingType, setTrainingType] = useState("");
   //contains name sets and reps for each exercise
   const [exercises, setExercises] = useState([
-    { name: "", sets: "", reps: "", videoLink: "", },
+    { name: "", sets: "", reps: "", videoLink: "" },
   ]);
-  const [selectedOption, setSelectedOption] = useState('');
-  const [modalVisible, setModalVisible] = useState(false);
-  const options = ['Option 1', 'Option 2', 'Option 3'];
 
   const handleAddField = () => {
     setExercises([...exercises, { name: "" }]);
@@ -70,7 +79,7 @@ const AddWorkoutScreen = () => {
           day: day,
           description: description,
           exercises: exercises,
-          trainingType: trainingType,
+          trainingType: value,
           createdAt: serverTimestamp(),
         });
       } catch (e) {
@@ -86,193 +95,179 @@ const AddWorkoutScreen = () => {
   };
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          {/* heading */}
-          <Text style={styles.heading}>Add Workout</Text>
-
-          {/* delete all  */}
-          <Pressable>
-            <MaterialIcons name="delete" size={32} color="black" />
-          </Pressable>
-        </View>
-        <TextInput
-          placeholder="Enter Day"
-          placeholderTextColor="black"
-          style={styles.input}
-          value={day}
-          onChangeText={(text) => setDay(text)}
-        />
-        <TextInput
-          placeholder="Enter Description"
-          placeholderTextColor="black"
-          style={styles.input}
-          value={description}
-          onChangeText={(text) => setDescription(text)}
-        />
-        <TextInput
-          placeholder="Enter Training Type"
-          placeholderTextColor="black"
-          style={styles.input}
-          value={trainingType}
-          onChangeText={(text) => setTrainingType(text)}
-        />
-        {exercises.map((field, index) => (
-          <View
-          key={index}
-          style={{ ...styles.container, flexDirection: "row", alignItems: 'center', justifyContent: 'space-between' }}
+    <SafeAreaView>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.container}
         >
-          <TextInput
-            style={{ ...styles.input2, width: "30%", }}
-            placeholder="Enter Exercise"
-            placeholderTextColor={"black"}
-            onChangeText={(text) => handleChangeExercise(index, text)}
-            value={field.name}
-          />  
-          <View style={styles.setsRepsContainer}>
-            <TextInput
-              style={styles.input2}
-              placeholder="Sets"
-              placeholderTextColor={"black"}
-              onChangeText={(text) => handleChangeSets(index, text)}
-              value={field.sets}
-            />
-            <TextInput
-              style={styles.input2}
-              placeholder="Reps"
-              placeholderTextColor={"black"}
-              onChangeText={(text) => handleChangeReps(index, text)}
-              value={field.reps}
-            />
-            <TextInput
-              style={styles.input2}
-              placeholder="Youtube Video Link"
-              placeholderTextColor={"black"}
-              onChangeText={(text) => handleChangeVideoLink(index, text)}
-              value={field.videoLink}
-            />
+          <View style={styles.container}>
+            <View style={styles.inputContainer}>
+              <TextInput
+                placeholder="Enter Day"
+                placeholderTextColor="black"
+                value={day}
+                onChangeText={(text) => setDay(text)}
+                style={styles.input}
+              />
+              <TextInput
+                placeholder="Enter Description"
+                placeholderTextColor="black"
+                value={description}
+                onChangeText={(text) => setDescription(text)}
+                style={styles.input}
+              />
+              <DropDownPicker
+                style={styles.dropdown}
+                placeholder={"Select a Training Type"}
+                open={open}
+                value={value}
+                items={items}
+                setOpen={setOpen}
+                setValue={setValue}
+                setItems={setItems}
+              />
+
+              {exercises.map((field, index) => (
+                <View
+                  key={index}
+                  style={{
+                    ...styles.container,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <TextInput
+                    style={{ ...styles.input, width: "30%" }}
+                    placeholder="Enter Exercise"
+                    placeholderTextColor={"black"}
+                    onChangeText={(text) => handleChangeExercise(index, text)}
+                    value={field.name}
+                  />
+                  <View style={styles.setsRepsContainer}>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Sets"
+                      keyboardType="numeric"
+                      placeholderTextColor={"black"}
+                      onChangeText={(text) => handleChangeSets(index, text)}
+                      value={field.sets}
+                    />
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Reps"
+                      keyboardType="numeric"
+                      placeholderTextColor={"black"}
+                      onChangeText={(text) => handleChangeReps(index, text)}
+                      value={field.reps}
+                    />
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Youtube Video Link"
+                      placeholderTextColor={"black"}
+                      onChangeText={(text) =>
+                        handleChangeVideoLink(index, text)
+                      }
+                      value={field.videoLink}
+                    />
+                  </View>
+                </View>
+              ))}
+            </View>
+
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={[styles.button, styles.buttonOutline]} onPress={handleAddField}>
+                <Text style={styles.buttonOutlineText}>Add Exercise</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={addExercise} style={styles.button}>
+                <Text style={styles.buttonText}>Submit</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                style={[styles.button, styles.buttonOutline]}
+              >
+                <Text style={styles.buttonOutlineText}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-        ))}
-
-        <TouchableOpacity style={styles.button} onPress={handleAddField}>
-          <Text style={styles.buttonText}>Add Exercise</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={addExercise}>
-          <Text style={styles.buttonText}>Submit</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.cancel}
-          onPress={() => navigation.goBack()}
-        >
-          <Text style={styles.buttonText}>Cancel</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </SafeAreaView>
   );
 };
 
 export default AddWorkoutScreen;
 
 const styles = StyleSheet.create({
-  container2: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  button2: {
-    fontSize: 20,
-    padding: 10,
-    backgroundColor: 'lightblue',
-    borderRadius: 5,
-  },
-  modalContainer: {
-    padding: 20,
-  },
-  exercise: {
-    fontSize: 16,
-    marginBottom: 10,
-  },
-  closeButton: {
-    marginTop: 20,
-    backgroundColor: 'lightblue',
-    padding: 10,
-    borderRadius: 5,
-  },
-  closeButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
-
-
   container: {
-    alignItems: "center",
     justifyContent: "center",
-  },
-  header: {
-    flexDirection: "row",
-    width: "90%",
-    alignSelf: "center",
-    padding: 10,
-    justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 10,
-    borderBottomWidth: 2,
-    borderBottomColor: "#ddd",
-    marginVertical: 20,
   },
-  setsRepsContainer: {
-    flexDirection: "row",
-    marginTop: 10,
-    justifyContent:'space-between',
-    alignItems: 'center',
-  },
-  input2: {
-    height: 40,
-    borderColor: "black",
-    borderWidth: 2,
-    marginVertical: 10,
-    padding: 10,
-    borderRadius: 5,
-    fontSize: 18,
-    marginHorizontal: 5,
-  }, 
-  heading: {
-    fontWeight: "900",
-    fontStyle: "bold",
-    fontSize: 30,
-    flex: 1,
-    marginTop: 20,
-    textAlign: "center",
+
+  inputContainer: {
+    width: "80%",
   },
   input: {
-    width: "90%",
-    height: 40,
-    borderColor: "black",
-    borderWidth: 2,
-    marginVertical: 10,
-    padding: 10,
-    fontSize: 18,
+    backgroundColor: "white",
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 10,
+    marginTop: 12,
   },
+  dropdown: {
+    backgroundColor: "white",
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 10,
+    marginTop: 12,
+    borderColor: "white",
+  },
+
+  buttonContainer: {
+    width: "60%",
+    // justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+  },
+
   button: {
     backgroundColor: "#0792F9",
+    width: "100%",
     padding: 15,
-    marginTop: 20,
-    borderRadius: 20,
-    width: "50%",
+    borderRadius: 10,
+    alignItems: "center",
   },
-  cancel: {
-    backgroundColor: "red",
-    padding: 15,
-    marginTop: 20,
-    borderRadius: 20,
-    width: "50%",
-  },
+
   buttonText: {
     color: "white",
     fontWeight: "bold",
+    // fontSize: 16,
+  },
+
+  buttonOutlineText: {
+    color: "#0792F9",
+    fontWeight: "bold",
+    // fontSize: 16,
+  },
+
+  buttonOutline: {
+    backgroundColor: "white",
+    marginTop: 5,
+    borderColor: "#0792F9",
+    borderWidth: 2,
+  },
+
+  heading: {
+    fontWeight: "500",
+    fontStyle: "bold",
+    fontSize: 23,
     textAlign: "center",
-    fontSize: 18,
+  },
+
+  logo: {
+    resizeMode: "contain",
+    height: 160,
+    marginTop: 60,
   },
 });

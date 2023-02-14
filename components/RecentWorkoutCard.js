@@ -8,7 +8,7 @@ import {
   import React, { useEffect, useState } from "react";
   import { MaterialCommunityIcons } from "@expo/vector-icons";
   import { useNavigation } from "@react-navigation/native";
-  import { collection, doc, limit, onSnapshot, orderBy, query } from "firebase/firestore";
+  import { collection, doc, limit, onSnapshot, orderBy, query, where } from "firebase/firestore";
   import { db } from "../firebase";
   import { getAuth } from "firebase/auth";
   
@@ -23,7 +23,13 @@ import {
       if (user) {
         const docRef = doc(db, "users", user.uid);
         const colRef = collection(docRef, "workouts");
-        const q = await query(colRef, orderBy("createdAt", "desc", limit(3)));
+        const q = await query(
+          colRef,
+          orderBy("createdAt", "desc"),
+          limit(3),
+          // Add a where clause to filter by documents created within the last 3 items
+          where("createdAt", ">", new Date(Date.now() - 3 * 24 * 60 * 60 * 1000))
+        );
         const subscriber = onSnapshot(q, (snapshot) => {
           let newWorkouts = [];
           snapshot.docs.forEach((doc) => {
@@ -41,7 +47,7 @@ import {
     }, []);
   
     return (
-      <View>
+      <View style={{height:'90%'}}>
           {/* List for rendering items  */}
         <FlatList
           data={workouts}
