@@ -55,7 +55,7 @@ const WorkoutScreen = () => {
   }, []);
 
   return (
-    <ScrollView style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View>
         <Text style={styles.title}>Start Workout</Text>
         <MaterialIcons
@@ -72,7 +72,7 @@ const WorkoutScreen = () => {
           <Text style={styles.btnText}>Create Workout Template</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.ViewWorkoutBtn}
+          style={styles.ViewWorkoutBtn} 
           onPress={() => navigation.navigate("AllWorkout")}
         >
           <Text style={styles.btnText}>View Created Workouts</Text>
@@ -85,12 +85,11 @@ const WorkoutScreen = () => {
             <Text style={styles.btnText}>View Assigned Workouts</Text>
           </TouchableOpacity>
         )}
-        <Text style={styles.title2}>Recent Workouts</Text>
       </View>
-      <View style={{ height: "90%", top: 60 }}>
+      <View style={{ height: "90%", marginTop: 60 }}>
         <RecentWorkoutCard style={styles.card} />
       </View>
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -149,7 +148,6 @@ const styles = StyleSheet.create({
   },
   btnText: {
     textAlign: "center",
-    // alignSelf:'center',
     fontSize: 20,
     color: "white",
   },

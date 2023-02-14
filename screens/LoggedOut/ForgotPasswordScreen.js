@@ -40,6 +40,7 @@ const ForgotPasswordScreen = () => {
         <View style={styles.inputContainer}>
           <TextInput placeholder='Email'
             placeholderTextColor="black"
+            required={true}
             keyboardType='email-address'
             value={email}
             onChangeText={text => setEmail(text)} style={styles.input} />

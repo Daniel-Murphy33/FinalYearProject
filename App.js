@@ -25,6 +25,7 @@ import CreatedExerciseScreen from './screens/loggedIn/WorkoutTab/CreatedExercise
 import { getAuth } from 'firebase/auth';
 import ManageClientsScreen from './screens/loggedIn/ProfileTab/ManageClientsScreen';
 import AddClientsScreen from './screens/loggedIn/ProfileTab/AddClientsScreen';
+import SingleClientScreen from './screens/loggedIn/ProfileTab/SingleClientScreen';
 
 
 export default function App() {
@@ -156,6 +157,10 @@ export default function App() {
             />
             <Stack.Screen name="EditUser"
             component={EditUserScreen}
+            options={{headerShown:false}}
+            />
+            <Stack.Screen name="SingleClient"
+            component={SingleClientScreen}
             options={{headerShown:false}}
             />
             <Stack.Screen name="ManageClients"

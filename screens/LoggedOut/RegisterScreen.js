@@ -88,6 +88,7 @@ const RegisterScreen = () => {
               placeholderTextColor="black"
               keyboardType="email-address"
               value={email}
+              required={true}
               onChangeText={(text) => setEmail(text)}
               style={styles.input}
             />
@@ -98,6 +99,7 @@ const RegisterScreen = () => {
               onChangeText={(text) => setPassword(text)}
               style={styles.input}
               secureTextEntry
+              required={true}
             />
             <DropDownPicker
               style={styles.dropdown}
@@ -108,6 +110,7 @@ const RegisterScreen = () => {
               setOpen={setOpen}
               setValue={setValue}
               setItems={setItems}
+              required={true}
             />
 
             <TextInput
@@ -116,6 +119,7 @@ const RegisterScreen = () => {
               value={firstName}
               onChangeText={(text) => setFirstName(text)}
               style={styles.input}
+              required={true}
             />
             <TextInput
               placeholder="Last Name"
@@ -123,6 +127,7 @@ const RegisterScreen = () => {
               value={lastName}
               onChangeText={(text) => setLastName(text)}
               style={styles.input}
+              required={true}
             />
             <TextInput
               placeholder="Age"
@@ -131,6 +136,7 @@ const RegisterScreen = () => {
               value={age}
               onChangeText={(text) => setAge(text)}
               style={styles.input}
+              required={true}
             />
             <TextInput
               placeholder="Current Weight"
@@ -139,6 +145,7 @@ const RegisterScreen = () => {
               value={currentWeight}
               onChangeText={(text) => setCurrentWeight(text)}
               style={styles.input}
+              required={true}
             />
             <TextInput
               placeholder="Goal Weight"
@@ -147,6 +154,7 @@ const RegisterScreen = () => {
               value={goalWeight}
               onChangeText={(text) => setGoalWeight(text)}
               style={styles.input}
+              required={true}
             />
           </View>
 

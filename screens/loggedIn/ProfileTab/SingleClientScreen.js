@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   StyleSheet,
+  Button,
   Text,
   TouchableOpacity,
   TextInput,
@@ -17,7 +18,8 @@ import { doc, addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../../../firebase";
 import { useNavigation } from "@react-navigation/native";
 
-const AddWorkoutScreen = () => {
+const WorkoutForm = () => {
+
   //navigation through screens
   const navigation = useNavigation();
 
@@ -80,6 +82,8 @@ const AddWorkoutScreen = () => {
           exercises: exercises,
           trainingType: value,
           createdAt: serverTimestamp(),
+          client: email,
+          trainer: user.email,
         });
       } catch (e) {
         console.log(e);
@@ -181,7 +185,10 @@ const AddWorkoutScreen = () => {
             </View>
 
             <View style={styles.buttonContainer}>
-              <TouchableOpacity style={[styles.button, styles.buttonOutline]} onPress={handleAddField}>
+              <TouchableOpacity
+                style={[styles.button, styles.buttonOutline]}
+                onPress={handleAddField}
+              >
                 <Text style={styles.buttonOutlineText}>Add Exercise</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={addExercise} style={styles.button}>
@@ -201,77 +208,131 @@ const AddWorkoutScreen = () => {
   );
 };
 
-export default AddWorkoutScreen;
+const NutritionForm = () => {
+  const [foodName, setFoodName] = useState("");
+  const [foodDescription, setFoodDescription] = useState("");
+
+  const handleAddNutrition = () => {
+    // Handle adding the nutrition to Firestore
+  };
+
+  return (
+    <View>
+      <Text>Add Nutrition</Text>
+
+      <Text>Food Name:</Text>
+      <TextInput
+        value={foodName}
+        onChangeText={setFoodName}
+        placeholder="Enter food name"
+      />
+
+      <Text>Food Description:</Text>
+      <TextInput
+        value={foodDescription}
+        onChangeText={setFoodDescription}
+        placeholder="Enter food description"
+      />
+
+      <Button title="Add Nutrition" onPress={handleAddNutrition} />
+    </View>
+  );
+};
+
+const AddFormScreen = () => {
+  const [formType, setFormType] = useState(null);
+
+  const handleAddWorkoutPress = () => {
+    setFormType("workout");
+  };
+
+  const handleAddNutritionPress = () => {
+    setFormType("nutrition");
+  };
+
+  return (
+    <SafeAreaView>
+      <Button title="Add Workout" onPress={handleAddWorkoutPress} />
+      <Button title="Add Nutrition" onPress={handleAddNutritionPress} />
+
+      {formType === "workout" && <WorkoutForm />}
+      {formType === "nutrition" && <NutritionForm />}
+    </SafeAreaView>
+  );
+};
+
+export default AddFormScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  inputContainer: {
-    width: "80%",
-  },
-  input: {
-    backgroundColor: "white",
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 10,
-    marginTop: 12,
-  },
-  dropdown: {
-    backgroundColor: "white",
-    paddingHorizontal: 15,
-    paddingVertical: 10,
-    borderRadius: 10,
-    marginTop: 12,
-    borderColor: "white",
-  },
-
-  buttonContainer: {
-    width: "60%",
-    // justifyContent: "center",
-    alignItems: "center",
-    marginTop: 10,
-  },
-
-  button: {
-    backgroundColor: "#0792F9",
-    width: "100%",
-    padding: 15,
-    borderRadius: 10,
-    alignItems: "center",
-  },
-
-  buttonText: {
-    color: "white",
-    fontWeight: "bold",
-    // fontSize: 16,
-  },
-
-  buttonOutlineText: {
-    color: "#0792F9",
-    fontWeight: "bold",
-    // fontSize: 16,
-  },
-
-  buttonOutline: {
-    backgroundColor: "white",
-    marginTop: 5,
-    borderColor: "#0792F9",
-    borderWidth: 2,
-  },
-
-  heading: {
-    fontWeight: "500",
-    fontStyle: "bold",
-    fontSize: 23,
-    textAlign: "center",
-  },
-
-  logo: {
-    resizeMode: "contain",
-    height: 160,
-    marginTop: 60,
-  },
-});
+    container: {
+      justifyContent: "center",
+      alignItems: "center",
+    },
+  
+    inputContainer: {
+      width: "80%",
+    },
+    input: {
+      backgroundColor: "white",
+      paddingHorizontal: 15,
+      paddingVertical: 10,
+      borderRadius: 10,
+      marginTop: 12,
+    },
+    dropdown: {
+      backgroundColor: "white",
+      paddingHorizontal: 15,
+      paddingVertical: 10,
+      borderRadius: 10,
+      marginTop: 12,
+      borderColor: "white",
+    },
+  
+    buttonContainer: {
+      width: "60%",
+      // justifyContent: "center",
+      alignItems: "center",
+      marginTop: 10,
+    },
+  
+    button: {
+      backgroundColor: "#0792F9",
+      width: "100%",
+      padding: 15,
+      borderRadius: 10,
+      alignItems: "center",
+    },
+  
+    buttonText: {
+      color: "white",
+      fontWeight: "bold",
+      // fontSize: 16,
+    },
+  
+    buttonOutlineText: {
+      color: "#0792F9",
+      fontWeight: "bold",
+      // fontSize: 16,
+    },
+  
+    buttonOutline: {
+      backgroundColor: "white",
+      marginTop: 5,
+      borderColor: "#0792F9",
+      borderWidth: 2,
+    },
+  
+    heading: {
+      fontWeight: "500",
+      fontStyle: "bold",
+      fontSize: 23,
+      textAlign: "center",
+    },
+  
+    logo: {
+      resizeMode: "contain",
+      height: 160,
+      marginTop: 60,
+    },
+  });
+  
