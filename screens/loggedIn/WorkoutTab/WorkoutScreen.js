@@ -80,7 +80,7 @@ const WorkoutScreen = () => {
         {userData.role === "client" && (
           <TouchableOpacity
             style={styles.ViewWorkoutBtn}
-            onPress={() => navigation.navigate("AllWorkout")}
+            onPress={() => navigation.navigate("AssignedWorkouts")}
           >
             <Text style={styles.btnText}>View Assigned Workouts</Text>
           </TouchableOpacity>

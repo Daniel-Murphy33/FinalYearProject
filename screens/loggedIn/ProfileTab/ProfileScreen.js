@@ -54,7 +54,7 @@ const ProfileScreen = () => {
           style={styles.userImg}
           source={require("../../../assets/TAG.png")}
         />
-        <Text style={styles.userName}>{user.name}</Text>
+        <Text style={styles.userName}>{user.firstName} {user.lastName}</Text>
         <Text style={styles.aboutUser}>Email : {userCred.email}</Text>
         <Text style={styles.aboutUser}>Age : {user.age}</Text>
         <Text style={styles.aboutUser}>

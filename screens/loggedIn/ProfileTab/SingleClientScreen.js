@@ -16,9 +16,12 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { getAuth } from "firebase/auth";
 import { doc, addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../../../firebase";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 const WorkoutForm = () => {
+
+  const route = useRoute(); 
+  const { email } = route.params;
 
   //navigation through screens
   const navigation = useNavigation();
@@ -74,8 +77,8 @@ const WorkoutForm = () => {
     const user = getAuth().currentUser;
     if (user) {
       try {
-        const docRef = doc(db, "users", user.uid);
-        const colRef = collection(docRef, "workouts");
+        // const docRef = doc(db, "plans", user.uid);
+        const colRef = collection(db, "workouts");
         addDoc(colRef, {
           day: day,
           description: description,
@@ -209,10 +212,14 @@ const WorkoutForm = () => {
 };
 
 const NutritionForm = () => {
+
+  const route = useRoute(); 
+  const { email } = route.params;
+
   const [foodName, setFoodName] = useState("");
   const [foodDescription, setFoodDescription] = useState("");
 
-  const handleAddNutrition = () => {
+  const AddNutrition = () => {
     // Handle adding the nutrition to Firestore
   };
 
@@ -234,12 +241,14 @@ const NutritionForm = () => {
         placeholder="Enter food description"
       />
 
-      <Button title="Add Nutrition" onPress={handleAddNutrition} />
+      <Button title="Add Nutrition" onPress={AddNutrition} />
     </View>
   );
 };
 
 const AddFormScreen = () => {
+  const route = useRoute(); 
+  const { name, email } = route.params;
   const [formType, setFormType] = useState(null);
 
   const handleAddWorkoutPress = () => {
@@ -252,6 +261,8 @@ const AddFormScreen = () => {
 
   return (
     <SafeAreaView>
+      <Text style={styles.heading}>Client Name : {name}</Text>
+      <Text style={styles.heading}>Client Email : {email}</Text>
       <Button title="Add Workout" onPress={handleAddWorkoutPress} />
       <Button title="Add Nutrition" onPress={handleAddNutritionPress} />
 
