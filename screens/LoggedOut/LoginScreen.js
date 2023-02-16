@@ -51,6 +51,7 @@ const LoginScreen = () => {
           placeholderTextColor="black"
           keyboardType='email-address'
           value={email}
+          autoCapitalize='none'
           required={true}
           onChangeText={text => setEmail(text)} style={styles.input} />
           <TextInput placeholder='Password'

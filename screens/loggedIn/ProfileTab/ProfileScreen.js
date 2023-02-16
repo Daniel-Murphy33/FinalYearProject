@@ -5,17 +5,18 @@ import {
   TouchableOpacity,
   StyleSheet,
   View,
-  ScrollView,
+  Alert,
   Image,
 } from "react-native";
 import { doc, db, getDoc } from "../../../firebase";
-import { getAuth } from "firebase/auth";
+import { deleteUser, getAuth } from "firebase/auth";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { auth } from "../../../firebase";
+import { Entypo } from "@expo/vector-icons";
 
 const ProfileScreen = () => {
-  const uid = getAuth().currentUser.uid;
-  const userCred = getAuth().currentUser;
+  const auth = getAuth();
+  const userCred = auth.currentUser;
   const [user, setUser] = useState({});
   const navigation = useNavigation();
 
@@ -24,14 +25,41 @@ const ProfileScreen = () => {
   };
 
   const ManageClientsScreen = () => {
-    navigation.navigate("ManageClients")
-  }
+    navigation.navigate("ManageClients");
+  };
 
   const handleSignOut = async () => {
     auth.signOut().catch((error) => alert(error.message));
   };
+
+  const DeleteUser = () => {
+    Alert.alert(
+      'Delete Account',
+      'Are you sure you want to delete this account? All of your data will be lost.',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          onPress: () => {
+            deleteUser(userCred)
+              .then(() => {
+                console.log('Deleted', userCred);
+              })
+              .catch((error) => {
+                console.log('error:', error);
+              });
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
   const fetchUserProfile = async () => {
-    const userRef = doc(db, "users", uid);
+    const userRef = doc(db, "users", userCred.uid);
     const userSnapshot = await getDoc(userRef);
     await setUser(userSnapshot.data());
   };
@@ -41,55 +69,80 @@ const ProfileScreen = () => {
   }, []);
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={{
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-        showsVerticalScrollIndicator={false}
-      >
-        <Image
-          style={styles.userImg}
-          source={require("../../../assets/TAG.png")}
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: "white",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <TouchableOpacity style={styles.delete} onPress={DeleteUser}>
+        <Text style={{ marginTop: 50, fontWeight: 'bold', }}>Delete Account</Text>
+        <Entypo
+          name="remove-user"
+          size={40}
+          style={{ color: 'darkred', marginTop: 20, position: "absolute", right: 10, top: 50 }}
         />
-        <Text style={styles.userName}>{user.firstName} {user.lastName}</Text>
-        <Text style={styles.aboutUser}>Email : {userCred.email}</Text>
-        <Text style={styles.aboutUser}>Age : {user.age}</Text>
-        <Text style={styles.aboutUser}>
-          Current Weight : {user.currentWeight}
-        </Text>
-        <Text style={styles.aboutUser}>Goal Weight : {user.goalWeight}</Text>
-        <View style={styles.userBtnWrapper}>
-          <TouchableOpacity style={styles.userBtn} onPress={EditUserScreen}>
-            <Text style={styles.userBtnTxt}>Edit Profile</Text>
+      </TouchableOpacity>
+      <Text style={styles.userName}>Profile</Text>
+      <Image
+        style={styles.userImg}
+        source={require("../../../assets/TAG.png")}
+      />
+      <Text style={styles.userName}>
+        {user.firstName} {user.lastName}
+      </Text>
+      <Text style={styles.aboutUser}>Email : {userCred.email}</Text>
+      <Text style={styles.aboutUser}>Age : {user.age}</Text>
+      <Text style={styles.aboutUser}>
+        Current Weight : {user.currentWeight}
+      </Text>
+      <Text style={styles.aboutUser}>Goal Weight : {user.goalWeight}</Text>
+      <View style={styles.userBtnWrapper}>
+        <TouchableOpacity style={styles.userBtn} onPress={EditUserScreen}>
+          <Text style={styles.userBtnTxt}>Edit Profile</Text>
+        </TouchableOpacity>
+        {user.role === "trainer" && (
+          <TouchableOpacity
+            style={styles.userBtn}
+            onPress={ManageClientsScreen}
+          >
+            <Text style={styles.userBtnTxt}>Manage Clients</Text>
           </TouchableOpacity>
-          {user.role === "trainer" && (
-            <TouchableOpacity style={styles.userBtn} onPress={ManageClientsScreen}>
-              <Text style={styles.userBtnTxt}>Manage Clients</Text>
-            </TouchableOpacity>
-          )}
-          <TouchableOpacity style={styles.userBtn} onPress={handleSignOut}>
-            <Text style={styles.userBtnTxt}>Sign Out</Text>
-          </TouchableOpacity>
-        </View>
+        )}
+        <TouchableOpacity style={styles.userBtn} onPress={handleSignOut}>
+          <Text style={styles.userBtnTxt}>Sign Out</Text>
+        </TouchableOpacity>
+      </View>
 
-        <View style={styles.userInfoWrapper}>
-          <View styles={styles.userInfoItem}>
-            <Text style={styles.userInfoTitle}>18</Text>
-            <Text style={styles.userInfoSubTitle}>Workouts</Text>
-          </View>
-          <View styles={styles.userInfoItem}>
-            <Text style={styles.userInfoTitle}>18</Text>
-            <Text style={styles.userInfoSubTitle}>Nutrition Plans</Text>
-          </View>
-          <View styles={styles.userInfoItem}>
-            <Text style={styles.userInfoTitle}>25</Text>
-            <Text style={styles.userInfoSubTitle}>Client's</Text>
-          </View>
+      <View style={styles.userInfoWrapper}>
+        <View styles={styles.userInfoItem}>
+          <Text style={styles.userInfoTitle}>18</Text>
+          <Text style={styles.userInfoSubTitle}>Workouts</Text>
         </View>
-      </ScrollView>
+        <View styles={styles.userInfoItem}>
+          <Text style={styles.userInfoTitle}>18</Text>
+          <Text style={styles.userInfoSubTitle}>Nutrition Plans</Text>
+        </View>
+        <View styles={styles.userInfoItem}>
+          <Text style={styles.userInfoTitle}>25</Text>
+          <Text style={styles.userInfoSubTitle}>Client's</Text>
+        </View>
+      </View>
+      <View style={styles.clientContainer}>
+        <TouchableOpacity
+          style={styles.cardContainer}
+          onPress={() =>
+            navigation.navigate("TrainerScreen", {
+              email: email,
+            })
+          }
+        >
+          <Text style={styles.clientName}>Trainer Name : </Text>
+          <Text style={styles.clientEmail}>Trainer Email : </Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -100,7 +153,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    padding: 20,
+    padding: 15,
   },
   button: {
     backgroundColor: "#0792F9",
@@ -108,6 +161,11 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
     alignItems: "center",
+  },
+  delete: {
+    position: "absolute",
+    top: 0,
+    right: 8,
   },
   userImg: {
     height: 150,
@@ -163,5 +221,20 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#666",
     textAlign: "center",
+  },
+  clientContainer: {
+    backgroundColor: "#f9f9f9",
+    borderRadius: 8,
+    padding: 20,
+    marginTop: 10,
+  },
+  clientName: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
+  clientEmail: {
+    fontSize: 16,
+    color: "#666",
   },
 });

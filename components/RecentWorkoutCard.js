@@ -10,6 +10,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import {
   collection,
+  deleteDoc,
   doc,
   limit,
   onSnapshot,
@@ -19,6 +20,43 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { getAuth } from "firebase/auth";
+import { Swipeable } from "react-native-gesture-handler";
+import { Animated } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+
+//for swiping
+const renderRightActions = (progress, dragX, item) => {
+
+  const user = getAuth().currentUser;
+
+  const trans = dragX.interpolate({
+    inputRange: [0, 50, 100, 101],
+    outputRange: [0, 0, 0, 1],
+  });
+  return (
+    <TouchableOpacity
+      style={styles.deleteBtn}
+      onPress={() => {
+        const docRef = doc(db, "users", user.uid, "workouts", item.key);
+        deleteDoc(docRef);
+      }}
+    >
+      <Ionicons name="trash-bin" size={40} color="red" />
+      <Animated.Text
+        style={[
+          styles.deleteText,
+          {
+            transform: [{ translateX: trans }],
+          },
+        ]}
+      >
+        Delete
+      </Animated.Text>
+    </TouchableOpacity>
+  );
+};
+
+
 
 const RecentWorkoutCard = () => {
   const user = getAuth().currentUser;
@@ -60,32 +98,38 @@ const RecentWorkoutCard = () => {
       {/* List for rendering items  */}
       <FlatList
         data={workouts}
-        key={(item) => item.id}
-        style={{ maxHeight: '60%%', overflow: 'scroll' }}
+        keyExtractor={(item) => item.key}
+        style={{ flex: 1, overflow: "scroll" }} 
         renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.exerciseContainer}
-            onPress={() =>
-              navigation.navigate("CreatedWorkout", {
-                day: item.day,
-                exercises: item.exercises,
-                id: item.id,
-                description: item.description,
-                trainingType: item.trainingType,
-              })
-            }
+          <Swipeable
+            style={{ height: "90%" }}
+            renderRightActions={(progress, dragX) => renderRightActions(progress, dragX, item)}
           >
-            <Text style={styles.title}>{item.day}</Text>
-            <Text style={styles.exerciseSetsReps}>
-              {item.description} - {item.trainingType}
-            </Text>
-            {item.exercises.map((exercise, index) => (
-              <Text key={index} style={styles.exerciseSetsReps}>
-                {exercise.name} - Sets x{exercise.sets} - Reps x{exercise.reps}
+            <TouchableOpacity
+              style={styles.exerciseContainer}
+              onPress={() =>
+                navigation.navigate("CreatedWorkout", {
+                  day: item.day,
+                  exercises: item.exercises,
+                  id: item.id,
+                  name: item.name,
+                  trainingType: item.trainingType,
+                })
+              }
+            >
+              <Text style={styles.title}>{item.day}</Text>
+              <Text style={styles.exerciseSetsReps}>
+                {item.name} - {item.trainingType}
               </Text>
-            ))}
-          </TouchableOpacity>
-        )}
+              {item.exercises.map((exercise, index) => (
+                <Text key={index} style={styles.exerciseSetsReps}>
+                  {exercise.name} - Sets x{exercise.sets} - Reps x
+                  {exercise.reps}
+                </Text>
+              ))}
+            </TouchableOpacity>
+          </Swipeable>
+        )}        
       />
     </View>
   );
@@ -116,12 +160,20 @@ const styles = StyleSheet.create({
   title2: {
     fontSize: 25,
     fontWeight: "bold",
-    marginLeft: 20
+    marginLeft: 20,
   },
   exerciseSetsReps: {
     fontSize: 16.5,
     color: "gray",
     marginTop: 5,
     fontWeight: "bold",
+  },
+  deleteBtn:{
+    justifyContent:'center',
+  }, 
+  deleteText: {
+    marginRight: 15,
+    fontWeight:'bold',
+    fontSize: 12,
   },
 });

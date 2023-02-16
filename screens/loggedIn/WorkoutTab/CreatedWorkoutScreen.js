@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 
 const CreatedWorkout = ({ route, navigation }) => {
-  const { day, exercises, description, trainingType } = route.params;
+  const { day, exercises, name, trainingType } = route.params;
 
   const handleExercisePress = (exercise) => {
     navigation.navigate('CreatedExerciseScreen', { exercise });
@@ -12,12 +12,12 @@ const CreatedWorkout = ({ route, navigation }) => {
     <View style={styles.container}>
       <TextInput style={styles.header} value={day}/>
       <View style={styles.workoutContainer}>
-        <Text style={styles.workoutTitle}>{description} - {trainingType}</Text>
+        <Text style={styles.workoutTitle}>{name} - {trainingType}</Text>
         {exercises.map((exercise, index) => (
           <TouchableOpacity key={index} style={styles.exerciseContainer} onPress={() => handleExercisePress(exercise)}>
             <Text style={styles.exerciseTitle}>Exercise {index + 1}  -  {exercise.name}</Text>
             <Text style={styles.exerciseInfo}>
-              Sets x{exercise.sets} - Reps x{exercise.reps}
+              Sets x{exercise.sets} - Reps x{exercise.reps} - Weight : {exercise.weight}
             </Text>
           </TouchableOpacity>
         ))}
@@ -61,5 +61,7 @@ const styles = StyleSheet.create({
     },
     exerciseInfo: {
       fontSize: 14,
+      textAlign: 'center',
+      marginTop: 5,
     },
   });

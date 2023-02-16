@@ -13,6 +13,7 @@ import React, { useState } from "react";
 import { auth, setDoc, doc, db } from "../../firebase";
 import { useNavigation } from "@react-navigation/core";
 import DropDownPicker from "react-native-dropdown-picker";
+import { updateProfile } from "firebase/auth";
 
 const RegisterScreen = () => {
   // for dropdown
@@ -55,6 +56,13 @@ const RegisterScreen = () => {
         //Adding extra user details to users and linking with uid
         try {
           const uidRef = doc(db, "users", user.uid);
+          updateProfile(auth.currentUser, {
+            displayName: firstName 
+          }).then(() => {
+            console.log("Display name updated");
+          }).catch((error) => {
+            console.log(error)
+          });
           await setDoc(uidRef, {
             role: value,
             firstName: firstName,
@@ -85,6 +93,7 @@ const RegisterScreen = () => {
           <View style={styles.inputContainer}>
             <TextInput
               placeholder="Email"
+              autoCapitalize='none'
               placeholderTextColor="black"
               keyboardType="email-address"
               value={email}
@@ -112,7 +121,6 @@ const RegisterScreen = () => {
               setItems={setItems}
               required={true}
             />
-
             <TextInput
               placeholder="First Name"
               placeholderTextColor="black"

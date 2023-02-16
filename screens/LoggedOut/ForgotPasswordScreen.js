@@ -41,6 +41,7 @@ const ForgotPasswordScreen = () => {
           <TextInput placeholder='Email'
             placeholderTextColor="black"
             required={true}
+            autoCapitalize='none'
             keyboardType='email-address'
             value={email}
             onChangeText={text => setEmail(text)} style={styles.input} />

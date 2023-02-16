@@ -19,13 +19,11 @@ import {
   query,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { ScrollView } from "react-native";
 
 const WorkoutScreen = () => {
   const navigation = useNavigation();
   const user = getAuth().currentUser;
   const [userData, setUserData] = useState("");
-  const [workouts, setWorkouts] = useState("");
   const uid = getAuth().currentUser.uid;
 
   // getting from firestore

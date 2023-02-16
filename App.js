@@ -95,52 +95,26 @@ export default function App() {
             {/* Home Screen */}
             <Tab.Screen name="Home"
              component={HomeScreen}
-             options={{
-              headerShown:false,
-              headerRight: () => (
-              <Button
-                onPress={handleSignOut}
-                title="Sign Out"
-                color="#0792F9"
-              />
-            ),}}
+             options={{headerShown:false}}
              />
              {/* Nutrition Screen  */}
             <Tab.Screen name="Nutrition"
             component={NutritionScreen}
-            options={{headerRight: () => (
-              <Button
-                onPress={handleSignOut}
-                title="Sign Out"
-                color="#0792F9"
-              />
-            ), headerShown:false}}
+            options={{headerShown:false}}
             />
             {/* Workout Screen  */}
             <Tab.Screen name="Workouts"
             component={WorkoutScreen}
-            options={{headerRight: () => (
-              <Button
-                onPress={handleSignOut}
-                title="Sign Out"
-                color="#0792F9"
-              />
-            ),headerShown:false}}
-            />
+            options={{headerShown:false}} />
             {/* Analytics Screen  */}
             <Tab.Screen name="Analytics" 
             component={AnalyticsScreen}
-            options={{headerRight: () => (
-              <Button
-                onPress={handleSignOut}
-                title="Sign Out"
-                color="#0792F9"
-              />
-            ), headerShown:false}}
+            options={{headerShown:false}}
             />
             {/* Profile Screen  */}
             <Tab.Screen name="Profile" 
             component={ProfileScreen} 
+            options={{headerShown:false}}
             />
           </Tab.Navigator>
   )}

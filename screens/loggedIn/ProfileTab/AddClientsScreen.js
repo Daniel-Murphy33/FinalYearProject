@@ -50,6 +50,7 @@ const AddClientsScreen = () => {
         style={styles.input}
         value={email}
         onChangeText={setEmail}
+        autoCapitalize='none'
         placeholder="Enter client email"
         keyboardType="email-address"
       />

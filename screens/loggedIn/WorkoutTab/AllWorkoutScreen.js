@@ -11,8 +11,6 @@ import { getAuth } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 import WorkoutCards from "../../../components/WorkoutCards";
 
-// exercise object
-
 const AllWorkoutScreen = () => {
   //getting the user data
   const user = getAuth().currentUser;
