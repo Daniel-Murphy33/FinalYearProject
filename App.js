@@ -1,17 +1,18 @@
-import { StyleSheet, Text, View, Button, ScrollView } from 'react-native';
+import { StyleSheet} from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useEffect, useState } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { auth, db, doc, getDoc } from './firebase';
+import { getAuth } from 'firebase/auth';
 import LoginScreen from './screens/LoggedOut/LoginScreen';
 import HomeScreen from './screens/loggedIn/HomeTab/HomeScreen';
-import AnalyticsScreen from './screens/loggedIn/AnalyticsScreen';
+import AnalyticsScreen from './screens/loggedIn/AnalyticsTab/AnalyticsScreen';
 import ProfileScreen from './screens/loggedIn/ProfileTab/ProfileScreen';
 import WorkoutScreen from './screens/loggedIn/WorkoutTab/WorkoutScreen';
 import ForgotPasswordScreen from './screens/LoggedOut/ForgotPasswordScreen';
-import NutritionScreen from './screens/loggedIn/NutritionScreen';
+import NutritionScreen from './screens/loggedIn/NutritionTab/NutritionScreen';
 import RegisterScreen from './screens/LoggedOut/RegisterScreen';
 import EditUserScreen from './screens/loggedIn/ProfileTab/EditUserScreen';
 import HomeWorkoutScreen from './screens/loggedIn/HomeTab/HomeWorkoutScreen';
@@ -19,14 +20,14 @@ import HomeExerciseScreen from './screens/loggedIn/HomeTab/HomeExerciseScreen';
 import HomeSingleExercise from './screens/loggedIn/HomeTab/HomeSingleExercise';
 import AddWorkoutScreen from './screens/loggedIn/WorkoutTab/AddWorkoutScreen';
 import AllWorkoutScreen from './screens/loggedIn/WorkoutTab/AllWorkoutScreen';
-import AddExerciseScreen from './screens/loggedIn/AddExerciseScreen';
 import CreatedWorkoutScreen from './screens/loggedIn/WorkoutTab/CreatedWorkoutScreen';
 import CreatedExerciseScreen from './screens/loggedIn/WorkoutTab/CreatedExerciseScreen';
-import { getAuth } from 'firebase/auth';
 import ManageClientsScreen from './screens/loggedIn/ProfileTab/ManageClientsScreen';
 import AddClientsScreen from './screens/loggedIn/ProfileTab/AddClientsScreen';
 import SingleClientScreen from './screens/loggedIn/ProfileTab/SingleClientScreen';
 import AssignedWorkoutScreen from './screens/loggedIn/WorkoutTab/AssignedWorkoutScreen';
+import AddNutritionScreen from './screens/loggedIn/NutritionTab/AddNutritionScreen';
+import CreatedNutritionScreen from './screens/loggedIn/NutritionTab/CreatedNutritionScreen';
 
 
 export default function App() {
@@ -36,12 +37,6 @@ export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState("");
 
-  //for signout button
-  const handleSignOut = () => {
-    auth
-    .signOut()
-    .catch(error => alert(error.message))
-  }
 
   useEffect(() => {
     auth.onAuthStateChanged(user => {
@@ -49,6 +44,7 @@ export default function App() {
         const uid = getAuth().currentUser.uid;
         setIsLoggedIn(true);
 
+        // fetch user profile so we can check if trainer or client
         const fetchUserProfile = async () => {
           const userRef = doc(db, 'users',uid); 
           const userSnapshot = await getDoc(userRef);
@@ -130,6 +126,14 @@ export default function App() {
               component={HomeTabs}
               options={{headerShown:false}}
             />
+            <Stack.Screen name="AddNutrition"
+              component={AddNutritionScreen}
+              options={{headerShown:false}}
+            />
+            <Stack.Screen name="CreatedNutrition"
+              component={CreatedNutritionScreen}
+              options={{headerShown:false}}
+            />
             <Stack.Screen name="EditUser"
             component={EditUserScreen}
             options={{headerShown:false}}
@@ -170,10 +174,6 @@ export default function App() {
             component={CreatedWorkoutScreen}
             options={{headerShown: false}}
             />
-            <Stack.Screen name="AddExercise"
-            component={AddExerciseScreen}
-            options={{headerShown: false}}
-            />
             <Stack.Screen name="CreatedExerciseScreen"
             component={CreatedExerciseScreen}
             options={{headerShown: false}}
@@ -188,6 +188,14 @@ export default function App() {
           <Stack.Navigator>
             <Stack.Screen name="HomeTabs"
               component={HomeTabs}
+              options={{headerShown:false}}
+            />
+            <Stack.Screen name="AddNutrition"
+              component={AddNutritionScreen}
+              options={{headerShown:false}}
+            />
+            <Stack.Screen name="CreatedNutrition"
+              component={CreatedNutritionScreen}
               options={{headerShown:false}}
             />
             <Stack.Screen name="AssignedWorkouts"
@@ -220,10 +228,6 @@ export default function App() {
             />
             <Stack.Screen name="CreatedWorkout"
             component={CreatedWorkoutScreen}
-            options={{headerShown: false}}
-            />
-            <Stack.Screen name="AddExercise"
-            component={AddExerciseScreen}
             options={{headerShown: false}}
             />
             <Stack.Screen name="CreatedExerciseScreen"

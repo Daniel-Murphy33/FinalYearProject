@@ -97,7 +97,6 @@ const RegisterScreen = () => {
               placeholderTextColor="black"
               keyboardType="email-address"
               value={email}
-              required={true}
               onChangeText={(text) => setEmail(text)}
               style={styles.input}
             />
@@ -108,7 +107,6 @@ const RegisterScreen = () => {
               onChangeText={(text) => setPassword(text)}
               style={styles.input}
               secureTextEntry
-              required={true}
             />
             <DropDownPicker
               style={styles.dropdown}
