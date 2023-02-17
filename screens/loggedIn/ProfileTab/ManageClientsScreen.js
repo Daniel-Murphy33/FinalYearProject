@@ -133,10 +133,11 @@ const styles = StyleSheet.create({
     color: "white",
   },
   clientContainer: {
-    backgroundColor: "#f9f9f9",
+    justifyContent: 'center',
     borderRadius: 8,
     padding: 16,
     marginTop: 10,
+    width: 350,
   },
   clientName: {
     fontSize: 18,

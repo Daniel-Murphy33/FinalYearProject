@@ -71,7 +71,7 @@ const AddNutritionScreen = () => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.container}
       >
-        <Text style={styles.title}>Create Workout Template</Text>
+        <Text style={styles.title}>Create Meal Plan</Text>
         <ScrollView
           contentContainerStyle={styles.scrollViewContent}
           nestedScrollEnabled={true}
@@ -99,11 +99,11 @@ const AddNutritionScreen = () => {
               <View>
                 {meals.map((meal, index) => (
                   <View style={styles.exerciseBox} key={index}>
-                    <Text style={styles.label}>Exercise {index + 1}:</Text>
+                    <Text style={styles.label}>Nutrition Entry {index + 1}:</Text>
 
                     <TextInput
                       style={styles.input}
-                      placeholder="Meal Name..."
+                      placeholder="Item Name..."
                       placeholderTextColor={"grey"}
                       value={meal.name}
                       onChangeText={(text) =>

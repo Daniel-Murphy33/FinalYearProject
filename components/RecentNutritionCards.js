@@ -117,14 +117,14 @@ import {
                   })
                 }
               >
-                <Text style={styles.title}>{item.day}</Text>
-                <Text style={styles.exerciseSetsReps}>
-                  {item.name} - {item.trainingType}
-                </Text>
+                <Text style={styles.title}>{item.day} - {item.name}</Text>
                 {item.meals.map((meals, index) => (
                   <Text key={index} style={styles.exerciseSetsReps}>
-                    {meals.name} - Sets x{meals.sets} - Reps x
-                    {meals.reps}
+                    {meals.name} {'\n'}
+                    Calories- {meals.calories} {'\n'}
+                    Carbohydrate - {meals.carbohydrates}g {'\n'}
+                    Fat - {meals.fat}g {'\n'}
+                    Protein - {meals.protein}g
                   </Text>
                 ))}
               </TouchableOpacity>

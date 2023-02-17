@@ -51,12 +51,12 @@ import {
               day: item.day,
               exercises: item.exercises,
               id: item.id,
-              description: item.description,
+              name: item.name,
               trainingType: item.trainingType,
           })}>
               <Text style={styles.title}>{item.day}</Text>
               <Text style={styles.exerciseSetsReps}>
-                {item.description} - {item.trainingType}
+                {item.name} - {item.trainingType}
               </Text>
               {item.exercises.map((exercise, index) => (
                 <Text key={index} style={styles.exerciseSetsReps}>

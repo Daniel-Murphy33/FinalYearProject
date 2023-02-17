@@ -20,10 +20,6 @@ const ProfileScreen = () => {
   const [user, setUser] = useState({});
   const navigation = useNavigation();
 
-  const EditUserScreen = () => {
-    navigation.navigate("EditUser");
-  };
-
   const ManageClientsScreen = () => {
     navigation.navigate("ManageClients");
   };
@@ -100,7 +96,7 @@ const ProfileScreen = () => {
       </Text>
       <Text style={styles.aboutUser}>Goal Weight : {user.goalWeight}</Text>
       <View style={styles.userBtnWrapper}>
-        <TouchableOpacity style={styles.userBtn} onPress={EditUserScreen}>
+        <TouchableOpacity style={styles.userBtn} onPress={() => {navigation.navigate("EditUser")}}>
           <Text style={styles.userBtnTxt}>Edit Profile</Text>
         </TouchableOpacity>
         {user.role === "trainer" && (
