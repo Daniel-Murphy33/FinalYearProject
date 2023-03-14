@@ -70,7 +70,7 @@ const NutritionScreen = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.ViewWorkoutBtn} 
-          onPress={() => navigation.navigate("AllWorkout")}
+          onPress={() => navigation.navigate("AllNutrition")}
         >
           <Text style={styles.btnText}>View Created Plans</Text>
         </TouchableOpacity>

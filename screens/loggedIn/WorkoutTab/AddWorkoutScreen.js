@@ -118,7 +118,7 @@ const AddWorkoutScreen = () => {
             <Text style={styles.label}>Select Training Type:</Text>
             <DropDownPicker
               style={styles.input}
-              placeholder={"Select an Account Type"}
+              placeholder={"Select Training Type"}
               open={open}
               value={value}
               items={items}

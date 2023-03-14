@@ -84,7 +84,7 @@ const WorkoutScreen = () => {
           </TouchableOpacity>
         )}
       </View>
-      <View style={{ height: "90%", marginTop: 60 }}>
+      <View style={{ height: "62%", marginTop: 60 }}>
         <RecentWorkoutCard style={styles.card} />
       </View>
     </SafeAreaView>

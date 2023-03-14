@@ -427,6 +427,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginBottom: 20,
+    backgroundColor:'#fff'
   },
   form: {
     borderWidth: 1,
