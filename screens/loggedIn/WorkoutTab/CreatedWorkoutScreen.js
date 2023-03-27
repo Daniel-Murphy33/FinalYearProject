@@ -7,7 +7,7 @@ const CreatedWorkout = ({ route, navigation }) => {
   const handleExercisePress = (exercise) => {
     navigation.navigate('CreatedExerciseScreen', { exercise });
   };
-
+ 
   return (
     <View style={styles.container}>
       <TextInput style={styles.header} value={day}/>
