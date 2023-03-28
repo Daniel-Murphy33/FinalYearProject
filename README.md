@@ -1,6 +1,7 @@
-<b>Final Year Project - Gym Personal Trainer & Analytics Application.</b>
+## Final Year Project - Gym Personal Trainer & Analytics Application.
 
-<b>Brief:</b> <i>This project is for a 4th year software development project and is built on the React Native framework using the Expo-CLI. It is a cross platform application which enables the user to create and manage their own workouts while also tracking their nutrition plans. Personal trainers can also create workouts for their clients while tracking their progress. 
+## Brief: 
+<i>This project is for a 4th year software development project and is built on the React Native framework using the Expo-CLI. It is a cross platform application which enables the user to create and manage their own workouts while also tracking their nutrition plans. Personal trainers can also create workouts for their clients while tracking their progress. 
 
 1. <b>Project Licence:</b> <i>GNU Affero General Public License v3.0</i>	
 2. <b>Authors of Project:</b>
