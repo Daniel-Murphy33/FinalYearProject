@@ -16,41 +16,43 @@ import { db } from "../../../firebase";
 import { useNavigation } from "@react-navigation/native";
 
 const AddNutritionScreen = () => {
-  const [day, setDay] = useState("");
-  const [name, setName] = useState("");
+  const [date, setDate] = useState("");
+  const [mealPlanName, setMealPlanName] = useState("");
+  const [notes, setNotes] = useState("");
   const [meals, setMeals] = useState([
-    { name: "", calories: "", fat: "", carbohydrates: "", protein: "" },
+    { name: "", servingSize: "", calories: "", fat: "", carbohydrates: "", protein: "" },
   ]);
 
-  const HandleAddMeal = () => {
+  const handleAddMeal = () => {
     setMeals([
       ...meals,
-      { name: "", calories: "", fat: "", carbohydrates: "", protein: "" },
+      { name: "", servingSize: "", calories: "", fat: "", carbohydrates: "", protein: "" },
     ]);
   };
 
-  const HandleRemoveMeal = (index) => {
+  const handleRemoveMeal = (index) => {
     const newMeals = [...meals];
     newMeals.splice(index, 1);
     setMeals(newMeals);
   };
 
-  const HandleMealChange = (index, field, value) => {
+  const handleMealChange = (index, field, value) => {
     const newMeals = [...meals];
     newMeals[index][field] = value;
     setMeals(newMeals);
   };
 
   //Create in Firesotre
-  const AddNutrition = async () => {
+  const addNutrition = async () => {
     const user = getAuth().currentUser;
     if (user) {
       try {
         const docRef = doc(db, "users", user.uid);
         const colRef = collection(docRef, "nutrition");
         addDoc(colRef, {
-          day: day,
-          name: name,
+          date: date,
+          notes: notes,
+          mealPlanName: mealPlanName,
           meals: meals,
           createdAt: serverTimestamp(),
         });
@@ -58,9 +60,10 @@ const AddNutritionScreen = () => {
         console.log(e);
       }
 
-      setDay("");
-      setName("");
+      setDate("");
+      setMealPlanName("");
       setMeals([{ name: "" }]);
+      setNotes("");
       console.log(meals);
     }
   };
@@ -71,111 +74,142 @@ const AddNutritionScreen = () => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.container}
       >
-        <Text style={styles.title}>Create Meal Plan</Text>
+        <Text style={styles.title}>Record Nutrition</Text>
         <ScrollView
           contentContainerStyle={styles.scrollViewContent}
           nestedScrollEnabled={true}
         >
           <View style={styles.formWrapper}>
-            <View style={styles.formBox}>
-              <Text style={styles.label}>Day of the week:</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Day..."
-                placeholderTextColor={"grey"}
-                value={day}
-                onChangeText={setDay}
-              />
+          <View style={styles.formBox}>
+                <Text style={styles.label}>Date:</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter date..."
+                  placeholderTextColor={"grey"}
+                  value={date}
+                  onChangeText={setDate}
+                />
+              </View>
 
-              <Text style={styles.label}>Name:</Text>
-              <TextInput
-                style={styles.input}
-                placeholder={"Name..."}
-                placeholderTextColor={"grey"}
-                value={name}
-                onChangeText={setName}
-              />
+              <View style={styles.formBox}>
+                <Text style={styles.label}>Meal Plan Name:</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder={"Enter meal plan name..."}
+                  placeholderTextColor={"grey"}
+                  value={mealPlanName}
+                  onChangeText={setMealPlanName}
+                />
+              </View>
 
-              <View>
-                {meals.map((meal, index) => (
-                  <View style={styles.exerciseBox} key={index}>
-                    <Text style={styles.label}>Nutrition Entry {index + 1}:</Text>
+              {meals.map((meal, index) => (
+                <View key={index} style={styles.formBox}>
+                  <Text style={styles.label}>Meal {index + 1} :</Text>
 
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Item Name..."
-                      placeholderTextColor={"grey"}
-                      value={meal.name}
-                      onChangeText={(text) =>
-                        HandleMealChange(index, "name", text)
-                      }
-                    />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Enter food name..."
+                    placeholderTextColor={"grey"}
+                    value={meal.name}
+                    onChangeText={(text) =>
+                      handleMealChange(index, "name", text)
+                    }
+                  />
 
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Calories..."
-                      placeholderTextColor={"grey"}
-                      keyboardType="numeric"
-                      value={meal.calories}
-                      onChangeText={(text) =>
-                        HandleMealChange(index, "calories", text)
-                      }
-                    />
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Fat..."
-                      keyboardType="numeric"
-                      placeholderTextColor={"grey"}
-                      value={meal.fat}
-                      onChangeText={(text) =>
-                        HandleMealChange(index, "fat", text)
-                      }
-                    />
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Carbohydrates..."
-                      keyboardType="numeric"
-                      placeholderTextColor={"grey"}
-                      value={meal.carbohydrates}
-                      onChangeText={(text) =>
-                        HandleMealChange(index, "carbohydrates", text)
-                      }
-                    />
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Protein..."
-                      keyboardType="numeric"
-                      placeholderTextColor={"grey"}
-                      value={meal.protein}
-                      onChangeText={(text) =>
-                        HandleMealChange(index, "protein", text)
-                      }
-                    />
-                    <TouchableOpacity
-                      style={styles.addButton}
-                      onPress={HandleAddMeal}
-                    >
-                      <Text style={styles.addButtonText}>Add Meal</Text>
-                    </TouchableOpacity>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Enter serving size..."
+                    placeholderTextColor={"grey"}
+                    value={meal.servingSize}
+                    onChangeText={(text) =>
+                      handleMealChange(index, "servingSize", text)
+                    }
+                  />
+
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Enter calories..."
+                    placeholderTextColor={"grey"}
+                    keyboardType="numeric"
+                    value={meal.calories}
+                    onChangeText={(text) =>
+                      handleMealChange(index, "calories", text)
+                    }
+                  />
+
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Enter fat..."
+                    placeholderTextColor={"grey"}
+                    keyboardType="numeric"
+                    value={meal.fat}
+                    onChangeText={(text) =>
+                      handleMealChange(index, "fat", text)
+                    }
+                  />
+
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Enter carbohydrates..."
+                    placeholderTextColor={"grey"}
+                    keyboardType="numeric"
+                    value={meal.carbohydrates}
+                    onChangeText={(text) =>
+                      handleMealChange(index, "carbohydrates", text)
+                    }
+                  />
+
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Enter protein..."
+                    placeholderTextColor={"grey"}
+                    keyboardType="numeric"
+                    value={meal.protein}
+                    onChangeText={(text) =>
+                      handleMealChange(index, "protein", text)
+                    }
+                  />
+
+                  <TouchableOpacity
+                    style={styles.addButton}
+                    onPress={handleAddMeal}
+                  >
+                    <Text style={styles.addButtonText}>Add Meal</Text>
+                  </TouchableOpacity>
+
+                  {index > 0 && (
                     <TouchableOpacity
                       style={styles.removeButton}
-                      onPress={() => HandleRemoveMeal(index)}
+                      onPress={() => handleRemoveMeal(index)}
                     >
                       <Text style={styles.removeButtonText}>Remove Meal</Text>
                     </TouchableOpacity>
-                  </View>
-                ))}
+                  )}
+                </View>
+              ))}
+
+              <View style={styles.formBox}>
+                <Text style={styles.label}>Notes:</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter notes..."
+                  placeholderTextColor={"grey"}
+                  multiline={true}
+                  value={notes}
+                  onChangeText={setNotes}
+                />
+                
               </View>
+
+              <TouchableOpacity style={styles.addButton} onPress={addNutrition}>
+                <Text style={styles.addButtonText}>Submit</Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.addButton} onPress={AddNutrition}>
-              <Text style={styles.addButtonText}>Submit</Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
-  );
-};
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    );
+  };
 
 export default AddNutritionScreen;
 

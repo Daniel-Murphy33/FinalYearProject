@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  ScrollView,
 } from "react-native";
 import React, { useState } from "react";
 import { auth, setDoc, doc, db } from "../../firebase";
@@ -85,7 +86,7 @@ const RegisterScreen = () => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.container}
       >
-        <View style={styles.container}>
+        <ScrollView contentContainerStyle={styles.container} nestedScrollEnabled={true}>
           <Image
             source={require("../../assets/logo-no-bg.png")}
             style={styles.logo}
@@ -118,6 +119,7 @@ const RegisterScreen = () => {
               setValue={setValue}
               setItems={setItems}
               required={true}
+              listMode="SCROLLVIEW"
             />
             <TextInput
               placeholder="First Name"
@@ -181,7 +183,7 @@ const RegisterScreen = () => {
               <Text style={styles.buttonOutlineText}>Forgot Password ?</Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </ScrollView>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
@@ -193,6 +195,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
+    width: "100%"
   },
 
   inputContainer: {

@@ -8,21 +8,24 @@ import {
   ScrollView,
   SafeAreaView,
   KeyboardAvoidingView,
-  Button
+  Button,
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import { getAuth } from "firebase/auth";
-import { doc, addDoc, collection, serverTimestamp, getDoc } from "firebase/firestore";
+import {
+  doc,
+  addDoc,
+  collection,
+  serverTimestamp,
+  getDoc,
+} from "firebase/firestore";
 import { db } from "../../../firebase";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useEffect } from "react";
 
-
 const FormOne = () => {
   //navigation through screens
   const navigation = useNavigation();
-  const route = useRoute(); 
-  const { email } = route.params;
 
   //for changing metric system
   const [weightUnitOpen, setWeightUnitOpen] = useState(false);
@@ -71,16 +74,15 @@ const FormOne = () => {
     const user = getAuth().currentUser;
     if (user) {
       try {
-        const colRef = collection(db, "workouts");
+        const docRef = doc(db, "users", user.uid);
+        const colRef = collection(docRef, "workouts");
         addDoc(colRef, {
           day: day,
           name: name,
           trainingType: value,
           exercises: exercises,
-          client: email,
-          trainer: user.email,
           createdAt: serverTimestamp(),
-        }); 
+        });
       } catch (e) {
         console.log(e);
       }
@@ -98,137 +100,140 @@ const FormOne = () => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.container}
       >
-        <Text style={styles.title}>Create Workout Template</Text>
+        <Text style={styles.title}>Create Workout</Text>
         <ScrollView
           contentContainerStyle={styles.scrollViewContent}
           nestedScrollEnabled={true}
         >
-          <View style={styles.formBox}>
-            <Text style={styles.label}>Day of the week:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Day..."
-              placeholderTextColor={"grey"}
-              value={day}
-              onChangeText={setDay}
-            />
+          <View style={styles.formWrapper}>
+            <View style={styles.formBox}>
+              <Text style={styles.label}>Day :</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter day..."
+                placeholderTextColor={"grey"}
+                value={day}
+                onChangeText={setDay}
+              />
+            </View>
 
-            <Text style={styles.label}>Workout Name:</Text>
-            <TextInput
-              style={styles.input}
-              placeholder={"Name..."}
-              placeholderTextColor={"grey"}
-              value={name}
-              onChangeText={setName}
-            />
-            <Text style={styles.label}>Select Training Type:</Text>
-            <DropDownPicker
-              style={styles.input}
-              placeholder={"Select an Account Type"}
-              open={open}
-              value={value}
-              items={items}
-              setOpen={setOpen}
-              setValue={setValue}
-              setItems={setItems}
-              required={true}
-              listMode="SCROLLVIEW"
-            />
-            <View>
-              {exercises.map((exercise, index) => (
-                <View style={styles.exerciseBox} key={index}>
-                  <Text style={styles.label}>Exercise {index + 1}:</Text>
+            <View style={styles.formBox}>
+              <Text style={styles.label}>Workout Name :</Text>
+              <TextInput
+                style={styles.input}
+                placeholder={"Enter workout name..."}
+                placeholderTextColor={"grey"}
+                value={name}
+                onChangeText={setName}
+              />
+            </View>
 
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Exercise Name..."
-                    placeholderTextColor={"grey"}
-                    value={exercise.name}
-                    onChangeText={(text) =>
-                      handleExerciseChange(index, "name", text)
-                    }
-                  />
+            <View style={[styles.formBox, { zIndex: 1 }]}>
+              <Text style={styles.label}>Select Training Type :</Text>
+              <DropDownPicker
+                style={styles.input}
+                overlayStyle={styles.overlay}
+                placeholder={"Select Training Type"}
+                open={open}
+                value={value}
+                items={items}
+                setOpen={setOpen}
+                setValue={setValue}
+                setItems={setItems}
+                required={true}
+                listMode="SCROLLVIEW"
+                modal
+              />
+            </View>
 
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Sets..."
-                    placeholderTextColor={"grey"}
-                    keyboardType="numeric"
-                    value={exercise.sets}
-                    onChangeText={(text) =>
-                      handleExerciseChange(index, "sets", text)
-                    }
-                  />
+            {exercises.map((meal, index) => (
+              <View key={index} style={styles.formBox}>
+                <Text style={styles.sectionTitle}>Exercise {index + 1}</Text>
 
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Reps..."
-                    keyboardType="numeric"
-                    placeholderTextColor={"grey"}
-                    value={exercise.reps}
-                    onChangeText={(text) =>
-                      handleExerciseChange(index, "reps", text)
-                    }
-                  />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter exercise name..."
+                  placeholderTextColor={"grey"}
+                  value={meal.name}
+                  onChangeText={(text) =>
+                    handleExerciseChange(index, "name", text)
+                  }
+                />
 
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <TextInput
-                      style={styles.input}
-                      placeholder={
-                        weightUnitValue === "kg"
-                          ? "Weight in kg..."
-                          : "Weight in lbs..."
-                      }
-                      keyboardType="numeric"
-                      placeholderTextColor={"grey"}
-                      value={exercise.weight}
-                      onChangeText={(text) =>
-                        handleExerciseChange(index, "weight", text)
-                      }
-                    />
-                    <View style={{ marginLeft: 10 }}>
-                      <DropDownPicker
-                        open={weightUnitOpen}
-                        value={weightUnitValue}
-                        items={weightUnitItems}
-                        setOpen={setWeightUnitOpen}
-                        setValue={setWeightUnitValue}
-                        setItems={setWeightUnitItems}
-                        listMode="SCROLLVIEW"
-                        style={styles.dropdown}
-                        containerStyle={{width: 80,}}
-                      />
-                    </View>
-                  </View>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter sets..."
+                  placeholderTextColor={"grey"}
+                  keyboardType="numeric"
+                  value={meal.sets}
+                  onChangeText={(text) =>
+                    handleExerciseChange(index, "sets", text)
+                  }
+                />
 
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Youtube Video Link..."
-                    placeholderTextColor={"grey"}
-                    value={exercise.videoLink}
-                    onChangeText={(text) =>
-                      handleExerciseChange(index, "videoLink", text)
-                    }
-                  />
-                  <TouchableOpacity
-                    style={styles.addButton}
-                    onPress={handleAddExercise}
-                  >
-                    <Text style={styles.addButtonText}>Add Exercise</Text>
-                  </TouchableOpacity>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter reps..."
+                  placeholderTextColor={"grey"}
+                  keyboardType="numeric"
+                  value={meal.reps}
+                  onChangeText={(text) =>
+                    handleExerciseChange(index, "reps", text)
+                  }
+                />
+
+                <TextInput
+                  style={styles.weightInput}
+                  placeholder="Enter weight..."
+                  placeholderTextColor={"grey"}
+                  value={meal.weight}
+                  onChangeText={(text) =>
+                    handleExerciseChange(index, "weight", text)
+                  }
+                />
+
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter video link..."
+                  placeholderTextColor={"grey"}
+                  value={meal.videoLink}
+                  onChangeText={(text) =>
+                    handleExerciseChange(index, "videoLink", text)
+                  }
+                />
+
+                <TouchableOpacity
+                  style={styles.addButton}
+                  onPress={handleAddExercise}
+                >
+                  <Text style={styles.addButtonText}>Add Exersie</Text>
+                </TouchableOpacity>
+
+                {index > 0 && (
                   <TouchableOpacity
                     style={styles.removeButton}
                     onPress={() => handleRemoveExercise(index)}
                   >
                     <Text style={styles.removeButtonText}>Remove Exercise</Text>
                   </TouchableOpacity>
-                </View>
-              ))}
+                )}
+              </View>
+            ))}
+
+            <View style={styles.formBox}>
+              <Text style={styles.label}>Notes:</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter notes..."
+                placeholderTextColor={"grey"}
+                multiline={true}
+              />
             </View>
+
+            <TouchableOpacity style={styles.addButton} onPress={AddWorkout}>
+              <Text style={styles.addButtonText}>Submit</Text>
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.addButton} onPress={AddWorkout}>
-            <Text style={styles.addButtonText}>Submit</Text>
-          </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -236,51 +241,64 @@ const FormOne = () => {
 };
 
 const FormTwo = () => {
-  const [day, setDay] = useState("");
-  const [name, setName] = useState("");
+  const [date, setDate] = useState("");
+  const [mealPlanName, setMealPlanName] = useState("");
   const [meals, setMeals] = useState([
-    { name: "", calories: "", fat: "", carbohydrates: "", protein: "" },
+    {
+      name: "",
+      servingSize: "",
+      calories: "",
+      fat: "",
+      carbohydrates: "",
+      protein: "",
+    },
   ]);
 
-  const HandleAddMeal = () => {
+  const handleAddMeal = () => {
     setMeals([
       ...meals,
-      { name: "", calories: "", fat: "", carbohydrates: "", protein: "" },
+      {
+        name: "",
+        servingSize: "",
+        calories: "",
+        fat: "",
+        carbohydrates: "",
+        protein: "",
+      },
     ]);
   };
 
-  const HandleRemoveMeal = (index) => {
+  const handleRemoveMeal = (index) => {
     const newMeals = [...meals];
     newMeals.splice(index, 1);
     setMeals(newMeals);
   };
 
-  const HandleMealChange = (index, field, value) => {
+  const handleMealChange = (index, field, value) => {
     const newMeals = [...meals];
     newMeals[index][field] = value;
     setMeals(newMeals);
   };
 
   //Create in Firesotre
-  const AddNutrition = async () => {
+  const addNutrition = async () => {
     const user = getAuth().currentUser;
     if (user) {
       try {
-        const colRef = collection(db, "nutrition");
+        const docRef = doc(db, "users", user.uid);
+        const colRef = collection(docRef, "nutrition");
         addDoc(colRef, {
-          day: day,
-          name: name,
+          date: date,
+          mealPlanName: mealPlanName,
           meals: meals,
-          client: email,
-          trainer: user.email,
           createdAt: serverTimestamp(),
         });
       } catch (e) {
         console.log(e);
       }
 
-      setDay("");
-      setName("");
+      setDate("");
+      setMealPlanName("");
       setMeals([{ name: "" }]);
       console.log(meals);
     }
@@ -292,103 +310,127 @@ const FormTwo = () => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.container}
       >
-        <Text style={styles.title}>Create Workout Template</Text>
+        <Text style={styles.title}>Record Nutrition</Text>
         <ScrollView
           contentContainerStyle={styles.scrollViewContent}
           nestedScrollEnabled={true}
         >
           <View style={styles.formWrapper}>
             <View style={styles.formBox}>
-              <Text style={styles.label}>Day of the week:</Text>
+              <Text style={styles.label}>Date:</Text>
               <TextInput
                 style={styles.input}
-                placeholder="Day..."
+                placeholder="Enter date..."
                 placeholderTextColor={"grey"}
-                value={day}
-                onChangeText={setDay}
+                value={date}
+                onChangeText={setDate}
               />
-
-              <Text style={styles.label}>Name:</Text>
-              <TextInput
-                style={styles.input}
-                placeholder={"Name..."}
-                placeholderTextColor={"grey"}
-                value={name}
-                onChangeText={setName}
-              />
-
-              <View>
-                {meals.map((meal, index) => (
-                  <View style={styles.exerciseBox} key={index}>
-                    <Text style={styles.label}>Meal {index + 1}:</Text>
-
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Meal Name..."
-                      placeholderTextColor={"grey"}
-                      value={meal.name}
-                      onChangeText={(text) =>
-                        HandleMealChange(index, "name", text)
-                      }
-                    />
-
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Calories..."
-                      placeholderTextColor={"grey"}
-                      keyboardType="numeric"
-                      value={meal.calories}
-                      onChangeText={(text) =>
-                        HandleMealChange(index, "calories", text)
-                      }
-                    />
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Fat..."
-                      keyboardType="numeric"
-                      placeholderTextColor={"grey"}
-                      value={meal.fat}
-                      onChangeText={(text) =>
-                        HandleMealChange(index, "fat", text)
-                      }
-                    />
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Carbohydrates..."
-                      keyboardType="numeric"
-                      placeholderTextColor={"grey"}
-                      value={meal.carbohydrates}
-                      onChangeText={(text) =>
-                        HandleMealChange(index, "carbohydrates", text)
-                      }
-                    />
-                    <TextInput
-                      style={styles.input}
-                      placeholder="Protein..."
-                      keyboardType="numeric"
-                      placeholderTextColor={"grey"}
-                      value={meal.protein}
-                      onChangeText={(text) =>
-                        HandleMealChange(index, "protein", text)
-                      }
-                    />
-                    <TouchableOpacity
-                      style={styles.addButton}
-                      onPress={HandleAddMeal}
-                    >
-                      <Text style={styles.addButtonText}>Add Meal</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={styles.removeButton}
-                      onPress={() => HandleRemoveMeal(index)}
-                    >
-                      <Text style={styles.removeButtonText}>Remove Meal</Text>
-                    </TouchableOpacity>
-                  </View>
-                ))}
-              </View>
             </View>
-            <TouchableOpacity style={styles.addButton} onPress={AddNutrition}>
+
+            <View style={styles.formBox}>
+              <Text style={styles.label}>Meal Plan Name:</Text>
+              <TextInput
+                style={styles.input}
+                placeholder={"Enter meal plan name..."}
+                placeholderTextColor={"grey"}
+                value={mealPlanName}
+                onChangeText={setMealPlanName}
+              />
+            </View>
+
+            {meals.map((meal, index) => (
+              <View key={index} style={styles.formBox}>
+                <Text style={styles.sectionTitle}>Meal {index + 1}</Text>
+
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter food name..."
+                  placeholderTextColor={"grey"}
+                  value={meal.name}
+                  onChangeText={(text) => handleMealChange(index, "name", text)}
+                />
+
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter serving size..."
+                  placeholderTextColor={"grey"}
+                  value={meal.servingSize}
+                  onChangeText={(text) =>
+                    handleMealChange(index, "servingSize", text)
+                  }
+                />
+
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter calories..."
+                  placeholderTextColor={"grey"}
+                  keyboardType="numeric"
+                  value={meal.calories}
+                  onChangeText={(text) =>
+                    handleMealChange(index, "calories", text)
+                  }
+                />
+
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter fat..."
+                  placeholderTextColor={"grey"}
+                  keyboardType="numeric"
+                  value={meal.fat}
+                  onChangeText={(text) => handleMealChange(index, "fat", text)}
+                />
+
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter carbohydrates..."
+                  placeholderTextColor={"grey"}
+                  keyboardType="numeric"
+                  value={meal.carbohydrates}
+                  onChangeText={(text) =>
+                    handleMealChange(index, "carbohydrates", text)
+                  }
+                />
+
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter protein..."
+                  placeholderTextColor={"grey"}
+                  keyboardType="numeric"
+                  value={meal.protein}
+                  onChangeText={(text) =>
+                    handleMealChange(index, "protein", text)
+                  }
+                />
+
+                <TouchableOpacity
+                  style={styles.addButton}
+                  onPress={handleAddMeal}
+                >
+                  <Text style={styles.addButtonText}>Add Meal</Text>
+                </TouchableOpacity>
+
+                {index > 0 && (
+                  <TouchableOpacity
+                    style={styles.removeButton}
+                    onPress={() => handleRemoveMeal(index)}
+                  >
+                    <Text style={styles.removeButtonText}>Remove Meal</Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+            ))}
+
+            <View style={styles.formBox}>
+              <Text style={styles.label}>Notes:</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter notes..."
+                placeholderTextColor={"grey"}
+                multiline={true}
+              />
+            </View>
+
+            <TouchableOpacity style={styles.addButton} onPress={addNutrition}>
               <Text style={styles.addButtonText}>Submit</Text>
             </TouchableOpacity>
           </View>
@@ -397,7 +439,6 @@ const FormTwo = () => {
     </SafeAreaView>
   );
 };
-
 
 const SingleClientScreen = () => {
   const [showFormOne, setShowFormOne] = useState(true);
@@ -410,58 +451,60 @@ const SingleClientScreen = () => {
     <View style={styles.container}>
       {showFormOne ? <FormOne /> : <FormTwo />}
       <View style={styles.buttonContainer}>
-        <Button style={{marginBottom:20}} title={showFormOne ? 'Show Nutrition' : 'Show Workout'} onPress={toggleForm} />
+        <Button
+          style={{ marginBottom: 20 }}
+          title={showFormOne ? "Show Nutrition" : "Show Workout"}
+          onPress={toggleForm}
+        />
       </View>
     </View>
   );
 };
 
-export default SingleClientScreen
+export default SingleClientScreen;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5',
-  },
   buttonContainer: {
     marginBottom: 20,
-    backgroundColor:'#fff'
+    backgroundColor: "#fff",
   },
-  form: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
-    backgroundColor: '#fff',
-    marginBottom: 20,
+  weightUnitPicker: {
+    width: 100,
+    margin: 5,
+    marginLeft: 10,
+    backgroundColor: 'white',
   },
-  formTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
+  container: {
+    flex: 1,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    textAlign: "center",
+    margin: 20,
   },
   scrollViewContent: {
     flexGrow: 1,
-    paddingBottom: 15,
-    alignItems: "center",
+    justifyContent: "center",
+  },
+  formWrapper: {
+    flex: 1,
+    marginHorizontal: 20,
     justifyContent: "center",
   },
   formBox: {
-    backgroundColor: "#FFF",
-    borderRadius: 10,
-    width: "90%",
-    maxWidth: "90%",
+    backgroundColor: "white",
     padding: 20,
+    borderRadius: 10,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 3,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
+    marginBottom: 20,
   },
   title: {
     alignSelf: "center",
@@ -516,6 +559,4 @@ const styles = StyleSheet.create({
   exerciseBox: {
     marginBottom: 10,
   },
-
 });
-

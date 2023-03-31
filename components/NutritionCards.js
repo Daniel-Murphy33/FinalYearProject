@@ -34,7 +34,10 @@ import {
     return (
       <TouchableOpacity
         style={styles.deleteBtn}
-        onPress={() => DeleteUser(item)}
+        onPress={() => {
+          const docRef = doc(db, "users", user.uid, "nutrition", item.key);
+          deleteDoc(docRef);
+        }}
       >
         <Ionicons name="trash-bin" size={40} color="red" />
         <Animated.Text

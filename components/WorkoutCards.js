@@ -128,6 +128,7 @@ const WorkoutCards = () => {
                   id: item.id,
                   name: item.name,
                   trainingType: item.trainingType,
+                  notes: item.notes,
                 })
               }
             >
